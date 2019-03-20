@@ -1,0 +1,62 @@
+.R{
+    background: rgba(255, 0, 0, 0.7);
+
+}
+.G{
+    background: rgba(0, 255, 0, 0.7);
+}
+.B{
+    background: rgba(0, 0, 255, 0.7);
+}
+
+.scarletcolor{
+    background: rgba(237,28,36,.3);
+}
+
+.scarletcolor:hover{
+    background: rgba(237,28,36,.8);
+}
+
+.mintcolor{
+    background: rgba(122,214,188,.3);
+}
+.mintcolor:hover{
+    background: rgba(122,214,188,.8);
+}
+
+.bluecolor{
+    background: rgba(111,197,239,.3);
+}
+.bluecolor:hover{
+    background: rgba(111,197,239,.8);
+}
+
+.leafcolor{
+    background: rgba(34,181,115,.3);
+}
+.leafcolor:hover{
+    background: rgba(34,181,115,.8);
+}
+
+.trumpcolor{
+    background: rgba(241,90,36,.3);
+}
+.trumpcolor:hover{
+    background: rgba(241,90,36,.8);
+}
+
+.thanoscolor{
+    background: rgba(147,39,143,.3);
+}
+.thanoscolor:hover{
+    background: rgba(147,39,143,.8);
+}
+
+.fontcolorblack{
+    color: black;
+    opacity: .8;
+}
+
+.fontcolorblack:hover{
+    color: white;
+}
