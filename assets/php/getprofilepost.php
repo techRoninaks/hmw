@@ -4,7 +4,7 @@
         require "init.php";//needed for connection with database
         
        
-        $sql_query =  "SELECT * FROM `posts_table` ";//SQL command
+        $sql_query =  "SELECT * FROM `posts_table` ORDER BY date DESC;";//SQL command
         $response = array();
         $data = array();
         $success = "unsuccessful";

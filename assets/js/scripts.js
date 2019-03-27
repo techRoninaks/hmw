@@ -521,7 +521,7 @@ function profilepostload(array){
       var data = array[i];
       htmltemp = htmltemp + templateprofilepost(data);
   }
-  htmltemp = htmltemp + htmltemp + htmltemp + htmltemp + htmltemp;
+  //htmltemp = htmltemp + htmltemp + htmltemp + htmltemp + htmltemp;
   document.getElementById('postlist').innerHTML = htmltemp; 
 //  console.log(htmltemp);
 }
