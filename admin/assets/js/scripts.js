@@ -25,3 +25,12 @@ function includeHTML() {
       }
     }
 }
+
+function getQueryString(){
+  var queryString = document.URL.split('?');
+  var queryStrings = [];
+  if(queryString.length > 1){
+    queryStrings = queryString[1].split('&');
+  }
+  return queryStrings;
+}
