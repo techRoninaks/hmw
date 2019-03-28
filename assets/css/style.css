@@ -93,9 +93,9 @@ body {
 .homebannerbtn{
     background:rgb(236, 236, 236);
     text-align: center;
-    color: rgba(0,0,0,0.9);
+    color: rgba(0,0,0,0.9) !important;
     height: 45px;
-    width: 130px;
+    /* width: 130px; */
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     outline:0;
@@ -112,7 +112,7 @@ body {
     background-size: 100% 100%;
     border: none;   
     margin-right: 5px;
-    margin-left: -25px;
+    /* margin-left: -25px; */
 }
 
 .plusicon{
@@ -233,7 +233,7 @@ body {
     font-family: defaultBarlowBoldX;
 }
 #menu{
-    margin-left: -4%;
+    margin-left: -35px;
 }
 
 .fontbold{
@@ -800,6 +800,12 @@ footer .line{
     left: 46%;
     top: 45%;
 }
+.title1{
+    color: white;
+    position: relative;
+    left: 50%;
+    top: 50%;
+}
 .col-sm-6 label{
     font-family: defaultBarlowBoldX;
 }
@@ -1181,6 +1187,16 @@ footer .line{
     opacity: 0;
     top: 0px;
     cursor: default !important;
+}
+
+.item a{
+    color: #3e3e3e;
+    text-decoration: none;
+}
+
+.item a:hover{
+    
+    text-decoration: none;
 }
 
 

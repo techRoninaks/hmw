@@ -39,15 +39,15 @@
     <div w3-include-html="header.html" class="header"></div>
     
     <div class="homebanner">
-        <div class="title">
-            <p>PROFILE</p>
+        <div class="title1">
+            <p>UNION</p>
         </div>
     </div>
     <!-- <div class="profiletitle">
         <hr>
         <p>PROFILE</p>
     </div> -->
-    <div class="container1">
+    <!-- <div class="container1">
         <div class="row backprofile" id="profilecard">
                 <div class="col-sm-4">
                     <img src="assets/img/images/hello-my-work-id-card-new-blue.png" class="idprofile">
@@ -94,8 +94,8 @@
                     </div>
                 </div>
         </div>
-    </div>
-    <div id="loginBox1">
+    </div> -->
+    <!-- <div id="loginBox1">
             <div id="id01" class="w3-modal" style="z-index:999;">
                     <div class="w3-modal-content" style="padding:5px;width:40%;border-radius:5px;">
                       <div class="w3-container" style="padding:2rem;">
@@ -112,12 +112,12 @@
                         </div>
                     </div>
                   </div>
-    </div>
+    </div> -->
 
 
 
 
-    <div class="profilecontainer2">
+    <!-- <div class="profilecontainer2">
         <div class="row">
             <div class="col-sm-12">
                 <div class="backgray1">
@@ -143,6 +143,17 @@
                 
             </div>
         </div>
+    </div> -->
+
+    <div class="center" style="margin-top:30px;">
+        <span>
+            <button class="buttonprofile scarletcolora fontcolorblack " onclick="filterservicepage('assets/img/icon/ic_for_sale-min.png','Forsale');">FOR SALE</button>
+            <button class="buttonprofile mintcolora fontcolorblack " onclick="filterservicepage('assets/img/icon/ic_required-min.png','REQUIRED');">REQUIRED</button>
+            <button class="buttonprofile bluecolora fontcolorblack " onclick="filterservicepage('assets/img/icon/ic_offers-min.png','OFFERS');">OFFERS</button>
+            <button class="buttonprofile leafcolora fontcolorblack " onclick="filterservicepage('assets/img/icon/ic_appreciation-min.png','APPRECIATION');">APPRECIATION</button>
+            <button class="buttonprofile trumpcolora fontcolorblack " onclick="filterservicepage('assets/img/icon/ic_achievement-min.png','ACHIEVEMENT');">ACHIEVEMENT</button>
+            <button class="buttonprofile thanoscolora fontcolorblack " onclick="filterservicepage('','');">RANDOM</button>
+        </span>
     </div>
 
     <div class="profilecontainer3">
@@ -150,7 +161,7 @@
             <div class="col-sm-12">
                 <div class="whiteback ">
                     <div>Activity feed</div>
-                    <div class="postcontainer" id="postlist">
+                    <div class="postcontainer" id="servicepostlist">
                         <div class="postelement">
                             <div class="line1">
                                     ARJUN
@@ -358,8 +369,7 @@
     </div>
 
     <script>
-        loadProfileInfo('profilecard',"1");
-        loadProfileInfo('profilepost',"1");
+        loadServices('serviespost',"2");
     </script>
 
     
