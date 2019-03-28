@@ -1,28 +1,20 @@
-<div class="w3-container" style="display:none;z-index:999;vertival-align:center;" id="loginBox">
-        <div id="id01" class="w3-modal" style="z-index:999;">
-          <div class="w3-modal-content" style="top:10%;width:40%;border-radius:5px;">
-            <div class="w3-container" style="padding:2rem;">
-              <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-              <h5 style="text-align:center;font-family:defaultBarlowBold;">USER LOGIN</h5><br>
-              <form method="POST" action="javascript:login()">
-                  <label>CONTACT NUMBER</label>
-                  <input type="tel" class="form-control" style="outline:0;border:none;border-radius:5px;background-color: #f1f1f1;" pattern="[1-9]{1}[0-9]{9}" title="Enter 10 digit mobile number" id="loginContact" required><br>
-                  <label>PASSWORD</label>
-                  <input type="password" class="form-control" style="outline:0;border:0;border-radius:5px;background-color: #f1f1f1;" id="loginPassword" required><br>
-                  <button type="submit" class="btn" style="float:right;color:white;background:#333333;">SUBMIT</button>
-              </form>
-            </div>
-            <div class="actions">
-                <a class="btn file-btn">
-                        <span>Upload</span>
-                        <input type="file"  id="file-input" value="Choose a file">
 
-                    </a>
-                    <a class="btn" id="use">Crop</a>
-                    <button class="upload-result">Result</button>
-                    <img id="my-image" src="#" />
-                    <img id="result" src="">
-                </div>
+     <div class="w3-container" style="display:none;z-index:999;vertival-align:center;" id="loginBox">
+      <div id="id01" class="w3-modal" style="z-index:999;">
+        <div class="w3-modal-content" style="top:10%;width:40%;border-radius:5px;">
+          <div class="w3-container" style="padding:2rem;">
+            <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+            <h5 style="text-align:center;font-family:defaultBarlowBold;">USER LOGIN</h5>
+            <h6 style="text-align:center;font-family:defaultBarlowBold;">New user? <a href="javascript:toggleSignUp('premiumBox','nonPremiumBox','id03')" style="color:gray;">Sign Up</a></h6><br>
+            <form method="POST" action="javascript:login()">
+                <label>CONTACT NUMBER</label>
+                <input type="tel" class="form-control" style="outline:0;border:none;border-radius:5px;background-color: #f1f1f1;" pattern="[1-9]{1}[0-9]{9}" title="Enter 10 digit mobile number" id="loginContact" required><br>
+                <label>PASSWORD</label>
+                <input type="password" class="form-control" style="outline:0;border:0;border-radius:5px;background-color: #f1f1f1;" id="loginPassword" required><br>
+                <p id="errorNote" style="color:red;display:none;">Incorrect username or password!</p>
+                <button type="submit" class="btn" style="float:right;color:white;background:#333333;">SUBMIT</button>
+            </form>
           </div>
         </div>
       </div>
+    </div>

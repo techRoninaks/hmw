@@ -1,3 +1,5 @@
+
+var globeCopy = {}; //required global variable
 var countkeypress = 0;
 var filterdata ;
 var countries = ["Afghanistan~1","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland~2","India~3","Indonesia~4","Iran~5","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
@@ -31,6 +33,200 @@ function includeHTML() {
         /* Exit the function: */
         return;
       }
+    }
+}
+
+function reDirect(loc){ //redirect to any page without storing as cache.. mainly used when logged in
+
+    var page = window.location.protocol+"//"+window.location.hostname+"/helloMyWork/"+loc;
+    window.location.replace(page);
+}
+
+function dropHeader(headId) { //create dropdown
+    document.getElementById(headId).style.display='block';
+    document.getElementById(headId).classList.toggle("show");
+}
+
+function toggleSignUp(box1,box2,innerId){ //close unwanted popups
+    
+    document.getElementById(box1).style.display='block';
+    document.getElementById(innerId).style.display='block';
+    if(box2 !== 'all'){
+        document.getElementById('loginBox').style.display='none';
+        document.getElementById(box2).style.display='none';
+    } else {
+        document.getElementById('premiumBox').style.display='none';
+        document.getElementById('nonPremiumBox').style.display='none';
+    }
+    document.getElementById("myDropdown").style.display='none';
+    
+}
+
+function signUp(selectBox){ //sign up form
+    
+    var data = [];
+    var myObj = {};
+    
+    if(confirm("Confirm Sign Up?")){
+        if(selectBox == 'premium'){
+            data[0] =  document.getElementById("premiumName").value;
+            data[1] =  document.getElementById("premiumPhone").value;
+            myObj = {"newName":data[0],"newPhone":data[1],"userType":selectBox};
+            globeCopy = myObj;
+            toggleSignUp("otpBox","all","id04");
+            return;
+        } else {
+            data[0] =  document.getElementById("userName").value;
+            data[1] =  document.getElementById("userPhone").value;
+            data[2] =  document.getElementById("userPassword").value;
+            data[3] =  document.getElementById("userPassword2").value;
+            if(data[2] == data[3]){ //Password check
+                myObj = {"newName":data[0],"newPhone":data[1],"newPassword":data[2],"userType":selectBox};
+            } else {
+                document.getElementById("passError").style.display = "inline-block";
+                return;
+            }
+        }
+           
+        var jSONObj = JSON.stringify(myObj);
+        console.log("-> "+jSONObj);
+        xhr =  new XMLHttpRequest();
+        this.responseType = 'text';
+           xhr.onreadystatechange  =  function() {
+            var ourData = xhr.response;
+            if (this.readyState == 4 && this.status == 200) {
+                if(xhr.responseText == '1'){
+                    alert("Successful!");
+                    setCookie("userName",myObj.newName);
+                    window.location.reload();
+                } else {
+                    alert("Update Failed! Try again!");
+                }
+            }
+        };
+        xhr.open("POST", "assets/php/signUp.php", true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send("jsonObj="+jSONObj);
+    }
+}
+
+
+function otpVerify(){ //otp verification
+    var data = document.getElementById("otp").value;
+    console.log("OTP->"+data);
+    myObj = globeCopy;
+    
+    var jSONObj = JSON.stringify(myObj);
+        console.log("-> "+jSONObj);
+        xhr =  new XMLHttpRequest();
+        this.responseType = 'text';
+           xhr.onreadystatechange  =  function() {
+            var ourData = xhr.response;
+            if (this.readyState == 4 && this.status == 200) {
+                if(xhr.responseText == '1'){
+                    alert("OTP Verified!");
+                    setCookie("userName",myObj.newName);
+                    reDirect("premiumsignup.html");
+                } else {
+                    alert("Verification Failed! Try again!");
+                }
+            }
+        };
+        xhr.open("POST", "assets/php/signUp.php", true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send("jsonObj="+jSONObj);
+}
+
+function login(){ //login validation
+    var data = [];
+    var myObj = {};
+    
+    data[0] = document.getElementById("loginContact").value;
+    data[1] = document.getElementById("loginPassword").value;
+    myObj = {"userPhone":data[0],"userPassword":data[1]};
+    var jSONObj = JSON.stringify(myObj);
+    
+        xhr =  new XMLHttpRequest();
+        this.responseType = 'text';
+        xhr.onreadystatechange  =  function() {
+            var ourData = xhr.response;
+            if (this.readyState == 4 && this.status == 200) {
+                if(xhr.responseText !== '0'){
+                    var userObj = JSON.parse(xhr.responseText);
+                    setCookie("userName",userObj.userName);
+                    window.location.reload();
+                } else {
+                    document.getElementById("errorNote").style.display= "inline";
+                }
+            }
+        };
+        xhr.open("POST", "assets/php/login.php", true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send("jsonObj="+jSONObj);
+}
+
+function myFunction(popName) { //To create pop up bubble in buttons
+    if(getCookie("userName=")=="null"){
+        toggleSignUp('loginBox','all','id01');
+    } else {
+        document.getElementById(popName).style.display = 'block';
+        var popup = document.getElementById(popName);
+        popup.classList.toggle("show");
+    }
+}
+
+//La cookie section
+
+function setCookie(cookieName,userId = null) {
+
+    var d = new Date();
+    var exdays = 1;
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cookieName + "=" + userId + ";" + expires + ";path=/";
+}
+
+function getCookie(cookieName) {
+    
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    // console.log("decoded cookie -> "+ca);
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+            // console.log("&&&&&& "+c);
+        }
+        if (c.indexOf(cookieName) === 0) {
+            return c.substring(cookieName.length, c.length);
+        }
+    }
+    return "";
+}
+
+function checkCookie(cookieName,signVar = null) {
+    
+    if(signVar !== null){       //sign out code
+ 
+        if(confirm("Confirm Log Out?")){
+            setCookie(cookieName);
+            reDirect("index.html");
+        } else {
+            return;
+        }
+        
+    } else {
+    
+        var id = getCookie(cookieName+"="); //load data
+        
+        if (id !== "null") {
+            //Load the profile here
+        }
+        else {                      //session validation
+            alert("Session Expired! Login again to continue");
+            setCookie(cookieName);
+            reDirect("index.html");
+        }
     }
 }
 
@@ -939,6 +1135,7 @@ function filterservicepage(tag, tag1){
       htmltemp = htmltemp + serviceprofilepost(data);
 
     }  
+
 
   }
   if(htmltemp == ""){
