@@ -69,43 +69,32 @@
     var qryCatType = "";
     var qrySrchType = "";
     var qryLocType = "";
-    var catFlag = 0;
-    var srchFlag = 0;
-    var locFlag = 0;
-    var success= NaN;
+    // var success= NaN;
     var qryStrings = getQueryString();
     
     qryStrings.forEach(element => {
         if(element.startsWith('cat_type')){
             qryCatType = element.split('=')[1];
-            catFlag = 1;
+            if(isNaN(parseInt(qryCatType))){
+                reDirect("error.html");
+            }
         } else if(element.startsWith('srch_key')){
             qrySrchType = element.split('=')[1];
-            srchFlag = 1;
         } else if(element.startsWith('loc')){
             qryLocType = element.split('=')[1];
-            locFlag = 1;
+            if(isNaN(parseInt(qryLocType))){
+                reDirect("error.html");
+            }
         }
     
     });
+    searchQuery(qryCatType,qrySrchType,qryLocType);
     
-    if(catFlag == 1){
-        if(srchFlag == 1){
-            // success = parseInt(qrySrchType);
-            success = parseInt(qryLocType);
-        } else {
-            success = parseInt(qryCatType);
-        }
-    } else if(srchFlag == 1){
-        // success = parseInt(qrySrchType);
-        success = parseInt(qryLocType);
-    }
-    
-    if(!isNaN(success)){
-        searchQuery(qryCatType,qrySrchType,qryLocType);
-    } else {
-        reDirect("error.html");
-    }
+    // if(!isNaN(success)){
+    //     searchQuery(qryCatType,qrySrchType,qryLocType);
+    // } else {
+    //     reDirect("error.html");
+    // }
     
     function verifyProfile(box1,box2){
         if(box1 == "checkMark"){

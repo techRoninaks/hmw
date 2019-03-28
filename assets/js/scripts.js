@@ -843,7 +843,7 @@ function toggleSignUp(box1,box2,innerId){
   document.getElementById(box1).style.display='block';
   document.getElementById(innerId).style.display='block';
   if(box2 !== 'all'){
-      document.getElementById('loginBox1').style.display='none';
+      document.getElementById('loginBox').style.display='none';
       document.getElementById(box2).style.display='none';
   } else {
       document.getElementById('premiumBox').style.display='none';
