@@ -1,10 +1,11 @@
 var countkeypress = 0;
 var filterdata ;
-var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
+var countries = ["Afghanistan~1","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland~2","India~3","Indonesia~4","Iran~5","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
 var imagedata ;
 var postimage ;
+var local =1;
 
-
+//For fetching common elements
 function includeHTML() {
     var z, i, elmnt, file, xhttp;
     /* Loop through a collection of all HTML elements: */
@@ -33,11 +34,14 @@ function includeHTML() {
     }
 }
 
-function replacetext(location){
+//for location button in homepage, replacing current text
+function replacetext(location, id){
   document.getElementById('dropdownMenuButton').innerHTML = " <i class= image-button ></i>"+location;
+  local = id;
   return false;
 }
 
+//Search the list in home union list
 function searchlist() {
   // Declare variables
   var input, filter, ul, li, a, i, txtValue;
@@ -68,7 +72,7 @@ function searchlist() {
   }
 }
 
-
+//Premium Signup validation and upload
 function premiumSignUp(){
   var name = document.getElementById('inputFirstname').value;
   var email = document.getElementById('inputEmail').value;
@@ -94,28 +98,54 @@ function premiumSignUp(){
   {
     document.getElementById('vaildation').innerHTML= "Please fill all fields.";
     document.getElementById('vaildation').style.display = "block";
-    console.log('if');
+    // console.log('if');
     
   }
   else if(password1 != password2){
     document.getElementById('vaildation').innerHTML= "Password don't match!";
     document.getElementById('vaildation').style.display = "block";
   }
+  else if(imagedata == null ){
+    document.getElementById('vaildation').innerHTML= "Image is empty";
+    document.getElementById('vaildation').style.display = "block";
+  }
   else{
     document.getElementById('vaildation').style.display = "none";
-    console.log(name+"\n"+email+"\n"+phone+"\n"+password1+"\n"+password2+"\n"+category+"\n"+role+"\n"+country+"\n"+type+"\n"+address+"\n"+state+"\n"+location+"\n"+sublocation+"\n"+pincode+"\n"+union+"\n"+whatsapp+"\n"+website+"\n"+phone2);
+    // console.log(name+"\n"+email+"\n"+phone+"\n"+password1+"\n"+password2+"\n category="+category+"\n"+role+"\n"+country+"\n type="+type+"\n"+address+"\n"+state+"\n"+location+"\n"+sublocation+"\n"+pincode+"\n union="+union+"\n"+whatsapp+"\n"+website+"\n"+phone2);
+  
+  
+  var xhr =  new XMLHttpRequest();
+  this.responseType = 'text';
+  xhr.onreadystatechange  =  function() {
+      
+      var ourData = xhr.response;
+      if (this.readyState == 4 && this.status == 200) {//if result successful
+        var myObj = JSON.parse(this.responseText);
+        
+        
+        // unionlistload(myObj);
+
+      }
+      
+  };
+  var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata;
+  xhr.open("post", "assets/php/postprofiledata.php", true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.send(params);
+
   }
   // console.log(name+"\n"+email+"\n"+phone+"\n"+password1+"\n"+password2+"\n"+category+"\n"+role+"\n"+country+"\n"+type);
   return false; 
 }
 
+//To handle skills field in signup page 
 function getskillvalue(){
   var skils = document.getElementById("inputSkills").value;
   alert(skils);
   document.getElementById("inputSkills").value = "hello";
 }
 
-
+//To load all dynamic elements in home page
 function loadUnionInfo(caller){
   var xhr =  new XMLHttpRequest();
   this.responseType = 'text';
@@ -135,8 +165,11 @@ function loadUnionInfo(caller){
           case "union":
               homeUnionload(myObj);
               break;
-          case "profilecard":
+          case "profileowl":
               homeprofileload(myObj);
+              break;
+          case "searchlist":
+              homeprosearchload(myObj);
               break;
           default:
             // homeload(myObj);
@@ -157,7 +190,7 @@ function loadUnionInfo(caller){
             xhr.setRequestHeader("Content-type", "text/plain");
             xhr.send();
             break;
-    case "profilecard":
+    case "profileowl":
             xhr.open("GET", "assets/php/getprofile.php", true);
             xhr.setRequestHeader("Content-type", "text/plain");
             xhr.send();
@@ -167,12 +200,30 @@ function loadUnionInfo(caller){
             xhr.setRequestHeader("Content-type", "text/plain");
             xhr.send();
             break;
+    case "searchlist":
+            xhr.open("GET", "assets/php/getsearchlist.php", true);
+            xhr.setRequestHeader("Content-type", "text/plain");
+            xhr.send();
+            break;
     default:
             break;
   }
 }
 
 
+function homeprosearchload(array){
+  var htmltemp ="";
+  var carousel ="";
+  for(i = 1; i<array.length; i++){
+    
+      var data = array[i];
+        htmltemp = htmltemp + "<a href= #  onclick= 'javascript:replacetext(&quot;"+data['location']+"&quot;,"+data['id']+");' >"+data['location']+"</a>";
+
+  }
+  document.getElementById('Slist').innerHTML = htmltemp; 
+  
+}
+//load carusol
 function homeAdload(array){
   var htmltemp ="";
   var carousel ="";
@@ -194,7 +245,7 @@ function homeAdload(array){
   
 }
 
-
+//load union list
 function unionlistload(array){
   var htmltemp ="";
   var template = "";
@@ -210,11 +261,11 @@ function unionlistload(array){
       break;
     }
   }
-  // console.log(array.length);
+  // console.log(htmltemp+"listunion");
   document.getElementById('unionlist').innerHTML = htmltemp; 
   document.getElementById('myUL').innerHTML = template; 
 }
-
+//load profile owl list
 function homeprofileload(array){
   var htmltemp ="";
   for(i = 1; i<array.length; i++){
@@ -225,7 +276,7 @@ function homeprofileload(array){
   }
   document.getElementById('owl-demo').innerHTML = htmltemp;  
 }
-
+//load category page
 function homeUnionload(array){
   var htmltemp = "";
   var template = "<li class= item1&#32;active  onclick= filterunion('ALL') >ALL</li>";
@@ -235,20 +286,25 @@ function homeUnionload(array){
         htmltemp = htmltemp + templatehomeunion(data);
         template = template + "<li class= item1  onclick= filterunion('"+data["tag"]+"')   >"+data["tag"]+"</li>";
   }
-  htmltemp = htmltemp + htmltemp + htmltemp + htmltemp + htmltemp;
+  // htmltemp = htmltemp + htmltemp + htmltemp + htmltemp + htmltemp;
   template = template + "<hr>";
   document.getElementById('union').innerHTML = htmltemp; 
   document.getElementById('menu').innerHTML = template; 
   // console.log(filterdata); 
 }
-
+//template union list
 function templateunionlist(data, extra){
   var template = "";
-  template += "<li class= item >"+data["name"]+" union"+extra+"</li>";
+  template += "<li class= item >"+
+  "<a href= "+data["link"]+" >"
+  +data['name']+
+  " union</a>"+extra+"</li>";
+  // console.log(data['name']);
     return template;
+    
 }
 
-
+//template ad list 
 function templatehomead(data, extra){
   var template = "";
   template += "<div class= "+extra+" >"+
@@ -262,7 +318,7 @@ function templatehomead(data, extra){
   "</div>";
     return template;
 }
-
+//template profile list
 function templatehomeprofile(data){
   var template = "";
   template += "<div class= item2 >"+
@@ -283,6 +339,7 @@ function templatehomeprofile(data){
   return template;
 }
 
+//template category
 function templatehomeunion(data){
   var template = "";
   template += "<div class= col-sm-2 >"+
@@ -296,7 +353,7 @@ function templatehomeunion(data){
   return template;
   
 }
-
+//Filter on category
 function filterunion(tag){
   // filterdata = array;
   var htmltemp ="";
@@ -315,12 +372,12 @@ function filterunion(tag){
     //   flag = 1;
     // }
   }
-  htmltemp = htmltemp + htmltemp + htmltemp + htmltemp + htmltemp;
+  // htmltemp = htmltemp + htmltemp + htmltemp + htmltemp + htmltemp;
   document.getElementById('union').innerHTML = htmltemp; 
-  console.log(filterdata); 
+  // console.log(filterdata); 
 }
 
-
+//To show suggestions in main search box
 function autocomplete(inp, arr) {
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
@@ -346,17 +403,23 @@ function autocomplete(inp, arr) {
           /*create a DIV element for each matching element:*/
           b = document.createElement("DIV");
           /*make the matching letters bold:*/
+          // var datase = arr[i].substr(0, val.length)
           b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
           str = arr[i].substr(0, val.length);
-          b.innerHTML += arr[i].substr(val.length);
+          // b.innerHTML += arr[i].substr(val.length);
           str += arr[i].substr(val.length);
+          var temp1 = str.split('~');
+          b.innerHTML += temp1[0].substr(val.length);
           /*insert a input field that will hold the current array item's value:*/
-          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          b.innerHTML += "<input type='hidden' value='" + temp1[0] + "'>";
+          // console.log(temp1[0]);
           /*execute a function when someone clicks on the item value (DIV element):*/
               b.addEventListener("click", function(e) {
               /*insert the value for the autocomplete text field:*/
               inp.value = this.getElementsByTagName("input")[0].value;
-              window.location = "./profile.html/"+str;
+              
+              
+              window.location = "profileList.html?cat_type="+temp1[1]+"&srch_key="+temp1[0]+"&loc="+local;
               // console.log("in click "+str);
               /*close the list of autocompleted values,
               (or any other open lists of autocompleted values:*/
@@ -389,6 +452,10 @@ function autocomplete(inp, arr) {
           /*and simulate a click on the "active" item:*/
           if (x) x[currentFocus].click();
         }
+        else{
+          window.location = "profileList.html?srch_key="+inp.value+"&loc="+local;
+        }
+
       }
   });
   function addActive(x) {
@@ -426,7 +493,7 @@ document.addEventListener("click", function (e) {
 } 
 
 
-
+//Toload all profile page elements
 function loadProfileInfo(caller, id){
   var xhr =  new XMLHttpRequest();
   this.responseType = 'text';
@@ -468,7 +535,7 @@ function loadProfileInfo(caller, id){
   }
 }
 
-
+//Profile card load
 function uprofilecardload(array){
   var htmltemp ="";
   var data = array[1];
@@ -477,7 +544,7 @@ function uprofilecardload(array){
 "</div>"+
 "<div class= col-sm-8 >"+
 "<div class= cardwhite >"+
-"<div class= row&#32;padding >"+
+"<div class= 'row padding' >"+
   "<div class= col-sm-5&#32;profilelist >"+
   "<ul>"+
       "<li><b>PERSON / COMPANY NAME:</b>"+data["name"]+"</li>"+
@@ -515,28 +582,29 @@ function uprofilecardload(array){
   document.getElementById('profilecard').innerHTML = htmltemp; 
 }
 
+//profile post load
 function profilepostload(array){
   var htmltemp ="";
   for(i = 1; i<array.length; i++){
       var data = array[i];
       htmltemp = htmltemp + templateprofilepost(data);
   }
-  //htmltemp = htmltemp + htmltemp + htmltemp + htmltemp + htmltemp;
+  // htmltemp = htmltemp + htmltemp + htmltemp + htmltemp + htmltemp;
   document.getElementById('postlist').innerHTML = htmltemp; 
 //  console.log(htmltemp);
 }
 
-
+//Profile post template
 function templateprofilepost(data){
   var template = "";
   template += "<div class= postelement >"+
   "<div class= line1 >"+
-          "ARJUN"+
-          "<p>LOCATION</p>"+
+          ""+data["name"]+" "+
+          "<p>"+data["location"]+" </p>"+
       "</div>"+
       "<div class= line2 >"+
-          "CARPENTER"+
-          "<p>12-03-2019</p>"+
+          ""+data["role"]+" "+
+          "<p>"+data["date"]+" </p>"+
       "</div>"+
       "<div class= overlay >"+
           "<div class= line3 >"+
@@ -573,7 +641,7 @@ function templateprofilepost(data){
 
 
 
-
+//Toggle Model helper
 function toggleSignUp(box1,box2,innerId){
 
   document.getElementById(box1).style.display='block';
@@ -586,19 +654,29 @@ function toggleSignUp(box1,box2,innerId){
       document.getElementById('nonPremiumBox').style.display='none';
   }
   document.getElementById("myDropdown").style.display='none';
-
+  return false;
 }
 
-function cropToImage(data){
+//To crop image daving to global variable 
+function cropToImage(data){ 
   imagedata = data;
-  console.log(imagedata);
-  toggle();
+  if(imagedata != null){
+    document.getElementById('msgupload').style.display = "block";
+    setTimeout(function(){ toggle(); }, 1000);
+    console.log(imagedata);
+  }
+  else{
+    document.getElementById('msgupload').innerHTML="Oho Upload incomplete !";
+    document.getElementById('msgupload').style.display = "block";
+  }
+  return false;
 }
-
+//To close model helper
 function toggle(){
-  document.getElementById("loginBox").style.display='none';
+  document.getElementById("loginBox1").style.display='none';
+  return false;
 }
-
+//To read form a file
 function readFile() {
   
   if (this.files && this.files[0]) {
@@ -618,13 +696,13 @@ function readFile() {
   // console.log(postimage); 
   // toggle();
   }
-
+//To insert into tag
   function insertvalue(str){
     document.getElementById('tagpost').value = str;
     // console.log(document.getElementById('tagpost').value);
   }
 
-
+// to Push post to the database
   function postpush(u_id){
     var image = postimage;
     var despost = document.getElementById('despost').value;
@@ -652,8 +730,7 @@ function readFile() {
           tag  = "";
           document.getElementById('despost').value = "";
           document.getElementById('tagpost').value = "";
-          alert("Posted Successfully!");
-          window.location = "profile.html";
+          alert("Posted!")
           }
         
         
@@ -670,4 +747,205 @@ function readFile() {
     // console.log(tag +despost +"\n\n\n"+image);
   }
   console.log('out');
+}
+
+//to load sign up elements
+function loadsignup(caller){
+  var xhr =  new XMLHttpRequest();
+  this.responseType = 'text';
+  xhr.onreadystatechange  =  function() {
+      
+      var ourData = xhr.response;
+      if (this.readyState == 4 && this.status == 200) {//if result successful
+        var myObj = JSON.parse(this.responseText);
+        
+        switch (caller){
+          case "category":
+              categorylistload(myObj);
+              break;
+          // case "adver":
+          //     homeAdload(myObj);
+          //     break;
+          // case "union":
+          //     homeUnionload(myObj);
+          //     break;
+          // case "profilecard":
+          //     homeprofileload(myObj);
+          //     break;
+          default:
+            // homeload(myObj);
+            break;
+        }
+      }
+      
+  };
+
+  switch(caller){
+    case "category":
+            xhr.open("GET", "assets/php/getunionlist.php", true);
+            xhr.setRequestHeader("Content-type", "text/plain");
+            xhr.send();
+            break;
+    // case "union":
+    //         xhr.open("GET", "assets/php/getunion.php", true);
+    //         xhr.setRequestHeader("Content-type", "text/plain");
+    //         xhr.send();
+    //         break;
+    // case "profilecard":
+    //         xhr.open("GET", "assets/php/getprofile.php", true);
+    //         xhr.setRequestHeader("Content-type", "text/plain");
+    //         xhr.send();
+    //         break;
+    // case "adver":
+    //         xhr.open("GET", "assets/php/getad.php", true);
+    //         xhr.setRequestHeader("Content-type", "text/plain");
+    //         xhr.send();
+    //         break;
+    default:
+            break;
+  }
+}
+
+//Load category list in signup page
+function categorylistload(array){
+  var htmltemp ="";
+  var template = "";
+  for(i = 1; i<array.length; i++){
+    var data = array[i];
+    htmltemp = htmltemp + templatecategorylist(data);
+
+  }
+  // console.log(htmltemp);
+  document.getElementById('inputCategory').innerHTML = htmltemp; 
+  document.getElementById('inputUnion').innerHTML = htmltemp; 
+}
+//Ctegory template
+function  templatecategorylist(data){
+  var template = "";
+  template += "<option data-tokens= private >"+data["name"]+"</option>";
+
+  return template;
+}
+
+
+function loadServices(caller, id){
+  var xhr =  new XMLHttpRequest();
+  this.responseType = 'text';
+  xhr.onreadystatechange  =  function() {
+      
+      var ourData = xhr.response;
+      if (this.readyState == 4 && this.status == 200) {//if result successful
+        var myObj = JSON.parse(this.responseText);
+        
+        switch (caller){
+          case "serviespost":
+              servicepostload(myObj);
+              break;
+          default:
+            // homeload(myObj);
+            break;
+        }
+      }
+      
+  };
+
+  switch(caller){
+    case "serviespost":
+            var params = 'id='+id;
+            xhr.open("post", "assets/php/getserviceposts.php", true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.send(params);
+            break;
+    default:
+            break;
+  }
+}
+
+function servicepostload(array){
+  var htmltemp ="";
+  filterdata = array;
+  for(i = 1; i<array.length; i++){
+      var data = array[i];
+      htmltemp = htmltemp + serviceprofilepost(data);
+  }
+  //  console.log(htmltemp);
+  if(htmltemp == ""){
+    // console.log('hell in servicepostload');
+    document.getElementById('servicepostlist').innerHTML = "<div class='center errormsg' >Oho...! Looks like this services has no posts..:-(<br>Try another service</div>"; 
+  }
+  else{
+    document.getElementById('servicepostlist').innerHTML = htmltemp; 
+  }
+  
+//  console.log(htmltemp);
+}
+
+function serviceprofilepost(data){
+  var template = "";
+  template += "<div class= postelement >"+
+  "<div class= line1 >"+
+          ""+data["name"]+" "+
+          "<p>"+data["location"]+" </p>"+
+      "</div>"+
+      "<div class= line2 >"+
+          ""+data["role"]+" "+
+          "<p>"+data["date"]+" </p>"+
+      "</div>"+
+      "<div class= overlay >"+
+          "<div class= line3 >"+
+              "<img src= "+data["postimage"]+"  class= itemimage >"+
+          "</div>"+
+          "<div class= layer1 >"+
+            "<img src= "+data["offer"]+"  class= size >"+
+          "</div>"+
+          "<div class= layer2 >"+
+              "<div class= itemoverlay ><i class= heart ></i>"+data["likes"]+" LIKES</div>"+
+              "<div class= itemoverlay ><i class= commenticon ></i>"+data["comments"]+" COMMENTS</div>"+
+              "<div class= itemoverlaylast ><i class= shareicon ></i>SHARE</div>"+
+          "</div>"+
+      "</div>"+
+      "<div class= line4 >"+
+          "<p>"+ 
+                  ""+data["des"]+""+
+          "</p>"+
+      "</div>"+
+      "<div class= line5 >"+
+          "COMMENTS"+
+          "<p>VIEW MORE</p>"+
+      "</div>"+
+      "<div class= comments >"+
+          "<div class= firstcomment >NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>"+
+          "<div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>"+
+          "<div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>"+
+      "</div>"+
+      "<input type= text  placeholder= Write a comment  class= commentinput >"+
+  "</div>";
+
+  return template;
+}
+
+function filterservicepage(tag, tag1){
+  // filterdata = array;
+  var htmltemp ="";
+  var flag = 0;
+  for(i = 1; i<filterdata.length; i++){
+    var data = filterdata[i];
+    if(data['offer'] == tag){
+      htmltemp = htmltemp + serviceprofilepost(data);
+
+    }
+    if(tag == ""){
+      htmltemp = htmltemp + serviceprofilepost(data);
+
+    }  
+
+  }
+  if(htmltemp == ""){
+    document.getElementById('servicepostlist').innerHTML = "<div class='center errormsg' >Oho...! Looks like this services has no "+tag1+" posts..:-(<br>Try another service</div>"; 
+  }
+  else{
+    document.getElementById('servicepostlist').innerHTML = htmltemp; 
+  }
+  
+ 
 }

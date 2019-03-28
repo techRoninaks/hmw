@@ -4,7 +4,7 @@
         require "init.php";//needed for connection with database
         
        
-        $sql_query =  "SELECT * FROM `posts_table` ORDER BY date DESC;";//SQL command
+        $sql_query =  "SELECT posts_table.id,posts_table.postimage,posts_table.des,posts_table.likes,posts_table.comments, posts_table.offer,posts_table.date,posts_table.u_id,profile_table.name,profile_table.location,profile_table.role FROM `posts_table` LEFT JOIN `profile_table` ON posts_table.u_id = profile_table.id ";//SQL command
         $response = array();
         $data = array();
         $success = "unsuccessful";
@@ -21,7 +21,7 @@
             // $str = $row[14];
             // $str = str_replace(' ', '&#32;', $str);
             // echo $str;
-            $response[$count] = array("id"=>$row[0],"u_id"=>$row[1],"postimage"=>$row[2],"des"=>$row[3],"date"=>$row[4],"likes"=>$row[5],"comments"=>$row[6],"offer"=>$row[7]);
+            $response[$count] = array("id"=>$row["id"],"u_id"=>$row["u_id"],"postimage"=>$row["postimage"],"des"=>$row["des"],"date"=>$row["date"],"likes"=>$row["likes"],"comments"=>$row["comments"],"offer"=>$row["offer"],"name"=>$row["name"],"location"=>$row["location"],"role"=>$row["role"]);
         }
         echo json_encode($response);
 ?> 

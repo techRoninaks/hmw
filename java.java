@@ -26,7 +26,7 @@ public class java {
 
     String add = imageIoWrite("C://Users/AshishKamal/Desktop/HELLOmywork_id_card_BLANK_GREEN-min.png");
     System.out.println(add);
-    File pro = new File("C://Users/AshishKamal/Desktop/weston-boucher.jpg");
+    File pro = new File("C://wamp64/www/hello/assets/img/profile/userimage/10.png");
     File url = new File(add);
     BufferedImage im = ImageIO.read(url);
     URL url2 = new URL("http://www.java2s.com/style/download.png");
@@ -57,7 +57,7 @@ public class java {
     g.dispose();
 
     display(im);
-    ImageIO.write(im, "png", new File("C://Users/AshishKamal/Desktop/output.png"));
+    ImageIO.write(im, "png", new File("C://wamp64/www/hello/assets/img/profile/card/output.png"));
 
   }
 

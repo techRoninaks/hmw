@@ -49,7 +49,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
  
     <link rel="stylesheet" href="assets/link/croppie.css" />
-<script src="assets/link/croppie.js"></script>
+    <script src="assets/link/croppie.js"></script>
 </head>
 
 <body id="body">
@@ -61,7 +61,29 @@
         </div>
     </div>
 
-    <div id="loginBox">
+    <!-- <div id="loginBox1">
+            <div id="id01" class="w3-modal" style="z-index:999;">
+                    <div class="w3-modal-content" style="padding:5px;width:40%;border-radius:5px;">
+                      <div class="w3-container" style="padding:2rem;">
+                        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                        <h5 style="text-align:center;font-family:defaultBarlowBold;">Upload Image</h5><br>
+                        <div class="actions">
+                            <a class="btn file-btn">
+                                    <span>Upload</span>
+                                    <input type="file"  id="fileinput" value="Choose a file">
+                                </a>
+                                <a class="btn crop" id="use" >Crop</a>
+                                <button class="upload-result">Result</button>
+                                <img  class="my-image" id="my-image" src="#" />
+                                <img class="result" id="result" src="">
+                                <span id="msgupload" style="display:none;">Upload Complete !</span>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+    </div> -->
+
+    <div id="loginBox1">
             <div id="id01" class="w3-modal" style="z-index:999;">
                     <div class="w3-modal-content" style="padding:5px;width:40%;border-radius:5px;">
                       <div class="w3-container" style="padding:2rem;">
@@ -77,6 +99,7 @@
                                 <button class="upload-result">Result</button>
                                 <img  class="my-image" id="my-image" src="#" />
                                 <img class="result" id="result" src="">
+                                <span id="msgupload" style="display:none;">Upload Complete !</span>
                             </div>
                         </div>
                     </div>
@@ -361,9 +384,42 @@
                                         <label for="inputAddressLine2">STATE</label>
                                         <!-- <input type="text" class="form-control" id="inputState" placeholder="state" required> -->
                                         <select class="selectpicker form-control" id="inputState">
-                                                <option data-tokens="...">Kerala</option>
-                                                <option data-tokens="private">Goa</option>
-                                                <option data-tokens="govt">Tamil Nadu</option>
+                                                <option value="">Select State</option>
+                                                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                                <option value="Assam">Assam</option>
+                                                <option value="Bihar">Bihar</option>
+                                                <option value="Chandigarh">Chandigarh</option>
+                                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                                <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                                                <option value="Daman and Diu">Daman and Diu</option>
+                                                <option value="Delhi">Delhi</option>
+                                                <option value="Goa">Goa</option>
+                                                <option value="Gujarat">Gujarat</option>
+                                                <option value="Haryana">Haryana</option>
+                                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                                <option value="Jharkhand">Jharkhand</option>
+                                                <option value="Karnataka">Karnataka</option>
+                                                <option value="Kerala">Kerala</option>
+                                                <option value="Lakshadweep">Lakshadweep</option>
+                                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                                <option value="Maharashtra">Maharashtra</option>
+                                                <option value="Manipur">Manipur</option>
+                                                <option value="Meghalaya">Meghalaya</option>
+                                                <option value="Mizoram">Mizoram</option>
+                                                <option value="Nagaland">Nagaland</option>
+                                                <option value="Orissa">Orissa</option>
+                                                <option value="Pondicherry">Pondicherry</option>
+                                                <option value="Punjab">Punjab</option>
+                                                <option value="Rajasthan">Rajasthan</option>
+                                                <option value="Sikkim">Sikkim</option>
+                                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                                <option value="Tripura">Tripura</option>
+                                                <option value="Uttaranchal">Uttaranchal</option>
+                                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                                <option value="West Bengal">West Bengal</option>
                                         </select>
                                     </div>
                             </div>
@@ -408,7 +464,7 @@
                                         <div class="col-sm-3">
                                             <label for="inputPostalCode">UNION</label>
                                             <!-- <input type="text" class="form-control" id="inputUnion" placeholder="union" required> -->
-                                            <select class="selectpicker form-control" data-live-search="true" id="inputUnion">
+                                            <select class="selectpicker form-control" data-live-search="true" id="inputUnion" name="inputUnion">
                                                     <option data-tokens="...">Union...</option>
                                                     <option data-tokens="private">1</option>
                                                     <option data-tokens="govt">2</option>
@@ -419,7 +475,7 @@
                                     <div class="col-sm-6">
                                         <label for="inputContactNumber">JOB/DIRECTORY</label>
                                         <!-- <input type="text" class="form-control" id="inputCategory" placeholder="" required> -->    
-                                        <select class="selectpicker form-control" data-live-search="true" multiple id="inputCategory" title='Category'>
+                                        <select class="selectpicker form-control" data-live-search="true" id="inputCategory" title='Category'>
                                                 <option data-tokens="...">Category...</option>
                                                 <option data-tokens="private">1</option>
                                                 <option data-content="<span class='label label-success'>Relish</span>">Relish</option>
@@ -455,7 +511,7 @@
                                     </div>
                             </div>
                             <div class="hidden1" id="vaildation">Error Message</div>
-                            <button class="profileupload" type="file" onclick="toggleSignUp('loginBox','all','id01');">UPLOAD IMAGE <i class="uploadicon"></i> </button>
+                            <button class="profileupload" type="button" onclick="toggleSignUp('loginBox1','all','id01');">UPLOAD IMAGE <i class="uploadicon"></i> </button>
                             <!-- <input type="file" name="pic" accept="image/*">            -->
                             <img class="result" id="result" src="">
                             <button type="button" class="center1" onclick="premiumSignUp();">SUBMIT</button>
@@ -468,6 +524,23 @@
           </div>
     </div>
 
+    <!-- <div id="ttmp">
+
+            <div class="actions">
+                    <a class="btn file-btn">
+                            <span>Upload</span>
+                            <input type="file"  id="fileinput" value="Choose a file">
+                        </a>
+                        <a class="btn crop" id="use" >Crop</a>
+                        <button class="upload-result">Result</button>
+                        <img  class="my-image" id="my-image" src="#" />
+                        <img class="result" id="result" src="">
+                        <span id="msgupload" style="display:none;">Upload Complete !</span>
+                    </div>
+    </div> -->
+<script>
+    loadsignup('category');
+</script>
 
 
 
@@ -480,13 +553,16 @@
     <script>
         
         includeHTML();
+        // $( window ).load(function() {
+        //     $('select').selectpicker();
+        // $(function () {
+        //     $('select').selectpicker();
+        // });
+        //     $('.selectpicker').selectpicker({
+        // });
+        // });
 
-        $('select').selectpicker();
-        $(function () {
-            $('select').selectpicker();
-        });
-        $('.selectpicker').selectpicker({
-      });
+
 
 
       var input = document.getElementById("inputSkills");
@@ -503,14 +579,22 @@ input.addEventListener("keyup", function(event) {
 }); 
 
 
+// var input1 = document.getElementById("inputCategory");
+// input1.addEventListener("change", function(event){
+//     document.getElementsByClassName('inputUnion').innerHTML = document.getElementById('inputCategory').value;
+//     console.log(document.getElementById('inputUnion').value );
+//     console.log(document.getElementsByClassName('filter-option-inner-inner').innerHTML);
+// });
+
+
 function readURL(input) {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
     reader.onload = function(e) {
       $('#my-image').attr('src', e.target.result);
       var resize = new Croppie($('#my-image')[0], {
-        viewport: { width: 100, height: 100 },
-        boundary: { width: 250, height: 250 },
+        viewport: { width: 150, height: 150 },
+        boundary: { width: 350, height: 350 },
         showZoomer: false,
         enableResize: false,
         enableOrientation: true
@@ -530,9 +614,11 @@ function readURL(input) {
   }
 }
 
+
 $("#file-input").change(function() {
-  readURL(this);
-});
+        readURL(this);
+        });
+
 
     </script>
 

@@ -13,6 +13,10 @@
     background: rgba(237,28,36,.3);
 }
 
+.scarletcolora{
+    background: rgba(237,28,36,1);
+}
+
 .scarletcolor:hover{
     background: rgba(237,28,36,.8);
 }
@@ -20,12 +24,20 @@
 .mintcolor{
     background: rgba(122,214,188,.3);
 }
+
+.mintcolora{
+    background: rgba(122,214,188,1);
+}
 .mintcolor:hover{
     background: rgba(122,214,188,.8);
 }
 
 .bluecolor{
     background: rgba(111,197,239,.3);
+}
+
+.bluecolora{
+    background: rgba(111,197,239,1);
 }
 .bluecolor:hover{
     background: rgba(111,197,239,.8);
@@ -38,8 +50,15 @@
     background: rgba(34,181,115,.8);
 }
 
+.leafcolora{
+    background: rgba(34,181,115,1);
+}
+
 .trumpcolor{
     background: rgba(241,90,36,.3);
+}
+.trumpcolora{
+    background: rgba(241,90,36,1);
 }
 .trumpcolor:hover{
     background: rgba(241,90,36,.8);
@@ -47,6 +66,9 @@
 
 .thanoscolor{
     background: rgba(147,39,143,.3);
+}
+.thanoscolora{
+    background: rgba(147,39,143,1);
 }
 .thanoscolor:hover{
     background: rgba(147,39,143,.8);
@@ -156,16 +178,80 @@ button, a.btn {
 .crop{
     color: aqua;
     position: absolute !important;
-    bottom: 0px !important;
+    bottom: 10px !important;
     left: 35px !important;
 }
 
 .result{
     background: #000000;
 }
+#msgupload{
+    color: #000;
+    position: absolute;
+    bottom: 23px;
+    left: 120px;
+}
 
 
 
+.dropbtn {
+    /* background-color: #4CAF50; */
+    color: white;
+    /* padding: 16px; */
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    height: 250px;
+    overflow-y: scroll;
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {
+      background-color: #f1f1f1;
+        text-decoration: none;
+    }
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+  .dropdown:hover .dropbtn {
+    background-color: #cfcfcf;
+  }
+
+  .errormsg{
+    color: #4a4a4a;
+    height: 250px;
+    width: 100%;
+    padding: 15px;
+    padding-top: 90px;
+  }
 
 
 

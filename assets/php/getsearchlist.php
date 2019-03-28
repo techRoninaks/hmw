@@ -1,7 +1,7 @@
 <?php
         require "init.php";//needed for connection with database
         
-        $sql_query =  "SELECT * FROM `unions` ORDER BY `unions`.`click_freq` DESC  ";//SQL command
+        $sql_query =  "SELECT * FROM `location`  ";//SQL command
         $response = array();
         $data = array();
         $success = "unsuccessful";
@@ -11,8 +11,11 @@
             //  echo  nl2br($row[0] .":". $row[1].":".$row[2].":".$row[3].":".$row[4]."\n");//returning results   ,"image_address"=>$row[2],"link"=>$row[3], "frequency"=>$row[4]
             $success = "successful";
             $count = $count + 1;
+            if($count > 18){
+                break;
+            }
             $response[0] = array("response"=>$success);  
-            $response[$count] = array("union_id"=>$row['id'],"name"=>$row['name'],"link"=>$row["link"]);
+            $response[$count] = array("id"=>$row[0],"location"=>$row[1]);
         }
         echo json_encode($response);
 ?> 
