@@ -1049,6 +1049,7 @@ footer .line{
 .itemimage{
     width: 100%;
     border-radius: 5px;
+    max-height: 605px;
 }
 
 .overlay{

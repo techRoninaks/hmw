@@ -730,7 +730,8 @@ function readFile() {
           tag  = "";
           document.getElementById('despost').value = "";
           document.getElementById('tagpost').value = "";
-          alert("Posted!")
+          alert("Posted Successfully!");
+           window.location = "profile.html";
           }
         
         
