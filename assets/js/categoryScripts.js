@@ -50,20 +50,23 @@ function searchQuery(qryCatType=null,qrySrchType=null,qryLocType=null){
     
     var params = "catType="+qryCatType+"&srchType="+qrySrchType+"&locType="+qryLocType;
     // console.log("params->"+params);
-    
-    var xhr =  new XMLHttpRequest();
-    this.responseType = 'text';
-    xhr.onreadystatechange  =  function() {
-        if (this.readyState == 4 && this.status == 200) {//if result successful
-            if(xhr.responseText !== 0){
-                var jSONObj = JSON.parse(this.responseText);
-                loadCatList(jSONObj)
-            } else {
-                reDirect("error.html");
+    if((qryCatType===null && qrySrchType===null && qryLocType===null) || (qryCatType==="" && qrySrchType==="" && qryLocType==="")){
+        document.getElementById("resultsHere").innerHTML = "<div class='col-md-12' style='font-family:defaultBarlowBold;'><h2>Sorry, we could not find what you were looking for...</h2><h2>Try a different keyword!</h2></div>";
+    } else {
+        var xhr =  new XMLHttpRequest();
+        this.responseType = 'text';
+        xhr.onreadystatechange  =  function() {
+            if (this.readyState == 4 && this.status == 200) {//if result successful
+                if(xhr.responseText !== 0){
+                    var jSONObj = JSON.parse(this.responseText);
+                    loadCatList(jSONObj)
+                } else {
+                    reDirect("error.html");
+                }
             }
-        }
-    };
-    xhr.open("POST", "assets/php/searchQuery.php", true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send(params);
+        };
+        xhr.open("POST", "assets/php/searchQuery.php", true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(params);
+    }
 }
