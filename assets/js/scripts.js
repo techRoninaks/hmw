@@ -1,5 +1,8 @@
 
 var globeCopy = {}; //required global variable
+var OTPcount = 3;
+var OTP = "";
+var OTPsuccess = "error";
 var countkeypress = 0;
 var filterdata ;
 var countries = ["Afghanistan~1","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland~2","India~3","Indonesia~4","Iran~5","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
@@ -74,6 +77,7 @@ function signUp(selectBox){ //sign up form
             myObj = {"newName":data[0],"newPhone":data[1],"userType":selectBox};
             globeCopy = myObj;
             toggleSignUp("otpBox","all","id04");
+            sendOTP();
             return;
         } else {
             data[0] =  document.getElementById("userName").value;
@@ -110,31 +114,78 @@ function signUp(selectBox){ //sign up form
     }
 }
 
+function generateOTP() { 
+    var digits = '0123456789'; 
+    var OTP = ''; 
+    for (let i = 0; i < 6; i++ ) { 
+        OTP += digits[Math.floor(Math.random() * 10)]; 
+    } 
+    return OTP; 
+}
 
-function otpVerify(){ //otp verification
-    var data = document.getElementById("otp").value;
-    console.log("OTP->"+data);
+function sendOTP(){
+    OTP = generateOTP();
     myObj = globeCopy;
-    
-    var jSONObj = JSON.stringify(myObj);
-        console.log("-> "+jSONObj);
+    if(OTPcount>0){
+        var message = "Your OTP is "+ OTP;
+        var number = myObj.newPhone;
+        var params = "number="+number+"&message="+message+"&OTP="+OTP;
+        //send otp to mobile
         xhr =  new XMLHttpRequest();
         this.responseType = 'text';
-           xhr.onreadystatechange  =  function() {
-            var ourData = xhr.response;
+        xhr.onreadystatechange  =  function() {
             if (this.readyState == 4 && this.status == 200) {
-                if(xhr.responseText == '1'){
-                    alert("OTP Verified!");
-                    setCookie("userName",myObj.newName);
-                    reDirect("premiumsignup.html");
+                if(xhr.responseText !== '0'){
+                    var OTPObj = JSON.parse(xhr.responseText);
+                    alert("OTP send!");
+                    OTPsuccess = OTPObj.type;
+                    OTPcount += -1;
                 } else {
                     alert("Verification Failed! Try again!");
                 }
             }
         };
-        xhr.open("POST", "assets/php/signUp.php", true);
+        xhr.open("POST", "assets/php/test.php", true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.send("jsonObj="+jSONObj);
+        xhr.send(params);
+    } else {
+        document.getElementById("otpForm").style.display = "none";
+        document.getElementById("limitDisplay").style.display = "block";
+    }
+}
+function otpVerify(){ //otp verification
+    
+    if(OTPcount<0){
+        document.getElementById("otpForm").style.display = "none";
+        document.getElementById("limitDisplay").style.display = "block";
+    } else {
+        myObj = globeCopy; //data of the user
+        var data = document.getElementById("otp").value;
+        if((OTP == data) && OTPsuccess == "success"){
+            var jSONObj = JSON.stringify(myObj);
+            console.log("-> "+jSONObj);
+            xhr =  new XMLHttpRequest();
+            this.responseType = 'text';
+              xhr.onreadystatechange  =  function() {
+                var ourData = xhr.response;
+                if (this.readyState == 4 && this.status == 200) {
+                    if(xhr.responseText == '1'){
+                        alert("OTP Verified!");
+                        setCookie("userName",myObj.newName);
+                        OTPcount = 3;
+                        reDirect("premiumsignup.html");
+                    } else {
+                        alert("Verification Failed! Try again!");
+                    }
+                }
+            };
+            xhr.open("POST", "assets/php/signUp.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.send("jsonObj="+jSONObj);
+        } else {
+            document.getElementById("otpError").style.display = "block";
+        }
+    }
 }
 
 function login(){ //login validation
