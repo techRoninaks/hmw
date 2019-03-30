@@ -5,7 +5,7 @@
 	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Manage Users - HELLOmywork Admin</title>
+	<title>Manage Roles - HELLOmywork Admin</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -50,20 +50,10 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">Manage Users</h4>
+                        <h4 class="title">Manage Roles</h4>
                         <p class="category">Add/Delete/Edit Users</p>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div style="padding-top: 8px;">
-                                    <button class="btn btn-info btn-fill" onclick="toggleTabs('employee')" id="btnEmployee">Employees</button>
-                                    <button class="btn btn-fill" onclick="toggleTabs('admin')" id="btnAdmin">Admins</button>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div style="padding-top: 8px;" style="width: 100%;" align="right">
-                                    <button class="btn btn-info btn-fill" onclick="addUser()" id="btnAddUser">Add New User</button>
-                                </div>
-                            </div>
+                        <div style="padding-top: 8px;">
+                            <button class="btn btn-info btn-fill" onclick="addRole()" id="btnRole">Add New Role</button>
                         </div>
                     </div>
                     <div class="content table-responsive table-full-width" id="employeeTable">
@@ -236,6 +226,9 @@
                     $('#adminTable').show();
                 break;
             }
+        }
+        function addRole(){
+
         }
         function showData() {
         
