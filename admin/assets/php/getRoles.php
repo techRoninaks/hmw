@@ -1,7 +1,7 @@
 <?php
     require "init.php";
     $success = "unsuccessful";
-    $sql_query = "select * from unions;";
+    $sql_query = "select * from roles;";
     $result = mysqli_query($conn, $sql_query);
     $response = array();
     $count = 0;

@@ -32,15 +32,16 @@
     <script src="assets/js/scripts.js" type="text/javascript"></script>
 </head>
 <body>
-
+<style>
+    .formStyle{
+        outline:0;
+        border:none;
+        border-radius:5px;
+        background-color: #f1f1f1;
+    }
+</style>
 <div class="wrapper">
-    <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg" w3-include-html="sidenav.html">
-
-    <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
-
-
-    	
-    </div>
+    <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg" w3-include-html="sidenav.html"></div>
 
     <div class="main-panel">
 		<nav class="navbar navbar-default navbar-fixed" w3-include-html="header.html">
@@ -60,8 +61,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div style="padding-top: 8px;" style="width: 100%;" align="right">
-                                    <button class="btn btn-info btn-fill" onclick="addUser()" id="btnAddUser">Add New User</button>
+                                <div style="padding-top: 8px;width: 100%;" align="right">
+                                    <button class="btn btn-info btn-fill" onclick="toggleTabs('userForm')" id="btnAddUser">Add New User</button>
                                 </div>
                             </div>
                         </div>
@@ -178,6 +179,25 @@
                         </table>
 
                     </div>
+                    <div style="padding:2rem;display:none;" id="userForm">
+                        <form enctype="multipart/form-data" action="javascript:dataUpdate('user')" method="post">
+                            <label>First Name</label><p style="display:inline;color:red;">*</p>
+                            <input type="text" class="form-control formStyle" placeholder="First Name" id="fName" required><br>
+                            <label>Last Name</label>
+                            <input type="text" class="form-control formStyle" placeholder="Last Name" id="lName" required><br>
+                            <label>E-mail</label><p style="display:inline;color:red;">*</p>
+                            <input type="email" class="form-control formStyle" placeholder="Email" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" id="eMail" required><br>
+                            <label>Phone</label><p style="display:inline;color:red;">*</p>
+                            <input type="tel" class="form-control formStyle" pattern="[1-9]{1}[0-9]{9}" title="Enter 10 digit mobile number" id="contact" placeholder="Phone number" required><br>
+                            <label>Password</label><p style="display:inline;color:red;">*</p>
+                            <input type="password" class="form-control formStyle" placeholder="Password" id="password" required><br>
+                            <!--<label>Select image to upload:</label>-->
+                            <!--<input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" src=''>-->
+                            <!--<br>-->
+                            <button type="submit" style="display:inline" class="btn btn-secondary-outline" value="Submit" id="submitbutton">UPLOAD</button>
+                            <button type="button" class="btn btn-secondary-outline" value="Cancel" onclick="cancelFunc()">CANCEL</button>
+                            </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -213,9 +233,9 @@
     <script type="text/javascript">
         var userId = "";
         $(document).ready(function(){
-            if(!checkCookie("userId")){
-                window.location = window.location.origin;
-            }
+            // if(!checkCookie("userId")){
+            //     window.location = window.location.origin;
+            // }
         	userId = getCookie("userId");
 
     	});
@@ -226,14 +246,26 @@
                 case "employee":
                     $('#btnEmployee').removeClass().addClass('btn btn-info btn-fill');
                     $('#btnAdmin').removeClass().addClass('btn btn-fill');
+                    $('#btnAddUser').removeClass().addClass('btn btn-fill');
                     $('#employeeTable').show();
                     $('#adminTable').hide();
+                    $('#userForm').hide();
                 break;
                 case "admin":
                     $('#btnAdmin').removeClass().addClass('btn btn-info btn-fill');
                     $('#btnEmployee').removeClass().addClass('btn btn-fill');
+                    $('#btnAddUser').removeClass().addClass('btn btn-fill');
                     $('#employeeTable').hide();
                     $('#adminTable').show();
+                    $('#userForm').hide();
+                break;
+                case "userForm":
+                    $('#btnAddUser').removeClass().addClass('btn btn-info btn-fill');
+                    $('#btnAdmin').removeClass().addClass('btn btn-fill');
+                    $('#btnEmployee').removeClass().addClass('btn btn-fill');
+                    $('#employeeTable').hide();
+                    $('#adminTable').hide();
+                    $('#userForm').show();
                 break;
             }
         }
@@ -262,12 +294,12 @@
                         document.getElementById("adminTable").innerHTML = tabAdmin;
                     }else{
                         demo.showNotification('top','center', 'Something went wrong', 4);
-                        window.location = window.location.origin;
+                        // window.location = window.location.origin;
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     demo.showNotification('top','center', 'Something went wrong', 4);
-                    window.location = window.location.origin;
+                    // window.location = window.location.origin;
                 }
             });
 
@@ -275,9 +307,10 @@
 
         function buildHtml(template, data){
             var htmlString = "";
+            var pageName = "'user'";
             switch(template){
                 case "userTable":
-                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td>" + data.pass + "</td><td>" + data.first + "</td><td>" + data.last + "</td></tr>";
+                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td>" + data.pass + "</td><td>" + data.first + "</td><td><img src='assets/img/edit-button.png' onclick="+"toggleTabs('userForm');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
                 break;
             }
             return htmlString;
