@@ -1,0 +1,69 @@
+<!--================== NON PREMIUM SIGNUP HERE ===============-->
+
+    <div class="w3-container" style="display:none;z-index:999;vertival-align:center;" id="nonPremiumBox">
+      <div id="id02" class="w3-modal" style="z-index:999;">
+        <div class="w3-modal-content" style="top:5%;width:40%;border-radius:5px;">
+          <div class="w3-container" style="padding:2rem;">
+            <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+            <h5 style="text-align:center;font-family:defaultBarlowBold;">USER SIGNUP</h5><br>
+            <form method="POST" action="javascript:signUp('nonpremium')">
+                <label>NAME</label>
+                <input type="text" class="form-control" style="outline:0;border:none;border-radius:5px;background-color: #f1f1f1;" id="userName" required><br>
+                <label>CONTACT NUMBER</label>
+                <input type="text" class="form-control" style="outline:0;border:none;border-radius:5px;background-color: #f1f1f1;" pattern="[1-9]{1}[0-9]{9}" title="Enter 10 digit mobile number" id="userPhone" required><br>
+                <label>PASSWORD</label>
+                <input type="password" class="form-control" style="outline:0;border:0;border-radius:5px;background-color: #f1f1f1;" id="userPassword" required><br>
+                <label>CONFIRM PASSWORD</label>
+                <input type="password" class="form-control" style="outline:0;border:0;border-radius:5px;background-color: #f1f1f1;" id="userPassword2" required><br>
+                <p id="passError" style="display:none;color:red;transition:0.3s;">*Passwords don't match!</p>
+                <button type="submit" class="btn" style="float:right;color:white;background:#333333;">SUBMIT</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!--================== PREMIUM SIGNUP HERE ===============-->
+   
+    <div class="w3-container" style="display:none;z-index:999;vertival-align:center;" id="premiumBox">
+      <div id="id03" class="w3-modal" style="z-index:999;">
+        <div class="w3-modal-content" style="top:5%;width:40%;border-radius:5px;">
+          <div class="w3-container" style="padding:2rem;">
+            <span onclick="document.getElementById('id03').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+            <h5 style="text-align:center;font-family:defaultBarlowBold;">PREMIUM SIGNUP</h5><br>
+            <form method="POST" action="javascript:signUp('premium')">
+                <label>NAME/COMPANY NAME</label>
+                <input type="text" class="form-control" style="outline:0;border:none;border-radius:5px;background-color: #f1f1f1;" id="premiumName" required><br>
+                <label>CONTACT NUMBER</label>
+                <input type="text" class="form-control" style="outline:0;border:none;border-radius:5px;background-color: #f1f1f1;" pattern="[1-9]{1}[0-9]{9}" title="Enter 10 digit mobile number" id="premiumPhone" required><br>
+
+                <button type="submit" class="btn" style="float:right;color:white;background:#333333;">SEND OTP</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!--================== OTP VERIFICATION BOX ===================-->
+
+    <div class="w3-container" style="display:none;z-index:999;vertival-align:center;" id="otpBox">
+      <div id="id04" class="w3-modal" style="z-index:999;">
+        <div class="w3-modal-content" style="top:5%;width:40%;border-radius:5px;">
+          <div class="w3-container" style="padding:2rem;">
+            <span onclick="document.getElementById('id04').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+            <h5 style="text-align:center;font-family:defaultBarlowBold;">OTP VERIFICATION</h5><br>
+            <div style="text-align:center;display:none;" id="limitDisplay">
+            <h5 style="font-family:defaultBarlowBold;color:red;">Maximum number of attempts reached.<br>Try again later!</h5><br>
+            <button class="btn" onclick="javascript:window.location.replace('index.html')">HOME</button>
+            </div>
+            <form method="POST" action="javascript:otpVerify()" id="otpForm">
+                <label>ENTER OTP</label>
+                <input type="password" class="form-control" style="outline:0;border:none;border-radius:5px;background-color: #f1f1f1;" id="otp" required><br>
+                <label><a href="javascript:sendOTP()">RESEND OTP</a></label>
+                <p style="display:none;color:red;" id="otpError">The OTP you have entered is incorrect!</p>
+                <button type="submit" class="btn" style="float:right;color:white;background:#333333;">SUBMIT</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>

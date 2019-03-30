@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Title -->
-    <title>Profiles</title>
+    <title>Search results</title>
 
     <!-- Favicon -->
     <link rel="icon" href="./img/core-img/favicon.ico">
@@ -19,11 +19,13 @@
     <!-- Basic js -->
     <!--<script src="js/basics.js"></script>-->
     <script src="assets/js/scripts.js"></script>
+    <script src="assets/js/categoryScripts.js"></script>
  <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
  <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -35,374 +37,75 @@
 
 <body>
     <div w3-include-html="header.html" class="header"></div>
+    <div w3-include-html="loginPopUp.html"></div>
+    <div w3-include-html="signUpMain.html"></div>
     
     <div class="container" style="margin-top:110px;padding:10px;">
         <div class="row">
             <div class="col-sm-5" style="position:relative;">
                 <form class="form-inline my-2 my-lg-0" style="border:1px solid #9f9f9f;border-radius:5px;">
                     <button class="locBtn"><i class="image-button"></i>Kochi</button>
-                    <input class="searchBar" type="search" placeholder=" Carpenter">
+                    <input class="searchBar" type="search" placeholder=" Search for services anywhere">
                 </form>
             </div>
             <div class="col-sm-3" style="padding:5px;">
-                <p>201 Carpenters found in Kochi</p>
+                <p id="catCount"></p>
             </div>
             <div class="col-sm-4" style="padding:5px;text-align:right;">
-                <input type="image" src="assets/img/icon/ic_select-box-min.png" style="vertical-align:middle;" height="25" width="25"> Show verified profiles only
+                <div style="vertical-align:middle;" height="25" width="25"><img type="image" src="assets/img/icon/ic_unchecked.png"  height="25" width="25" onclick="javascript:verifyProfile('noMark','checkMark')" id="noMark"><img type="image" src="assets/img/icon/check-mark.png" style="display:none;"  height="25" width="25" onclick="javascript:verifyProfile('checkMark','noMark')" id="checkMark"> Show verified profiles only</div>
+                
             </div>
         </div>
     </div>
     <div class="container" style="margin-top:10px;">
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="card-box">
-                    <div id="imgCard" style="text-align:center;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_email_bnw-min.png" style="left:45%;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png" style="left:60%;">
-                    <img src="assets/img/images/hello-my-work-id-card-BLUE.jpg" style="height:100%;width:100%;">
-                    </div>
-                    <div><br>
-                        <p style="font-size:1.1rem;"><b>Noufal</b><p id="userJob" style="color:grey;">Carpenter<br>Kaloor, Kochi</p>
-                    </div>
-                    <div style="display:inline-block;">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-black.png" height="25" width="25" style = "opacity:0.3;">
-                        <br>4.0 (203 ratings)<p style="color:grey;">73 reviews</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card-box">
-                    <div id="imgCard" style="text-align:center;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_email_bnw-min.png" style="left:45%;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png" style="left:60%;">
-                    <img src="assets/img/images/hello-my-work-id-card-BLUE.jpg" style="height:100%;width:100%;">
-                    </div>
-                    <div><br>
-                        <p style="font-size:1.1rem;"><b>Noufal</b><p id="userJob" style="color:grey;">Carpenter<br>Kaloor, Kochi</p>
-                    </div>
-                    <div style="display:inline-block;">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-black.png" height="25" width="25" style = "opacity:0.3;">
-                        <br>4.0 (203 ratings)<p style="color:grey;">73 reviews</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card-box">
-                    <div id="imgCard" style="text-align:center;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_email_bnw-min.png" style="left:45%;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png" style="left:60%;">
-                    <img src="assets/img/images/hello-my-work-id-card-BLUE.jpg" style="height:100%;width:100%;">
-                    </div>
-                    <div><br>
-                        <p style="font-size:1.1rem;"><b>Noufal</b><p id="userJob" style="color:grey;">Carpenter<br>Kaloor, Kochi</p>
-                    </div>
-                    <div style="display:inline-block;">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-black.png" height="25" width="25" style = "opacity:0.3;">
-                        <br>4.0 (203 ratings)<p style="color:grey;">73 reviews</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card-box">
-                    <div id="imgCard" style="text-align:center;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_email_bnw-min.png" style="left:45%;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png" style="left:60%;">
-                    <img src="assets/img/images/hello-my-work-id-card-BLUE.jpg" style="height:100%;width:100%;">
-                    </div>
-                    <div><br>
-                        <p style="font-size:1.1rem;"><b>Noufal</b><p id="userJob" style="color:grey;">Carpenter<br>Kaloor, Kochi</p>
-                    </div>
-                    <div style="display:inline-block;">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-black.png" height="25" width="25" style = "opacity:0.3;">
-                        <br>4.0 (203 ratings)<p style="color:grey;">73 reviews</p>
-                    </div>
-                </div>
-            </div>
-        </div><br>
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="card-box">
-                    <div id="imgCard" style="text-align:center;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_email_bnw-min.png" style="left:45%;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png" style="left:60%;">
-                    <img src="assets/img/images/hello-my-work-id-card-BLUE.jpg" style="height:100%;width:100%;">
-                    </div>
-                    <div><br>
-                        <p style="font-size:1.1rem;"><b>Noufal</b><p id="userJob" style="color:grey;">Carpenter<br>Kaloor, Kochi</p>
-                    </div>
-                    <div style="display:inline-block;">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-black.png" height="25" width="25" style = "opacity:0.3;">
-                        <br>4.0 (203 ratings)<p style="color:grey;">73 reviews</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card-box">
-                    <div id="imgCard" style="text-align:center;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_email_bnw-min.png" style="left:45%;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png" style="left:60%;">
-                    <img src="assets/img/images/hello-my-work-id-card-BLUE.jpg" style="height:100%;width:100%;">
-                    </div>
-                    <div><br>
-                        <p style="font-size:1.1rem;"><b>Noufal</b><p id="userJob" style="color:grey;">Carpenter<br>Kaloor, Kochi</p>
-                    </div>
-                    <div style="display:inline-block;">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-black.png" height="25" width="25" style = "opacity:0.3;">
-                        <br>4.0 (203 ratings)<p style="color:grey;">73 reviews</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card-box">
-                    <div id="imgCard" style="text-align:center;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_email_bnw-min.png" style="left:45%;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png" style="left:60%;">
-                    <img src="assets/img/images/hello-my-work-id-card-BLUE.jpg" style="height:100%;width:100%;">
-                    </div>
-                    <div><br>
-                        <p style="font-size:1.1rem;"><b>Noufal</b><p id="userJob" style="color:grey;">Carpenter<br>Kaloor, Kochi</p>
-                    </div>
-                    <div style="display:inline-block;">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-black.png" height="25" width="25" style = "opacity:0.3;">
-                        <br>4.0 (203 ratings)<p style="color:grey;">73 reviews</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card-box">
-                    <div id="imgCard" style="text-align:center;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_email_bnw-min.png" style="left:45%;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png" style="left:60%;">
-                    <img src="assets/img/images/hello-my-work-id-card-BLUE.jpg" style="height:100%;width:100%;">
-                    </div>
-                    <div><br>
-                        <p style="font-size:1.1rem;"><b>Noufal</b><p id="userJob" style="color:grey;">Carpenter<br>Kaloor, Kochi</p>
-                    </div>
-                    <div style="display:inline-block;">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-black.png" height="25" width="25" style = "opacity:0.3;">
-                        <br>4.0 (203 ratings)<p style="color:grey;">73 reviews</p>
-                    </div>
-                </div>
-            </div>
-        </div><br>
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="card-box">
-                    <div id="imgCard" style="text-align:center;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_email_bnw-min.png" style="left:45%;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png" style="left:60%;">
-                    <img src="assets/img/images/hello-my-work-id-card-BLUE.jpg" style="height:100%;width:100%;">
-                    </div>
-                    <div><br>
-                        <p style="font-size:1.1rem;"><b>Noufal</b><p id="userJob" style="color:grey;">Carpenter<br>Kaloor, Kochi</p>
-                    </div>
-                    <div style="display:inline-block;">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-black.png" height="25" width="25" style = "opacity:0.3;">
-                        <br>4.0 (203 ratings)<p style="color:grey;">73 reviews</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card-box">
-                    <div id="imgCard" style="text-align:center;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_email_bnw-min.png" style="left:45%;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png" style="left:60%;">
-                    <img src="assets/img/images/hello-my-work-id-card-BLUE.jpg" style="height:100%;width:100%;">
-                    </div>
-                    <div><br>
-                        <p style="font-size:1.1rem;"><b>Noufal</b><p id="userJob" style="color:grey;">Carpenter<br>Kaloor, Kochi</p>
-                    </div>
-                    <div style="display:inline-block;">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-black.png" height="25" width="25" style = "opacity:0.3;">
-                        <br>4.0 (203 ratings)<p style="color:grey;">73 reviews</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card-box">
-                    <div id="imgCard" style="text-align:center;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_email_bnw-min.png" style="left:45%;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png" style="left:60%;">
-                    <img src="assets/img/images/hello-my-work-id-card-BLUE.jpg" style="height:100%;width:100%;">
-                    </div>
-                    <div><br>
-                        <p style="font-size:1.1rem;"><b>Noufal</b><p id="userJob" style="color:grey;">Carpenter<br>Kaloor, Kochi</p>
-                    </div>
-                    <div style="display:inline-block;">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-black.png" height="25" width="25" style = "opacity:0.3;">
-                        <br>4.0 (203 ratings)<p style="color:grey;">73 reviews</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card-box">
-                    <div id="imgCard" style="text-align:center;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_email_bnw-min.png" style="left:45%;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png" style="left:60%;">
-                    <img src="assets/img/images/hello-my-work-id-card-BLUE.jpg" style="height:100%;width:100%;">
-                    </div>
-                    <div><br>
-                        <p style="font-size:1.1rem;"><b>Noufal</b><p id="userJob" style="color:grey;">Carpenter<br>Kaloor, Kochi</p>
-                    </div>
-                    <div style="display:inline-block;">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-black.png" height="25" width="25" style = "opacity:0.3;">
-                        <br>4.0 (203 ratings)<p style="color:grey;">73 reviews</p>
-                    </div>
-                </div>
-            </div>
-        </div><br>
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="card-box">
-                    <div id="imgCard" style="text-align:center;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_email_bnw-min.png" style="left:45%;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png" style="left:60%;">
-                    <img src="assets/img/images/hello-my-work-id-card-BLUE.jpg" style="height:100%;width:100%;">
-                    </div>
-                    <div><br>
-                        <p style="font-size:1.1rem;"><b>Noufal</b><p id="userJob" style="color:grey;">Carpenter<br>Kaloor, Kochi</p>
-                    </div>
-                    <div style="display:inline-block;">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-black.png" height="25" width="25" style = "opacity:0.3;">
-                        <br>4.0 (203 ratings)<p style="color:grey;">73 reviews</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card-box">
-                    <div id="imgCard" style="text-align:center;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_email_bnw-min.png" style="left:45%;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png" style="left:60%;">
-                    <img src="assets/img/images/hello-my-work-id-card-BLUE.jpg" style="height:100%;width:100%;">
-                    </div>
-                    <div><br>
-                        <p style="font-size:1.1rem;"><b>Noufal</b><p id="userJob" style="color:grey;">Carpenter<br>Kaloor, Kochi</p>
-                    </div>
-                    <div style="display:inline-block;">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-black.png" height="25" width="25" style = "opacity:0.3;">
-                        <br>4.0 (203 ratings)<p style="color:grey;">73 reviews</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card-box">
-                    <div id="imgCard" style="text-align:center;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_email_bnw-min.png" style="left:45%;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png" style="left:60%;">
-                    <img src="assets/img/images/hello-my-work-id-card-BLUE.jpg" style="height:100%;width:100%;">
-                    </div>
-                    <div><br>
-                        <p style="font-size:1.1rem;"><b>Noufal</b><p id="userJob" style="color:grey;">Carpenter<br>Kaloor, Kochi</p>
-                    </div>
-                    <div style="display:inline-block;">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-black.png" height="25" width="25" style = "opacity:0.3;">
-                        <br>4.0 (203 ratings)<p style="color:grey;">73 reviews</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card-box">
-                    <div id="imgCard" style="text-align:center;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_email_bnw-min.png" style="left:45%;">
-                    <input class="circBtn" type="image" src="assets/img/icon/ic_phone_bnw-min.png" style="left:60%;">
-                    <img src="assets/img/images/hello-my-work-id-card-BLUE.jpg" style="height:100%;width:100%;">
-                    </div>
-                    <div><br>
-                        <p style="font-size:1.1rem;"><b>Noufal</b><p id="userJob" style="color:grey;">Carpenter<br>Kaloor, Kochi</p>
-                    </div>
-                    <div style="display:inline-block;">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-gold.png" height="25" width="25">
-                        <img src="assets/img/icon/star-black.png" height="25" width="25" style = "opacity:0.3;">
-                        <br>4.0 (203 ratings)<p style="color:grey;">73 reviews</p>
-                    </div>
-                </div>
-            </div>
-        </div><br>
-
+        <div class="row" id="resultsHere"></div><br>
     </div>
     <br><br>
     <div w3-include-html="footer.html" class="footer"></div>
     <script>
         includeHTML();
+
+// SEARCH QUERY CHECK
+    var qryCatType = "";
+    var qrySrchType = "";
+    var qryLocType = "";
+    // var success= NaN;
+    var qryStrings = getQueryString();
+    
+    qryStrings.forEach(element => {
+        if(element.startsWith('cat_type')){
+            qryCatType = element.split('=')[1];
+            if(isNaN(parseInt(qryCatType))){
+                reDirect("error.html");
+            }
+        } else if(element.startsWith('srch_key')){
+            qrySrchType = element.split('=')[1];
+        } else if(element.startsWith('loc')){
+            qryLocType = element.split('=')[1];
+            if(isNaN(parseInt(qryLocType))){
+                reDirect("error.html");
+            }
+        }
+    
+    });
+    searchQuery(qryCatType,qrySrchType,qryLocType);
+    
+    // if(!isNaN(success)){
+    //     searchQuery(qryCatType,qrySrchType,qryLocType);
+    // } else {
+    //     reDirect("error.html");
+    // }
+    
+    function verifyProfile(box1,box2){
+        if(box1 == "checkMark"){
+            document.getElementById(box1).style.display='none';
+            document.getElementById(box2).style.display='inline-block';
+        } else {
+            document.getElementById(box1).style.display='none';
+            document.getElementById(box2).style.display='inline-block';
+        }
+    }
+    // checkCookie("userName");
     </script>
 </body>
 </html>
