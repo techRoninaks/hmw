@@ -4,11 +4,10 @@
 	
 	$dataJSON = $_POST["jsonObj"];
     $data = json_decode($dataJSON);
-    
-    if($data->userType == 'premium'){
-        $sql = "INSERT INTO `profile_table` (`name`,`phone`,`premium`) VALUES ('$data->newName','$data->newPhone','1');";  
+    if($data->userType == "premium"){
+        $sql = "INSERT INTO `profile_table` (`name`,`phone`,`premium`) VALUES ('$data->newName','$data->newPhone','1')";  
     } else {
-        $sql = "INSERT INTO `profile_table` (`name`,`phone`,`password`) VALUES ('$data->newName','$data->newPhone','$data->newPassword');";  
+        $sql = "INSERT INTO `profile_table` (`name`,`phone`,`password`) VALUES ('$data->newName','$data->newPhone','$data->newPassword')";  
     }
     
     $result = mysqli_query($con,$sql);
