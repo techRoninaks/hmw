@@ -288,6 +288,8 @@ function premiumSignUp(){
   var whatsapp = document.getElementById('inputWhatsappNumber').value;
   var website = document.getElementById('inputWebsite').value;
   var phone2 = document.getElementById('inputSecondaryContact').value;
+  var skills = document.getElementById('inputSkills').value;
+  
   
   // ||phone+password1+password2+category+role
   if(name ==""|| email==""||union == ""|| phone ==""||location==""|| pincode==""|| sublocation==""|| password1 ==""||address=="" || password2 =="" || category =="" || role =="" || country == "" || state=="" || type == "")
@@ -316,15 +318,15 @@ function premiumSignUp(){
       
       var ourData = xhr.response;
       if (this.readyState == 4 && this.status == 200) {//if result successful
-        var myObj = JSON.parse(this.responseText);
-        
-        
-        // unionlistload(myObj);
+        // var myObj = JSON.parse(this.responseText);
+        if(this.responseText == "success "){
+          window.location = "package.html"
+        }
 
       }
       
   };
-  var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata;
+  var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata+"&phone2="+phone2+"&skills="+skills;
   xhr.open("post", "assets/php/postprofiledata.php", true);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   xhr.send(params);
@@ -538,7 +540,7 @@ function templatehomeprofile(data){
 //template category
 function templatehomeunion(data){
   var template = "";
-  template += "<div class= col-sm-2 >"+
+  template += "<div class= col-lg-2 >"+
   "<a href= "+data["link"]+" >"+
       "<div class= "+data["color"]+"&#32;box&#32;shadow >"+
               "<img class= imagescate  src= "+data["image"]+" >"+
@@ -856,10 +858,11 @@ function toggleSignUp(box1,box2,innerId){
 //To crop image daving to global variable 
 function cropToImage(data){ 
   imagedata = data;
+  // console.log(document.getElementById("file-input").value);
   if(imagedata != null){
     document.getElementById('msgupload').style.display = "block";
     setTimeout(function(){ toggle(); }, 1000);
-    console.log(imagedata);
+    // console.log(imagedata);
   }
   else{
     document.getElementById('msgupload').innerHTML="Oho Upload incomplete !";

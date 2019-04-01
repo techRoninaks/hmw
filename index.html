@@ -15,6 +15,7 @@
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/color.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
     <!-- Basic js -->
     <script src="assets/js/scripts.js"></script>
@@ -36,18 +37,17 @@
 
 <body>
     <div w3-include-html="header.html" class="header"></div>
+    <div w3-include-html="loginPopUp.html"></div>
+    <div w3-include-html="signUpMain.html"></div>
     <div class="homebanner">
             <!-- <img  src="assets/img/images/carpenter-hands-indoors-374861.png"> -->
             <div class="centered">
                     <form class="form-inline my-2 my-lg-0" autocomplete="off" id="serachform" onsubmit="return false">
                     <!-- <button class=" homebannerbtn"><i class="image-button"></i>Kochi</button> -->
-                    <div class="dropdown">
-                        <button class="dropbtn homebannerbtn" type="button"id="dropdownMenuButton"><i class="image-button"></i>Kochi</button>
-                        <div class="dropdown-content" id="Slist">
+                    <div class="dropdown1">
+                        <button class="dropbtn1 homebannerbtn" type="button"id="dropdownMenuButton"><i class="image-button"></i>Kochi</button>
+                        <div class="dropdown-content1" id="Slist">
                           <a href="#" onclick="javascript:replacetext('Kochi');">Kochi</a>
-                          <a href="#" onclick="javascript:replacetext('Mumbai');">Mumbai</a>
-                          <a href="#" onclick="javascript:replacetext('Goa');">Goa</a>
-                          <a href="#" onclick="javascript:replacetext('Chennai');">Chennai</a>
                         </div>
                       </div> 
                     <input class="homesearch" type="search" id="search" placeholder="Search for services anywhere">
@@ -59,7 +59,7 @@
         </script> 
     <div class="container1">
         <div class="row">
-            <div class="col-sm-3 col1">
+            <div class="col-sm-auto col1">
                 <div class="searchbar-col-1">
                     <p>
                        <input id="myInput" class="offer" onkeyup="searchlist()" type="search" placeholder="UNIONS">
@@ -90,7 +90,7 @@
                     <li class="item">Cement & brick supplier union</li>
                 </ul>
             </div>
-            <div class="col-sm-9 colmargin">
+            <div class="col colmargin">
                 <div>
                     <h3 class="bold1">SERVICES DIRECTORY</h3>
                 </div>
