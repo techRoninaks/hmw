@@ -17,6 +17,8 @@
         $whatsapp = $_POST["whatsapp"];
         $website = $_POST["website"];
         $image = $_POST["image"];
+        $skills = $_POST["skills"];
+        $phone2 = $_POST["phone2"];
 
         $count = 0;
         require "init.php";//needed for connection with database
@@ -31,63 +33,22 @@
             $count = $row["id"];
         }
         $count = $count+1;
-        // echo $count;
-        $img = $image;
         define('UPLOAD_DIR', '../img/profile/userimage/');
-        $img = str_replace('data:image/png;base64,', '', $img);
-        $img = str_replace(' ', '+', $img);
-        $data = base64_decode($img);
-        // $file = UPLOAD_DIR . uniqid() . '.png';
+        $img =explode(",", $image);
+        $img[1] = str_replace(' ', '+', $img[1]);
+        $data = base64_decode($img[1]);
         $file = UPLOAD_DIR.$count.'.png';
         $success = file_put_contents($file, $data);
         // print $success ? $file : 'Unable to save the file.';
-
-        $JAVA_HOME = "\jdk-9.0.4";
-        $PATH = "$JAVA_HOME/bin:".getenv('PATH');
-        putenv("JAVA_HOME=$JAVA_HOME");
-        putenv("PATH=$PATH");
-        // $PATH="C:/program Files/Java/jdk-9.0.4/bin";
-        echo shell_exec('java -version 2>&1');
         
-        
-       
-   
+        $sql_query =  "INSERT INTO `profile_table`(`id`, `profile_image`, `name`, `role`, `rating`, `link`, `sublocation`, `whatapp`, `location`, `skils`, `union`, `website`, `phone`, `email`, `address`, `card`, `privatestat`, `password`, `category`, `country`, `state`, `pincode`, `type`, `phone2`, `primium`) VALUES ('$count','assets/img/profile/userimage/$count.png','$name','$role','0','profile.html?cat_type=$count.png','$sublocation','$whatsapp','$location','$skills','$union','$website','$phone','$email','$address','assets/img/profile/card/$count.png','$count','$password','$category','$country','$state','$pincode','$type','$phone2','$count')";//SQL command
+        $result = mysqli_query($con,$sql_query);
+        if($result){
+            echo "success";
+            
+        }
+        if(!$result){
+            echo "fail";
+        }
 
-        // $address = "assets/img/posts/".$count.".png";
-        // $like = 0;
-        // $comments = 0;
-        // $sql_query =  "INSERT INTO `posts_table`(`id`, `u_id`, `postimage`, `des`, `likes`, `comments`, `offer`) VALUES ('$count','$u_id','$address','$des','$like','$comments','$tag')";//SQL command
-        // $result = mysqli_query($con,$sql_query);
-        // if($result){
-        //     echo "suss";
-        //     $img = $image;
-        //     define('UPLOAD_DIR', '../img/posts/');
-        //     $img = str_replace('data:image/png;base64,', '', $img);
-        //     $img = str_replace(' ', '+', $img);
-        //     $data = base64_decode($img);
-        //     // $file = UPLOAD_DIR . uniqid() . '.png';
-        //     $file = UPLOAD_DIR.$count.'.png';
-        //     $success = file_put_contents($file, $data);
-        //     print $success ? $file : 'Unable to save the file.';
-        // }
-
-            // echo $name.        $email .
-            // $phone .
-            // $password .
-            // $category .
-            // $role.
-            // $country .
-            // $type  .
-            // $address .
-            // $state .
-            // $location .
-            // $sublocation .
-            // $pincode.
-            // $union .
-            // $whatsapp .
-            // $website .
-            // $image;
-        // echo json_encode($response);
-
-        // echo $image.$des.$tag;
 ?> 
