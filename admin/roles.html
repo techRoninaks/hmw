@@ -35,11 +35,6 @@
 
 <div class="wrapper">
     <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg" w3-include-html="sidenav.html">
-
-    <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
-
-
-    	
     </div>
 
     <div class="main-panel">
@@ -53,121 +48,35 @@
                         <h4 class="title">Manage Roles</h4>
                         <p class="category">Add/Delete/Edit Users</p>
                         <div style="padding-top: 8px;">
-                            <button class="btn btn-info btn-fill" onclick="addRole()" id="btnRole">Add New Role</button>
+                            <button class="btn btn-info btn-fill" onclick="toggleTabs('addRole')" id="btnRole">Add New Role</button>
                         </div>
                     </div>
-                    <div class="content table-responsive table-full-width" id="employeeTable">
-                        <table class="table table-hover table-striped">
-                            <thead>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Location</th>
-                                <th>Tasks</th>
-                                <th>Actions</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Dakota Rice</td>
-                                    <td>$36,738</td>
-                                    <td>Niger</td>
-                                    <td>Oud-Turnhout</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Minerva Hooper</td>
-                                    <td>$23,789</td>
-                                    <td>Curaçao</td>
-                                    <td>Sinaai-Waas</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Sage Rodriguez</td>
-                                    <td>$56,142</td>
-                                    <td>Netherlands</td>
-                                    <td>Baileux</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Philip Chaney</td>
-                                    <td>$38,735</td>
-                                    <td>Korea, South</td>
-                                    <td>Overland Park</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Doris Greene</td>
-                                    <td>$63,542</td>
-                                    <td>Malawi</td>
-                                    <td>Feldkirchen in Kärnten</td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>Mason Porter</td>
-                                    <td>$78,615</td>
-                                    <td>Chile</td>
-                                    <td>Gloucester</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
+                    <div class="content table-responsive table-full-width" id="roleTable">
                     </div>
-                    <div class="content table-responsive table-full-width" id="adminTable" style="display:none;">
-                        <table class="table table-hover table-striped">
-                            <thead>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Location</th>
-                                <th>Tasks</th>
-                                <th>Actions</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Dakota Rice</td>
-                                    <td>$36,738</td>
-                                    <td>Niger</td>
-                                    <td>Oud-Turnhout</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Minerva Hooper</td>
-                                    <td>$23,789</td>
-                                    <td>Curaçao</td>
-                                    <td>Sinaai-Waas</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Sage Rodriguez</td>
-                                    <td>$56,142</td>
-                                    <td>Netherlands</td>
-                                    <td>Baileux</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Philip Chaney</td>
-                                    <td>$38,735</td>
-                                    <td>Korea, South</td>
-                                    <td>Overland Park</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Doris Greene</td>
-                                    <td>$63,542</td>
-                                    <td>Malawi</td>
-                                    <td>Feldkirchen in Kärnten</td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>Mason Porter</td>
-                                    <td>$78,615</td>
-                                    <td>Chile</td>
-                                    <td>Gloucester</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
+                    <div style="padding:2rem;display:none;" id="addRole">
+                        <form enctype="multipart/form-data" action="javascript:dataUpdate('role')" method="post">
+                            <label>Role Name</label><p style="display:inline;color:red;">*</p>
+                            <input type="text" class="form-control formStyle" placeholder="Role Name" id="roleName" required><br>
+                            <input type="checkbox" id="userManage">&emsp;
+                            <label>User Management</label>
+                            <br>
+                            <input type="checkbox" id="roleManage">&emsp;
+                            <label>Role Management</label>
+                            <br>
+                            <input type="checkbox" id="catManage">&emsp;
+                            <label>Category Management</label>
+                            <br>
+                            <input type="checkbox" id="unionManage">&emsp;
+                            <label>Union Management</label>
+                            <br>
+                            <input type="checkbox" id="dataManage">&emsp;
+                            <label>Data Management</label>
+                            <br><br>
+                            <button type="submit" style="display:inline" class="btn btn-secondary-outline" value="Submit" id="submitbutton">UPLOAD</button>
+                            <button type="button" class="btn btn-secondary-outline" value="Cancel" onclick="cancelFunc()">CANCEL</button>
+                            </form>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -204,7 +113,7 @@
         var userId = "";
         $(document).ready(function(){
             if(!checkCookie("userId")){
-                window.location = window.location.origin;
+                // window.location = window.location.origin;
             }
         	userId = getCookie("userId");
 
@@ -213,54 +122,37 @@
         showData();
         function toggleTabs(type){
             switch(type){
-                case "employee":
-                    $('#btnEmployee').removeClass().addClass('btn btn-info btn-fill');
-                    $('#btnAdmin').removeClass().addClass('btn btn-fill');
-                    $('#employeeTable').show();
-                    $('#adminTable').hide();
-                break;
-                case "admin":
-                    $('#btnAdmin').removeClass().addClass('btn btn-info btn-fill');
-                    $('#btnEmployee').removeClass().addClass('btn btn-fill');
-                    $('#employeeTable').hide();
-                    $('#adminTable').show();
+                case "addRole":
+                    $('#btnRole').removeClass().addClass('btn btn-fill');
+                    $('#roleTable').hide();
+                    $('#addRole').show();
                 break;
             }
         }
-        function addRole(){
-
-        }
-        function showData() {
         
+        function showData() {
             $.ajax({
                 type: 'GET',
                 dataType:'json',
-                url: 'assets/php/getUsers.php', 
+                url: 'assets/php/getRoles.php', 
                 success: function(responseData) {
                     if(responseData.data.success == "successful"){
                         var response = responseData.data.result;
-                        var tabHeader = "<table class='table table-hover table-striped'><thead><th>ID</th><th>Name</th><th>Location</th><th>Tasks</th><th>Actions</th></thead>";
-                        var tabEmployee = tabHeader;
-                        var tabAdmin = tabHeader;
+                        var tabHeader = "<table class='table table-hover table-striped'><thead><th>ID</th><th>Roles</th><th>Action</th></thead>";
+                        var tabCategories = tabHeader;
                         response.forEach(element => {
-                            if(element.type == "admin"){
-                                tabAdmin = tabAdmin + buildHtml("userTable", element);
-                            }else{
-                                tabEmployee = tabEmployee + buildHtml("userTable", element);
-                            }
+                            tabCategories = tabCategories + buildHtml("roleTable", element);
                         });
-                        tabAdmin = tabAdmin + "</table>";
-                        tabEmployee = tabEmployee + "</table>";
-                        document.getElementById("employeeTable").innerHTML = tabEmployee;
-                        document.getElementById("adminTable").innerHTML = tabAdmin;
+                        tabCategories = tabCategories + "</table>";
+                        document.getElementById("roleTable").innerHTML = tabCategories;
                     }else{
                         demo.showNotification('top','center', 'Something went wrong', 4);
-                        window.location = window.location.origin;
+                        // window.location = window.location.origin;
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     demo.showNotification('top','center', 'Something went wrong', 4);
-                    window.location = window.location.origin;
+                    // window.location = window.location.origin;
                 }
             });
 
@@ -268,9 +160,10 @@
 
         function buildHtml(template, data){
             var htmlString = "";
+            var pageName = "'role'";
             switch(template){
-                case "userTable":
-                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td>" + data.pass + "</td><td>" + data.first + "</td><td>" + data.last + "</td></tr>";
+                case "roleTable":
+                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td><img src='assets/img/edit-button.png' onclick="+"toggleTabs('addRole');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
                 break;
             }
             return htmlString;

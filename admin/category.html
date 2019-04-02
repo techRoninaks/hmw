@@ -53,7 +53,7 @@
                         <h4 class="title">Manage Categories</h4>
                         <p class="category">Add/Delete/Edit Categories</p>
                         <div style="padding-top: 8px;">
-                            <button class="btn btn-info btn-fill" onclick="toggleTabs('employee')" id="btnEmployee">Add Category</button>
+                            <button class="btn btn-info btn-fill" onclick="toggleTabs('addCategory')" id="btnCategory">Add Category</button>
                         </div>
                     </div>
                     <div class="content table-responsive table-full-width" id="categoryTable">
@@ -110,86 +110,20 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="addCategory" style="display: none;">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <div class="form-group">
-                                        <label>Company (disabled)</label>
-                                        <input type="text" class="form-control" disabled placeholder="Company" value="Creative Code Inc.">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Username</label>
-                                        <input type="text" class="form-control" placeholder="Username" value="michael23">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Email address</label>
-                                        <input type="email" class="form-control" placeholder="Email">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>First Name</label>
-                                        <input type="text" class="form-control" placeholder="Company" value="Mike">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Last Name</label>
-                                        <input type="text" class="form-control" placeholder="Last Name" value="Andrew">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Address</label>
-                                        <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>City</label>
-                                        <input type="text" class="form-control" placeholder="City" value="Mike">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Country</label>
-                                        <input type="text" class="form-control" placeholder="Country" value="Andrew">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Postal Code</label>
-                                        <input type="number" class="form-control" placeholder="ZIP Code">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>About Me</label>
-                                        <textarea rows="5" class="form-control" placeholder="Here can be your description" value="Mike">Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</textarea>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
-                            <div class="clearfix"></div>
-                        </form>
+                    <div style="padding:2rem;display:none;" id="addCategory">
+                        <form enctype="multipart/form-data" action="javascript:dataUpdate('category')" method="post">
+                            <label>Category Name</label><p style="display:inline;color:red;">*</p>
+                            <input type="text" class="form-control formStyle" placeholder="Category Name" id="catName" required><br>
+                            <label>Labels</label><p style="display:inline;color:red;">*</p>
+                            <input type="text" class="form-control formStyle" placeholder="Labels" id="labelName" required><br>
+                            <label>Union Name</label><p style="display:inline;color:red;">*</p>
+                            <input type="text" class="form-control formStyle" placeholder="Union Name" id="unionName" required><br>
+                            <label>Select image to upload:</label>
+                            <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" src=''>
+                            <br>
+                            <button type="submit" style="display:inline" class="btn btn-secondary-outline" value="Submit" id="submitbutton">UPLOAD</button>
+                            <button type="button" class="btn btn-secondary-outline" value="Cancel" onclick="cancelFunc()">CANCEL</button>
+                            </form>
                     </div>
                 </div>
             </div>
@@ -227,13 +161,22 @@
         var userId = "";
         $(document).ready(function(){
             if(!checkCookie("userId")){
-                window.location = window.location.origin;
+                // window.location = window.location.origin;
             }
         	userId = getCookie("userId");
 
     	});
         includeHTML();
         showData();
+        function toggleTabs(type){
+            switch(type){
+                case "addCategory":
+                    $('#btnCategory').removeClass().addClass('btn btn-fill');
+                    $('#categoryTable').hide();
+                    $('#addCategory').show();
+                break;
+            }
+        }
         function showData() {
             $.ajax({
                 type: 'GET',
@@ -251,12 +194,12 @@
                         document.getElementById("categoryTable").innerHTML = tabCategories;
                     }else{
                         demo.showNotification('top','center', 'Something went wrong', 4);
-                        window.location = window.location.origin;
+                        // window.location = window.location.origin;
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     demo.showNotification('top','center', 'Something went wrong', 4);
-                    window.location = window.location.origin;
+                    // window.location = window.location.origin;
                 }
             });
 
@@ -264,9 +207,10 @@
 
         function buildHtml(template, data){
             var htmlString = "";
+            var pageName = "'category'";
             switch(template){
                 case "categoryTable":
-                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td>" + data.tags + "</td><td>" + data.union + "</td><td>" + "X" + "</td></tr>";
+                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td>" + data.tags + "</td><td>" + data.union + "</td><td><img src='assets/img/edit-button.png' onclick="+"toggleTabs('addCategory');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
                 break;
             }
             return htmlString;

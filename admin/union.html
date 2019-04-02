@@ -53,10 +53,10 @@
                         <h4 class="title">Manage Unions</h4>
                         <p class="category">Add/Delete/Edit Unions</p>
                         <div style="padding-top: 8px;">
-                            <button class="btn btn-info btn-fill" onclick="toggleTabs('employee')" id="btnEmployee">Add Union</button>
+                            <button class="btn btn-info btn-fill" onclick="toggleTabs('addUnion')" id="btnUnion">Add Union</button>
                         </div>
                     </div>
-                    <div class="content table-responsive table-full-width" id="categoryTable">
+                    <div class="content table-responsive table-full-width" id="unionTable">
                         <table class="table table-hover table-striped">
                             <thead>
                                 <th>ID</th>
@@ -110,6 +110,22 @@
                         </table>
 
                     </div>
+                    <div style="padding:2rem;display:none;" id="addUnion">
+                        <form enctype="multipart/form-data" action="javascript:dataUpdate('union')" method="post">
+                            <label>Union Name</label><p style="display:inline;color:red;">*</p>
+                            <input type="text" class="form-control formStyle" placeholder="Union Name" id="unionName" required><br>
+                            <!--<label>Labels</label><p style="display:inline;color:red;">*</p>-->
+                            <!--<input type="text" class="form-control formStyle" placeholder="Labels" id="labelName" required><br>-->
+                            <!--<label>Union Name</label><p style="display:inline;color:red;">*</p>-->
+                            <!--<input type="text" class="form-control formStyle" placeholder="Union Name" id="unionName" required><br>-->
+                            <label>Select image to upload:</label>
+                            <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" src=''>
+                            <br>
+                            <button type="submit" style="display:inline" class="btn btn-secondary-outline" value="Submit" id="submitbutton">UPLOAD</button>
+                            <button type="button" class="btn btn-secondary-outline" value="Cancel" onclick="cancelFunc()">CANCEL</button>
+                            </form>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -146,13 +162,23 @@
         var userId = "";
         $(document).ready(function(){
             if(!checkCookie("userId")){
-                window.location = window.location.origin;
+                // window.location = window.location.origin;
             }
         	userId = getCookie("userId");
 
     	});
         includeHTML();
         showData();
+        function toggleTabs(type){
+            switch(type){
+                case "addUnion":
+                    $('#btnUnion').removeClass().addClass('btn btn-fill');
+                    $('#unionTable').hide();
+                    $('#addUnion').show();
+                break;
+            }
+        }
+
         function showData() {
             $.ajax({
                 type: 'GET',
@@ -164,18 +190,18 @@
                         var tabHeader = "<table class='table table-hover table-striped'><thead><th>ID</th><th>Union</th><th>Action</th></thead>";
                         var tabCategories = tabHeader;
                         response.forEach(element => {
-                            tabCategories = tabCategories + buildHtml("categoryTable", element);
+                            tabCategories = tabCategories + buildHtml("unionTable", element);
                         });
                         tabCategories = tabCategories + "</table>";
-                        document.getElementById("categoryTable").innerHTML = tabCategories;
+                        document.getElementById("unionTable").innerHTML = tabCategories;
                     }else{
                         demo.showNotification('top','center', 'Something went wrong', 4);
-                        window.location = window.location.origin;
+                        // window.location = window.location.origin;
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     demo.showNotification('top','center', 'Something went wrong', 4);
-                    window.location = window.location.origin;
+                    // window.location = window.location.origin;
                 }
             });
 
@@ -183,9 +209,10 @@
 
         function buildHtml(template, data){
             var htmlString = "";
+            var pageName = "'union'";
             switch(template){
-                case "categoryTable":
-                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td>" + "X" + "</td></tr>";
+                case "unionTable":
+                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td><img src='assets/img/edit-button.png' onclick="+"toggleTabs('addUnion');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
                 break;
             }
             return htmlString;
