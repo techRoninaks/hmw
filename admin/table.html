@@ -215,9 +215,19 @@
 	<script src="assets/js/demo.js"></script>
     <script type="text/javascript">
         includeHTML();
+        $(document).ready(function(){
+            if(!checkCookie("userId")){
+                window.location = window.location.origin;
+            }
+        	userId = getCookie("userId");
+
+    	});
         window.onload = function(){
            setTimeout(function(){
                activateSideNav();
+           }, 100);
+           setTimeout(function(){
+               loadProfile();
            }, 100);
         };
 	</script>

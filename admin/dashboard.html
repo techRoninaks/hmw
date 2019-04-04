@@ -201,12 +201,15 @@
 	<script type="text/javascript">
 	    var count = 1;
 	    var userLive = {};
-        includeHTML();
         window.onload = function(){
            setTimeout(function(){
                activateSideNav();
            }, 100);
+           setTimeout(function(){
+               loadProfile();
+           }, 100);
         };
+        includeHTML();
         getData();
         console.log("userFirst->"+userLive.userId);
         google.charts.load('current', {'packages':['corechart']});
@@ -339,7 +342,7 @@
             switch(template){
                 
                 case "notifTable":
-                    htmlString = '<tr style="cursor:pointer;" onclick="expandNews(&quot;' + data.id + '&quot;)"><td><div>' + data.headline + '<div style="display:none;background:#f2f2f2;" id="'+data.id+'">'+data.content+'</div></div></td></tr>';
+                    htmlString = '<tr style="cursor:pointer;" onclick="expandNews(&quot;' + data.id + '&quot;)"><td><div>' + data.headline + '<div style="display:none;font-style:italic;" id="'+data.id+'">'+data.content+'</div></div></td></tr>';
                 break;
                 case "conversionsTable":
                     htmlString = "<tr><td>" + count + "</td><td>" + data.userName + "</td><td>" + data.conversions + "</td></tr>";
