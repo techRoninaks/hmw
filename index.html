@@ -10,7 +10,7 @@
     <title>Hellomywork</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="./img/core-img/favicon.ico">
+    <link rel="icon" href="assets/img/logos/favicon.png">
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
@@ -566,7 +566,8 @@
      $("#owl-demo").owlCarousel({
         nav: true,
         loop:true,
-        items:4,
+        items:3,
+        // center: true,
         margin:5,
         autoWidth:true,
         margin:90,
@@ -579,7 +580,19 @@
         navigation:true,
         navText : ['<img class="next" src="assets/img/icon/ic_arrow_left_black.png">','<img class="next" src="assets/img/icon/ic_arrow_right_black.png">'],
         rewindNav : true,
+        responsive:{
+            1000:{
+            items:4
+        },
+        900:{
+            items:3
+        },
+        600:{
+            items:2
+        }
+    }
      }).delay(80000);
+     document.getElementById('Home').classList.add('active');
    });
 
 
@@ -593,8 +606,9 @@ document.getElementById('search').onkeypress = function(e) {
         alert('You pressed enter!');
     }
 }
-   
-    </script>
+loginManagement();
+
+</script>
 
 
 </body>

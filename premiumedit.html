@@ -490,7 +490,7 @@
                             <button class="profileupload" type="button" onclick="toggleSignUp1('loginBox1','all','id01');">UPLOAD IMAGE <i class="uploadicon"></i> </button>
                             <!-- <input type="file" name="pic" accept="image/*">            -->
                             <img class="result" id="result" src="">
-                            <button type="button" class="center1" onclick="premiumSignUp();">SUBMIT</button>
+                            <button type="button" class="center1" onclick="premiumSignUpEdit();">SUBMIT</button>
 
 
                         </form>
@@ -581,9 +581,9 @@ $("#file-input").change(function() {
         readURL(this);
         });
         var flag = getCookie("isEdit=");
-// if(flag==1){
-//     getPremiumData();
-// }
+if(flag==1){
+    getPremiumData();
+}
 
     </script>
 

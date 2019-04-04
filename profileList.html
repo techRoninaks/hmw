@@ -10,11 +10,13 @@
     <title>Search results</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="./img/core-img/favicon.ico">
+    <link rel="icon" href="assets/img/logos/favicon.png">
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/extra.css">
+    <link rel="stylesheet" href="assets/css/color.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
     <!-- Basic js -->
     <!--<script src="js/basics.js"></script>-->
@@ -42,21 +44,22 @@
     
     <div class="container" style="margin-top:110px;padding:10px;">
         <div class="row">
-            <div class="col-sm-5" style="position:relative;">
-                <form class="form-inline my-2 my-lg-0" style="border:1px solid #9f9f9f;border-radius:5px;">
-                    <button class="locBtn"><i class="image-button"></i>Kochi</button>
-                    <input class="searchBar" type="search" placeholder=" Search for services anywhere">
+            <form class="form-inline my-2 my-lg-0" style="border:1px solid #9f9f9f;border-radius:5px;" autocomplete="off" id="serachform" onsubmit="return false">
+                <!-- <button class=" homebannerbtn"><i class="image-button"></i>Kochi</button> -->
+                <div class="dropdown1">
+                    <button class="dropbtn1 homebannerbtn" type="button"id="dropdownMenuButton"><i class="image-button"></i>Kochi</button>
+                    <div class="dropdown-content1" id="Slist">
+                      <a href="#" onclick="javascript:replacetext('Kochi');">Kochi</a>
+                    </div>
+                  </div> 
+                <input class="homesearch" type="search" id="search" placeholder="Search for services anywhere">
                 </form>
-            </div>
-            <div class="col-sm-3" style="padding:5px;">
-                <p id="catCount"></p>
-            </div>
-            <div class="col-sm-4" style="padding:5px;text-align:right;">
-                <div style="vertical-align:middle;" height="25" width="25"><img type="image" src="assets/img/icon/ic_unchecked.png"  height="25" width="25" onclick="javascript:verifyProfile('noMark','checkMark')" id="noMark"><img type="image" src="assets/img/icon/check-mark.png" style="display:none;"  height="25" width="25" onclick="javascript:verifyProfile('checkMark','noMark')" id="checkMark"> Show verified profiles only</div>
-                
-            </div>
         </div>
     </div>
+    <script>
+        autocomplete(document.getElementById("search"), countries);
+        loadUnionInfo("searchlist");
+    </script> 
     <div class="container" style="margin-top:10px;">
         <div class="row" id="resultsHere"></div><br>
     </div>
@@ -64,6 +67,7 @@
     <div w3-include-html="footer.html" class="footer"></div>
     <script>
         includeHTML();
+        loginManagement();
 
 // SEARCH QUERY CHECK
     var qryCatType = "";

@@ -131,14 +131,6 @@ h1 .subtitle {
     color: #9A9A9A;
 }
 
-/* Nihal Pradeep Custom Defined*/
-.text-alert-remaining, .text-alert-remaining:hover {
-    color: #DC3912 !important;
-}
-.text-completed, .text-completed:hover {
-    color: #3366CC !important;
-}
-/*Nihal Pradeep*/
 .text-primary, .text-primary:hover {
     color: #1D62F0 !important;
 }
