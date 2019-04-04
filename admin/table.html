@@ -215,7 +215,11 @@
 	<script src="assets/js/demo.js"></script>
     <script type="text/javascript">
         includeHTML();
-
+        window.onload = function(){
+           setTimeout(function(){
+               activateSideNav();
+           }, 100);
+        };
 	</script>
 
 </html>

@@ -124,6 +124,11 @@
             }
         });
         includeHTML();
+        window.onload = function(){
+           setTimeout(function(){
+               activateSideNav();
+           }, 100);
+        };
         $(document).ready(function() {
             $("#frmCSVImport").on("submit",function() {
                 var fileType = ".csv";

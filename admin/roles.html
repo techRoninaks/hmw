@@ -119,6 +119,11 @@
 
     	});
         includeHTML();
+        window.onload = function(){
+           setTimeout(function(){
+               activateSideNav();
+           }, 100);
+        };
         showData();
         function toggleTabs(type){
             switch(type){
