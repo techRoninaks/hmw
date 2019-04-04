@@ -1,12 +1,15 @@
-<?php 
-    $dbname = "u694003942_test";
-    $username = "u694003942_test";
+<?php
+
+    // header("Access-Control-Allow-Origin: *");    
+    $db_name = "u694003942_hmw";
+    $username = "u694003942_hmw";
     $password = "P@ssw0rd";
     $servername = "localhost";
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-       die("Connection failed: " . $conn->connect_error);
+
+    $con = new mysqli($servername, $username, $password, $db_name);
+    $conn = $con;
+    // Check connection		
+    if ($con->connect_error) {
+       die("Connection failed: " . $con->connect_error);
     }
 ?>

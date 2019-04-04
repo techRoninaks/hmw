@@ -111,7 +111,7 @@
 
         $(document).ready(function(){
             if(!checkCookie("userId")){
-                // window.location = window.location.origin;
+                cancelFunc(-1);
             }
         	userId = getCookie("userId");
 
