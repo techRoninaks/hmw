@@ -152,6 +152,16 @@ body {
  .homesearch:-ms-input-placeholder {  
     text-align: center; 
  }
+
+.report{
+    color: #f66;
+    position: absolute;
+    right: 0px;
+    display: inline;
+    font-size: 10px;
+    margin-top: 3px;
+    cursor: pointer;
+}
 .searchbar-col-1{
     background: black;
     height: 45px;
@@ -677,15 +687,21 @@ left: 80px;
 .ratingicon{
     background-size: cover;
     height: 25px;
-    width: auto;
+    width: 25px !important;
     object-fit: contain;
-    margin-right: -35px;
-    margin-left: -25px;
 }
 .temp{
     height: 35px;
-    display: inline-flex;
+    display: inline;
     color: #000000;
+}
+
+.ratingele{
+    padding: 8px;
+}
+
+.owl-carousel .owl-item img {
+    display: inline !important;
 }
 
 .footer{
@@ -783,7 +799,34 @@ footer .line{
 
 
 .height45{
-    height: 45px !important;
+    height: auto !important;
+    border: none !important;
+    padding: 10px !important;
+}
+.hide{
+    position: relative;
+    margin-top: 8px;
+}
+
+.closeicon{
+    background: url('../img/icon/ic_cross_white-min.png') no-repeat;
+    background-size: auto;
+    padding-left: 15px;
+    height: 16px;
+    width: 30px !important;
+    height: 30px !important;
+    background-size: 100% 100%;
+    border: none;
+    margin-left: 10px;
+
+}
+.tagInForm{
+    background: #000;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-right: 5px;
+    display: inline;
 }
 
 .backgray{
@@ -1059,12 +1102,16 @@ footer .line{
 .line3{
     margin-top: 35px;
     margin-bottom: 35px;
+    background: #f2f2f2e6;
 }
 
 .itemimage{
     width: 100%;
     border-radius: 5px;
     max-height: 605px;
+    object-fit: contain;
+    background: url(../img/icon/ic_image_upload-min.png) no-repeat scroll 0 0;
+    background-position: center;
 }
 
 .overlay{
@@ -1254,6 +1301,27 @@ footer .line{
     }
   
   /*SIGN UP DROPDOWN ENDS*/
+  .packageDrop{
+    background: #f660;
+    color: black !important;
+    border: 2px solid #E1E1E1;
+  }
+  .packageButton{
+      text-decoration: none;
+      padding: 15px;
+      background: #000;
+      color: white;
+      margin-top: 25px;
+      display: inline-block;
+  }
+  .packageButton:hover{
+    text-decoration: none;
+    padding: 15px;
+    background: #000;
+    color: white;
+
+}
+
 
 
 
@@ -1338,7 +1406,7 @@ footer .line{
         font-size: 11px;
     }
     .col-lg-2{
-        max-width: 50% !important;
+        max-width: 33% !important;
     }
 }
 

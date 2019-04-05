@@ -10,16 +10,18 @@
     <title>Hellomywork</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="./img/core-img/favicon.ico">
+    <link rel="icon" href="assets/img/logos/favicon.png">
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/color.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="assets/css/extra.css">
 
     <!-- Basic js -->
     <script src="js/basics.js"></script>
     <script src="assets/js/scripts.js"></script>
+    <script src="assets/js/categoryScripts.js"></script>
  <!-- Latest compiled and minified CSS -->
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -32,6 +34,9 @@
  
  <!-- Latest compiled JavaScript -->
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> 
+
+ <link rel="stylesheet" href="assets/link/croppie.css" />
+ <script src="assets/link/croppie.js"></script>
  
 </head>
 
@@ -87,7 +92,7 @@
                                         <img src="assets/img/icon/ic_email_profile_page-min.png" class="profileicons">
                                     </a>
 
-                                    <button class="profileedit">EDIT</button>
+                                    <button class="profileedit" >EDIT</button>
                                 </div>
                             </div>
                         </div>
@@ -107,12 +112,40 @@
                                     <input type="file"  id="inp" value="Choose a file">
                                 </a>
                             </div>
-                            <p id="b64"></p>
+                            
                             <img id="img" height="150">
+                            <div class="inline">
+                                <button class="confrim" id="confrim" onclick="confrimupload();" style="display:none;">Confirm</button>
+                                <button class="cancel" id="cancel" onclick="cancelupload();" style="display:none;">Cancel</button>
+                            </div>
+                            <p id="b64"></p>
                         </div>
                     </div>
                   </div>
     </div>
+
+    <!-- <div id="loginBox1">
+        <div id="id01" class="w3-modal" style="z-index:999;">
+                <div class="w3-modal-content" style="padding:5px;width:40%;border-radius:5px;">
+                  <div class="w3-container" style="padding:2rem;">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                    <h5 style="text-align:center;font-family:defaultBarlowBold;">Upload Image</h5><br>
+                    <div class="actions">
+                        <a class="btn file-btn">
+                                <span>Upload</span>
+                                <input type="file"  id="file-input" value="Choose a file">
+        
+                            </a>
+                            <a class="btn crop" id="use" >Crop</a>
+                            <button class="upload-result">Result</button>
+                            <img  class="my-image" id="my-image" src="#" />
+                            <img class="result" id="result" src="">
+                            <span id="msgupload" style="display:none;">Upload Complete !</span>
+                        </div>
+                    </div>
+                </div>
+              </div>
+</div> -->
 
 
 
@@ -124,18 +157,18 @@
                     <div>
                         CREATE NEW POST 
                         <span>
-                                <button class="buttonprofile scarletcolor fontcolorblack" onclick="insertvalue('assets/img/icon/ic_for_sale-min.png');">FOR SALE</button>
-                                <button class="buttonprofile mintcolor fontcolorblack" onclick="insertvalue('assets/img/icon/ic_required-min.png');">REQUIRED</button>
-                                <button class="buttonprofile bluecolor fontcolorblack" onclick="insertvalue('assets/img/icon/ic_offers-min.png');">OFFERS</button>
-                                <button class="buttonprofile leafcolor fontcolorblack" onclick="insertvalue('assets/img/icon/ic_appreciation-min.png');">APPRECIATION</button>
-                                <button class="buttonprofile trumpcolor fontcolorblack" onclick="insertvalue('assets/img/icon/ic_achievement-min.png');">ACHIEVEMENT</button>
-                                <button class="buttonprofile thanoscolor fontcolorblack" onclick="insertvalue('assets/img/icon/ic_random.png');">RANDOM</button>
+                                <button id="scarletcolor" class="buttonprofile scarletcolor fontcolorblack" onclick="insertvalue('assets/img/icon/ic_for_sale-min.png','scarletcolor');">FOR SALE</button>
+                                <button id="mintcolor" class="buttonprofile mintcolor fontcolorblack" onclick="insertvalue('assets/img/icon/ic_required-min.png','mintcolor');">REQUIRED</button>
+                                <button id="bluecolor" class="buttonprofile bluecolor fontcolorblack" onclick="insertvalue('assets/img/icon/ic_offers-min.png','bluecolor');">OFFERS</button>
+                                <button id="leafcolor" class="buttonprofile leafcolor fontcolorblack" onclick="insertvalue('assets/img/icon/ic_appreciation-min.png','leafcolor');">APPRECIATION</button>
+                                <button id="trumpcolor" class="buttonprofile trumpcolor fontcolorblack" onclick="insertvalue('assets/img/icon/ic_achievement-min.png','trumpcolor');">ACHIEVEMENT</button>
+                                <button id="thanoscolor" class="buttonprofile thanoscolor fontcolorblack" onclick="insertvalue('assets/img/icon/ic_random.png','thanoscolor');">RANDOM</button>
                         </span>
                     </div>
                     <input type="text" placeholder="assets/img/icon/ic_random.png" style="display:none" id="tagpost">
                     <input type="text" placeholder="" id="despost"  class="inputfield">
                     <div class="profilebuttonzone">
-                        <button class="profileupload" onclick="toggleSignUp('loginBox1','all','id01');">UPLOAD IMAGE <i class="uploadicon"></i> </button>
+                        <button class="profileupload" onclick="toggleSignUp1('loginBox1','all','id01');">UPLOAD IMAGE <i class="uploadicon"></i> </button>
                         <input type="file" class="custom-file-input">
                         <button class="profilepost" onclick="postpush('1');">POST</button>
                     </div>
@@ -151,205 +184,8 @@
                 <div class="whiteback ">
                     <div>Activity feed</div>
                     <div class="postcontainer" id="postlist">
-                        <div class="postelement">
-                            <div class="line1">
-                                    ARJUN
-                                    <p>LOCATION</p>
-                                </div>
-                                <div class="line2">
-                                    CARPENTER
-                                    <p>12-03-2019</p>
-                                </div>
-                                <div class="overlay R">
-                                    <div class="line3">
-                                        <img src="assets/img/images/carpentry-min.png" class="itemimage">
-                                    </div>
-                                    <div class="layer1">
-                                        <img src="assets/img/icon/ic_offers-min.png" class="size">
-                                    </div>
-                                    <div class="layer2">
-                                        <div class="itemoverlay"><i class="heart"></i>0 LIKES</div>
-                                        <div class="itemoverlay"><i class="commenticon"></i>0 COMMENTS</div>
-                                        <div class="itemoverlaylast"><i class="shareicon"></i>SHARE</div>
-                                    </div>
-                                </div>
-
-        
-                                <div class="line4">
-                                    <p> 
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                    </p>
-                                </div>
-                                <div class="line5">
-                                    COMMENTS
-                                    <p>VIEW MORE</p>
-                                </div>
-                                <div class="comments">
-                                    <div class="firstcomment">NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>
-                                    <div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>
-                                    <div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>
-                                </div>
-                                <input type="text" placeholder="Write a comment" class="commentinput" >
-                        </div>
-                        <div class="postelement">
-                                <div class="line1">
-                                        ARJUN
-                                        <p>LOCATION</p>
-                                    </div>
-                                    <div class="line2">
-                                        CARPENTER
-                                        <p>12-03-2019</p>
-                                    </div>
-                                    <div class="overlay R">
-                                        <div class="line3">
-                                            <img src="assets/img/images/pexels-photo-1571174.jpg" class="itemimage">
-                                        </div>
-                                        <div class="layer1">
-                                            <img src="assets/img/icon/ic_for_sale-min.png" class="size">
-                                        </div>
-                                        <div class="layer2">
-                                            <div class="itemoverlay"><i class="heart"></i>0 LIKES</div>
-                                            <div class="itemoverlay"><i class="commenticon"></i>0 COMMENTS</div>
-                                            <div class="itemoverlaylast"><i class="shareicon"></i>SHARE</div>
-                                        </div>
-                                    </div>
-    
-            
-                                    <div class="line4">
-                                        <p> 
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                        </p>
-                                    </div>
-                                    <div class="line5">
-                                        COMMENTS
-                                        <p>VIEW MORE</p>
-                                    </div>
-                                    <div class="comments">
-                                        <div class="firstcomment">NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>
-                                        <div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>
-                                        <div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>
-                                    </div>
-                                    <input type="text" placeholder="Write a comment" class="commentinput" >
-                        </div>
-                        <div class="postelement">
-                                <div class="line1">
-                                        ARJUN
-                                        <p>LOCATION</p>
-                                    </div>
-                                    <div class="line2">
-                                        CARPENTER
-                                        <p>12-03-2019</p>
-                                    </div>
-                                    <div class="overlay R">
-                                        <div class="line3">
-                                            <img src="assets/img/images/carpentry-min.png" class="itemimage">
-                                        </div>
-                                        <div class="layer1">
-                                            <img src="assets/img/icon/ic_achievement-min.png" class="size">
-                                        </div>
-                                        <div class="layer2">
-                                            <div class="itemoverlay"><i class="heart"></i>0 LIKES</div>
-                                            <div class="itemoverlay"><i class="commenticon"></i>0 COMMENTS</div>
-                                            <div class="itemoverlaylast"><i class="shareicon"></i>SHARE</div>
-                                        </div>
-                                    </div>
-    
-            
-                                    <div class="line4">
-                                        <p> 
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                        </p>
-                                    </div>
-                                    <div class="line5">
-                                        COMMENTS
-                                        <p>VIEW MORE</p>
-                                    </div>
-                                    <div class="comments">
-                                        <div class="firstcomment">NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>
-                                        <div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>
-                                        <div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>
-                                    </div>
-                                    <input type="text" placeholder="Write a comment" class="commentinput" >
-                        </div>
-                        <div class="postelement">
-                                <div class="line1">
-                                        ARJUN
-                                        <p>LOCATION</p>
-                                    </div>
-                                    <div class="line2">
-                                        CARPENTER
-                                        <p>12-03-2019</p>
-                                    </div>
-                                    <div class="overlay R">
-                                        <div class="line3">
-                                            <img src="assets/img/images/weston-boucher.jpg" class="itemimage">
-                                        </div>
-                                        <div class="layer1">
-                                            <img src="assets/img/icon/ic_appreciation-min.png" class="size">
-                                        </div>
-                                        <div class="layer2">
-                                            <div class="itemoverlay"><i class="heart"></i>0 LIKES</div>
-                                            <div class="itemoverlay"><i class="commenticon"></i>0 COMMENTS</div>
-                                            <div class="itemoverlaylast"><i class="shareicon"></i>SHARE</div>
-                                        </div>
-                                    </div>
-    
-            
-                                    <div class="line4">
-                                        <p> 
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                        </p>
-                                    </div>
-                                    <div class="line5">
-                                        COMMENTS
-                                        <p>VIEW MORE</p>
-                                    </div>
-                                    <div class="comments">
-                                        <div class="firstcomment">NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>
-                                        <div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>
-                                        <div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>
-                                    </div>
-                                    <input type="text" placeholder="Write a comment" class="commentinput" >
-                        </div>
-                        <div class="postelement">
-                                <div class="line1">
-                                        ARJUN
-                                        <p>LOCATION</p>
-                                    </div>
-                                    <div class="line2">
-                                        CARPENTER
-                                        <p>12-03-2019</p>
-                                    </div>
-                                    <div class="overlay R">
-                                        <div class="line3">
-                                            <img src="assets/img/images/carpentry-min.png" class="itemimage">
-                                        </div>
-                                        <div class="layer1">
-                                            <img src="assets/img/icon/ic_required-min.png" class="size">
-                                        </div>
-                                        <div class="layer2">
-                                            <div class="itemoverlay"><i class="heart"></i>0 LIKES</div>
-                                            <div class="itemoverlay"><i class="commenticon"></i>0 COMMENTS</div>
-                                            <div class="itemoverlaylast"><i class="shareicon"></i>SHARE</div>
-                                        </div>
-                                    </div>
-    
-            
-                                    <div class="line4">
-                                        <p> 
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                        </p>
-                                    </div>
-                                    <div class="line5">
-                                        COMMENTS
-                                        <p>VIEW MORE</p>
-                                    </div>
-                                    <div class="comments">
-                                        <div class="firstcomment">NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>
-                                        <div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>
-                                        <div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>
-                                    </div>
-                                    <input type="text" placeholder="Write a comment" class="commentinput" >
+                        <div class="center" style="padding:100px">
+                                Oops! Nothing to see here.
                         </div>
                     </div>
                 </div>
@@ -358,8 +194,49 @@
     </div>
 
     <script>
-        loadProfileInfo('profilecard',"1");
-        loadProfileInfo('profilepost',"1");
+        // loadProfileInfo('profilecard',getCookie("userId="));
+        // loadProfileInfo('profilepost',getCookie("userId="));
+
+        var qryUserId = "";
+        // var success= NaN;
+        var qryStrings = getQueryString();
+        if(qryStrings == "null"){
+            if(getCookie("userId=")!="null"){
+                loadProfileInfo('profilecard',getCookie("userId="));
+                loadProfileInfo('profilepost',getCookie("userId="));
+            }
+            else{
+                alert("Login Please");
+                window.location = "index.html";
+            }
+        }else if(qryStrings == ""){
+            console.log("emptyArry");
+            reDirect("error.html");
+        }
+        else{
+            qryStrings.forEach(element => {
+            if(element.startsWith('user_id')){
+                qryUserId = element.split('=')[1];
+                if(isNaN(parseInt(qryUserId))){
+                    reDirect("error.html");
+                }else{
+                    if(qryUserId == getCookie("userId=")){
+                        loadProfileInfo('profilecard',qryUserId);
+                        loadProfileInfo('profilepost',qryUserId);
+                    }
+                    else{
+                        // console.log(qryUserId);
+                        loadProfileInfo('profilecard',qryUserId);
+                        loadProfileInfo('profilepost',qryUserId);
+                        setTimeout(function () {
+                            document.getElementById('editButton').style.display= "none";
+                        }, 1000);
+                    }
+                }
+            } 
+        });
+        }
+        
     </script>
 
     
@@ -374,6 +251,39 @@
     <script>
         includeHTML();
         document.getElementById("inp").addEventListener("change", readFile);
+        loginManagement();
+//         function readURL(input) {
+//   if (input.files && input.files[0]) {
+//     var reader = new FileReader();
+//     reader.onload = function(e) {
+//       $('#my-image').attr('src', e.target.result);
+//       var resize = new Croppie($('#my-image')[0], {
+//         viewport: { width: 600, height: 300 },
+//         boundary: { width: 720, height: 1080 },
+//         showZoomer: false,
+//         enableResize: false,
+//         enableOrientation: true
+//       });
+//       $('#use').fadeIn();
+//       $('#use').on('click', function() {
+//         resize.result('base64').then(function(dataImg) {
+//           var data = [{ image: dataImg }, { name: 'myimgage.png' }];
+//           // use ajax to send data to php
+          
+//           postImageGetter(dataImg);
+//         //   $('#result').attr('src', dataImg);
+//         })
+//       })
+//     }
+//     reader.readAsDataURL(input.files[0]);
+//   }
+// }
+
+
+// $("#file-input").change(function() {
+//         readURL(this);
+//         });
+
     </script>
 
 

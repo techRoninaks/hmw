@@ -188,33 +188,6 @@ function otpVerify(){ //otp verification
     }
 }
 
-function login(){ //login validation
-    var data = [];
-    var myObj = {};
-    
-    data[0] = document.getElementById("loginContact").value;
-    data[1] = document.getElementById("loginPassword").value;
-    myObj = {"userPhone":data[0],"userPassword":data[1]};
-    var jSONObj = JSON.stringify(myObj);
-    
-        xhr =  new XMLHttpRequest();
-        this.responseType = 'text';
-        xhr.onreadystatechange  =  function() {
-            var ourData = xhr.response;
-            if (this.readyState == 4 && this.status == 200) {
-                if(xhr.responseText !== '0'){
-                    var userObj = JSON.parse(xhr.responseText);
-                    setCookie("userName",userObj.userName);
-                    window.location.reload();
-                } else {
-                    document.getElementById("errorNote").style.display= "inline";
-                }
-            }
-        };
-        xhr.open("POST", "assets/php/login.php", true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.send("jsonObj="+jSONObj);
-}
 
 function myFunction(popName) { //To create pop up bubble in buttons
     if(getCookie("userName=")=="null"){
@@ -340,6 +313,14 @@ function premiumSignUp(){
   var website = document.getElementById('inputWebsite').value;
   var phone2 = document.getElementById('inputSecondaryContact').value;
   var skills = document.getElementById('inputSkills').value;
+  skills = skills.substring(1);
+  skills = skills.split(",");
+  var newstr = skills;
+  skills = "";
+  for(i=0;i<newstr.length-1;i++){
+    skills = skills+"," + newstr[i];
+  }
+  skills = skills.substring(1);
   
   
   // ||phone+password1+password2+category+role
@@ -502,11 +483,11 @@ function unionlistload(array){
     var data = array[i];
     if(i < 15){
       htmltemp = htmltemp + templateunionlist(data, "<hr class= hr >");
-      template = template + "<li><a href= # >"+data["name"]+"</a></li>";
+      template = template + "<li><a href= "+data["link"]+" >"+data["name"]+"</a></li>";
     }
     else{
       htmltemp = htmltemp + templateunionlist(data, "");
-      template = template + "<li><a href= # >"+data["name"]+"</a></li>";
+      template = template + "<li><a href= "+data["link"]+" >"+data["name"]+"</a></li>";
       break;
     }
   }
@@ -572,15 +553,19 @@ function templatehomeprofile(data){
   var template = "";
   template += "<div class= item2 >"+
   "<a class= porlink  href= "+data["profile_link"]+" >"+
+  "<div class='owlelements' style='width:100%' >"+
       "<img class= profilepic  src= "+data["profile_image"]+" >"+
-  "</a>"+
-  "<a class= porlink  href= 21 >"+
+      "</div>"+
+      "<div class='owlelements' style='width:100%'>"+
       "<h7 class= profilename >"+data["name"]+"</h7>"+
+      "</div>"+
+      "<div class='owlelements' style='width:100%' >"+
       "<h8 class= profileocupation >"+data["role"]+"</h8>"+
-  "</a>"+
-  "<a class= porlink  href= 11 >"+
-      "<div class= temp >"+
-          "<img src= assets/img/icon/star-black.png  class= ratingicon >"+data["rating"]+"  "+
+      "</div>"+
+      "<div class='owlelements' style='width:100%'>"+
+      "<div class= temp align='center'>"+
+          "<img src= assets/img/icon/star-black.png  class= ratingicon ><span class='ratingele'>"+data["rating"]+" </span> "+
+      "</div>"+
       "</div>"+
   "</a>"+
 "</div>";
@@ -668,7 +653,7 @@ function autocomplete(inp, arr) {
               inp.value = this.getElementsByTagName("input")[0].value;
               
               
-              window.location = "profileList.html?cat_type="+temp1[1]+"&srch_key="+temp1[0]+"&loc="+local;
+              window.location = "profileList.html?cat_type="+temp1[1]+"&srch_key="+str+"&loc="+local;
               // console.log("in click "+str);
               /*close the list of autocompleted values,
               (or any other open lists of autocompleted values:*/
@@ -758,6 +743,8 @@ function loadProfileInfo(caller, id){
               break;
           case "profilepost":
               profilepostload(myObj);
+              // var data = myObj[16];
+              // console.log(data[0][1]);
               break;
           default:
             // homeload(myObj);
@@ -775,9 +762,10 @@ function loadProfileInfo(caller, id){
             xhr.send(params);
             break;
     case "profilepost":
-            xhr.open("GET", "assets/php/getprofilepost.php", true);
-            xhr.setRequestHeader("Content-type", "text/plain");
-            xhr.send();
+            var params = 'id='+id;
+            xhr.open("post", "assets/php/getprofilepost.php", true);
+            xhr.setRequestHeader("Content-type", 'application/x-www-form-urlencoded');
+            xhr.send(params);
             break;
     default:
             break;
@@ -815,16 +803,19 @@ function uprofilecardload(array){
 "</div>"+
 "<div class= col-sm-2 >"+
   "<div class= center >"+
-      "<a href= # >"+
+  "<div class= popup1  onclick= myFunction(&quot;a&quot;)>"+
               "<img src= assets/img/icon/ic_whatsapp_profile_page-min.png class= profileicons >"+
-          "</a>"+
-      "<a href= # >"+
+          "<span class= popuptext1  id= a >"+data["whatapp"]+"</span>"+
+          "</div>"+
+      "<div class= popup1  onclick= myFunction(&quot;b&quot;)>"+
           "<img src= assets/img/icon/ic_phone_profile_page-min.png  class= profileicons >"+
-      "</a>"+
-      "<a href= # >"+
+      "<span class= popuptext1  id= b >"+data["phone"]+"</span>"+
+      "</div>"+
+      "<div class= popup1  onclick= myFunction(&quot;c&quot;)>"+
           "<img src= assets/img/icon/ic_email_profile_page-min.png  class= profileicons >"+
-      "</a>"+
-      "<button class= profileedit >EDIT</button>"
+      "<span class= popuptext1  id= c >"+data["email"]+"</span>"+
+      "</div>"+
+      "<button class= profileedit  id= editButton   onclick= editProfileData();  >EDIT</button>"
   "</div>"+
 "</div></div></div></div>";
 
@@ -834,17 +825,17 @@ function uprofilecardload(array){
 //profile post load
 function profilepostload(array){
   var htmltemp ="";
-  for(i = 1; i<array.length; i++){
+  for(i = 1; i<15; i++){
       var data = array[i];
-      htmltemp = htmltemp + templateprofilepost(data);
+      htmltemp = htmltemp + templateprofilepost(data, array);
   }
   // htmltemp = htmltemp + htmltemp + htmltemp + htmltemp + htmltemp;
   document.getElementById('postlist').innerHTML = htmltemp; 
-//  console.log(htmltemp);
+//  console.log(array[16][0][1]["comment"]);
 }
 
 //Profile post template
-function templateprofilepost(data){
+function templateprofilepost(data, array){
   var template = "";
   template += "<div class= postelement >"+
   "<div class= line1 >"+
@@ -875,14 +866,13 @@ function templateprofilepost(data){
       "</div>"+
       "<div class= line5 >"+
           "COMMENTS"+
-          "<p>VIEW MORE</p>"+
+          "<p onclick= viewMorePost('comments"+data["id"]+"'); >VIEW MORE</p>"+
       "</div>"+
-      "<div class= comments >"+
-          "<div class= firstcomment >NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>"+
-          "<div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>"+
-          "<div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>"+
+      "<div id= comments"+data["id"]+"  class= comments >"+
+      commentLoad(data["comments"],data["id"])+
+      "<div id= hiddenPost"+data["id"]+"  style= display:none >"+getCookie("userName=")+"<span>HiidenPost</span></div>"+
       "</div>"+
-      "<input type= text  placeholder= Write a comment  class= commentinput >"+
+      "<input type= text  placeholder= 'Write a comment'  id= 'post"+data["id"]+"'   class= commentinput   onkeypress= postComment(&quot;"+data["id"]+"&quot;); >"+
   "</div>";
 
   return template;
@@ -943,17 +933,20 @@ function readFile() {
       FR.readAsDataURL( this.files[0] );
   }
   
-  // console.log(postimage); 
-  // toggle();
-  }
+  document.getElementById('confrim').style.display="block";
+  document.getElementById('cancel').style.display="block";
+}
 //To insert into tag
-  function insertvalue(str){
-    document.getElementById('tagpost').value = str;
-    // console.log(document.getElementById('tagpost').value);
-  }
+function insertvalue(str, colorclass){
+  document.getElementById('tagpost').value = str;
+  var myButtonClasses = document.getElementById(colorclass).classList;
+  myButtonClasses.remove(colorclass);
+  myButtonClasses.add(colorclass+"a");
+  // console.log(document.getElementById('tagpost').value);
+}
 
 // to Push post to the database
-  function postpush(u_id){
+function postpush(u_id){
     var image = postimage;
     var despost = document.getElementById('despost').value;
     var tag  = document.getElementById('tagpost').value;
@@ -1014,15 +1007,7 @@ function loadsignup(caller){
           case "category":
               categorylistload(myObj);
               break;
-          // case "adver":
-          //     homeAdload(myObj);
-          //     break;
-          // case "union":
-          //     homeUnionload(myObj);
-          //     break;
-          // case "profilecard":
-          //     homeprofileload(myObj);
-          //     break;
+
           default:
             // homeload(myObj);
             break;
@@ -1037,21 +1022,7 @@ function loadsignup(caller){
             xhr.setRequestHeader("Content-type", "text/plain");
             xhr.send();
             break;
-    // case "union":
-    //         xhr.open("GET", "assets/php/getunion.php", true);
-    //         xhr.setRequestHeader("Content-type", "text/plain");
-    //         xhr.send();
-    //         break;
-    // case "profilecard":
-    //         xhr.open("GET", "assets/php/getprofile.php", true);
-    //         xhr.setRequestHeader("Content-type", "text/plain");
-    //         xhr.send();
-    //         break;
-    // case "adver":
-    //         xhr.open("GET", "assets/php/getad.php", true);
-    //         xhr.setRequestHeader("Content-type", "text/plain");
-    //         xhr.send();
-    //         break;
+
     default:
             break;
   }
@@ -1200,4 +1171,381 @@ function filterservicepage(tag, tag1){
   }
   
  
+}
+//Ashish Changes Starts Here
+function logOutProcess(){
+  setCookie("userName",);
+  setCookie("userId",);
+  setCookie("isLogged",);
+  setCookie("isEdit",);
+  window.location.reload();
+}
+
+function loginManagement(){
+  if(parseInt(getCookie("isLogged="))==1){
+    // console.log("logged");
+    setTimeout(function () {
+        document.getElementById('loginHead').innerHTML = "<a class= nav-link  href= profile.html?"+getCookie("userId=")+" >"+getCookie("userName=")+"</a>";
+        document.getElementById('signUpHead').innerHTML = "<a class= nav-link  href= javascript:logOutProcess() >Log Out</a>";
+	  }, 1000);    
+  }
+}
+
+function login(){ //login validation
+  var data = [];
+  var myObj = {};
+  
+  data[0] = document.getElementById("loginContact").value;
+  data[1] = document.getElementById("loginPassword").value;
+  myObj = {"userPhone":data[0],"userPassword":data[1]};
+  var jSONObj = JSON.stringify(myObj);
+  
+      xhr =  new XMLHttpRequest();
+      this.responseType = 'text';
+      xhr.onreadystatechange  =  function() {
+          var ourData = xhr.response;
+          if (this.readyState == 4 && this.status == 200) {
+              if(xhr.responseText !== '0'){
+                  var userObj = JSON.parse(xhr.responseText);
+                  setCookie("userName",userObj.userName);
+                  setCookie("userId",userObj.userId);
+                  setCookie("isLogged",1);
+                  window.location.reload();
+              } else {
+                  document.getElementById("errorNote").style.display= "inline";
+              }
+          }
+      };
+      xhr.open("POST", "assets/php/login.php", true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.send("jsonObj="+jSONObj);
+}
+
+function premiumSignUpEdit(){
+  var name = document.getElementById('inputFirstname').value;
+  var email = document.getElementById('inputEmail').value;
+  var phone = document.getElementById('inputPhone').value;
+  var password1 = document.getElementById('inputPassword').value;
+  var password2 = document.getElementById('inputConfirmPassword').value;
+  var category = document.getElementById('inputCategory').value;
+  var role = document.getElementById('inputRoleInCompany').value;
+  var country = document.getElementById('inputCountry').value;
+  var type = document.getElementById('inputType').value;
+  var address = document.getElementById('inputAddressLine1').value;
+  var state = document.getElementById('inputState').value;
+  var location = document.getElementById('inputLocation').value;
+  var sublocation = document.getElementById('inputSubLocation').value;
+  var pincode = document.getElementById('inputPinCode').value;
+  var union = document.getElementById('inputUnion').value;
+  var whatsapp = document.getElementById('inputWhatsappNumber').value;
+  var website = document.getElementById('inputWebsite').value;
+  var phone2 = document.getElementById('inputSecondaryContact').value;
+  var skills = document.getElementById('inputSkills').value;
+
+  
+  
+  // ||phone+password1+password2+category+role
+  if(name ==""|| email==""||union == ""|| phone ==""||location==""|| pincode==""|| sublocation==""|| password1 ==""||address=="" || password2 =="" || category =="" || role =="" || country == "" || state=="" || type == "")
+  {
+    document.getElementById('vaildation').innerHTML= "Please fill all fields.";
+    document.getElementById('vaildation').style.display = "block";
+    // console.log('if');
+    
+  }
+  else if(password1 != password2){
+    document.getElementById('vaildation').innerHTML= "Password don't match!";
+    document.getElementById('vaildation').style.display = "block";
+  }
+  else if(imagedata == null ){
+    document.getElementById('vaildation').innerHTML= "Image is empty";
+    document.getElementById('vaildation').style.display = "block";
+  }
+  else{
+    document.getElementById('vaildation').style.display = "none";
+    // console.log(name+"\n"+email+"\n"+phone+"\n"+password1+"\n"+password2+"\n category="+category+"\n"+role+"\n"+country+"\n type="+type+"\n"+address+"\n"+state+"\n"+location+"\n"+sublocation+"\n"+pincode+"\n union="+union+"\n"+whatsapp+"\n"+website+"\n"+phone2);
+  
+  
+  var xhr =  new XMLHttpRequest();
+  this.responseType = 'text';
+  xhr.onreadystatechange  =  function() {
+      
+      var ourData = xhr.response;
+      if (this.readyState == 4 && this.status == 200) {//if result successful
+        // var myObj = JSON.parse(this.responseText);
+        if(this.responseText == "success "){
+          window.location = "profile.html"
+        }
+
+      }
+      
+  };
+  var id = getCookie("userId=");
+  var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata+"&phone2="+phone2+"&skills="+skills+"&id="+id;
+  xhr.open("post", "assets/php/updateprofiledata.php", true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.send(params);
+
+  }
+  // console.log(name+"\n"+email+"\n"+phone+"\n"+password1+"\n"+password2+"\n"+category+"\n"+role+"\n"+country+"\n"+type);
+  return false; 
+}
+function getPremiumData(){
+  // console.log("getProfileData")
+  var id = getCookie("userId=");
+  var xhr =  new XMLHttpRequest();
+  this.responseType = 'text';
+  xhr.onreadystatechange  =  function() {
+  if (this.readyState == 4 && this.status == 200) {
+      var myObj = JSON.parse(this.responseText);
+      // console.log(myObj[1]);
+      var data = myObj[1];
+			setTimeout(function () {
+        document.getElementById('inputFirstname').value = data["name"];
+        document.getElementById('inputEmail').value = data["email"];
+        document.getElementById('inputPhone').value = data["phone"];
+        document.getElementById('inputPassword').value = data["password"];
+        document.getElementById('inputConfirmPassword').value = data["password"];
+        document.getElementById('inputCategory').value = data["union"];
+        document.getElementById('inputRoleInCompany').value = data["role"];
+        document.getElementById('inputCountry').value = data["country"];
+        document.getElementById('inputType').value = data["type"];
+        var address = data["address"];
+        address = address.replace(/&#32;/g," ");
+        document.getElementById('inputAddressLine1').value = address;
+        document.getElementById('inputState').value = data["state"];
+        document.getElementById('inputLocation').value = data["location"];
+        document.getElementById('inputSubLocation').value = data["sublocation"];
+        document.getElementById('inputPinCode').value = data["pincode"];
+        document.getElementById('inputUnion').value = data["union"];
+        document.getElementById('inputWhatsappNumber').value = data["whatapp"];
+        document.getElementById('inputWebsite').value = data["website"];
+        document.getElementById('inputSecondaryContact').value = data["phone2"];
+        document.getElementById('inputSkills').value = data["skills"];
+        // console.log(data["type"]);
+        spanPopulate1(document.getElementById("inputSkills").value);
+			}, 600);
+    }
+  }
+  var params = 'id='+id;
+  xhr.open("post", "assets/php/getprofilecard.php", true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.send(params);
+  
+}
+
+
+//To handle skills field in signup page 
+function getskillvalue(){
+
+  var skils = document.getElementById("hide").value;
+  if(skils != ""){
+    document.getElementById("inputSkills").value = document.getElementById("inputSkills").value +"," +skils ;
+    document.getElementById("hide").value = "";
+    spanPopulate(document.getElementById("inputSkills").value);
+  
+  }
+
+}
+function getskillvalue2(){
+  if(event.keyCode === 13){
+    var skils = document.getElementById("hide").value;
+    if(skils != ""){
+      document.getElementById("inputSkills").value = document.getElementById("inputSkills").value +"," +skils ;
+      document.getElementById("hide").value = "";
+      spanPopulate(document.getElementById("inputSkills").value);
+    
+    }
+  }
+}
+
+
+function postComment(p_id){
+  if(event.keyCode === 13){
+    // console.log(p_id+"\n"+getCookie("userId=")+"\n"+document.getElementById('post'+comment).value);
+    var comment = document.getElementById('post'+p_id).value;
+    var xhr =  new XMLHttpRequest();
+    this.responseType = 'text';
+    xhr.onreadystatechange  =  function() {
+    if (this.readyState == 4 && this.status == 200) {//if result successful
+      if(xhr.responseText == "Success "){
+        document.getElementById('post'+p_id).value = "";
+        document.getElementById('hiddenPost'+p_id).innerHTML= getCookie("userName=")+"<span>"+comment+"</span>";
+        document.getElementById('hiddenPost'+p_id).style.display = "block";
+      }
+      } 
+    };
+    var u_id = getCookie("userId=");
+
+    var params = 'p_id='+p_id +"&comment="+comment+"&u_id="+u_id;
+    xhr.open("post", "assets/php/postcomment.php", true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(params);
+  }
+}
+
+function spanPopulate(data){
+  data = data + ",";
+ 
+  var data1 = data.substr(1, data.length-2);
+  // console.log(data1);
+  data1 = data1.split(',');
+  if(data1.length>10){
+    alert("Skills execeds Limit ")
+  }
+  else{
+    for(i=0;i<data1.length;i++){
+      var str = data1[i];
+      str = str.replace(/ /g,"&#32;");
+      htmltemp = htmltemp + "<div id= span"+i+"  class='tagInForm'>"+data1[i]+"<i class='closeicon' onclick='deleteFormForm(&quot;span"+i+"&quot;,&quot;"+str+"&quot;);' ></i> </div>";
+  }
+  htmltemp = htmltemp + "<input id='hide'  class='hide' onkeypress='getskillvalue2();'>";
+  document.getElementById('spanreplace').innerHTML = htmltemp;
+  document.getElementById('hide').focus();
+  }
+
+}
+
+
+function spanPopulate1(data1){
+  var htmltemp = "";
+  data1  = data1.split(",");
+    for(i=0;i<data1.length;i++){
+      var str = data1[i];
+      str = str.replace(/ /g,"&#32;");
+      htmltemp = htmltemp + "<div id= span"+i+"  class='tagInForm'>"+data1[i]+"<i class='closeicon' onclick='deleteFormForm(&quot;span"+i+"&quot;,&quot;"+str+"&quot;);' ></i> </div>";
+    }
+  htmltemp = htmltemp + "<input id='hide'  class='hide' onkeypress='getskillvalue2();'>";
+  document.getElementById('spanreplace').innerHTML = htmltemp;
+  // document.getElementById('hide').focus();
+  }
+
+
+function deleteFormForm(idspan,deleteword){
+  document.getElementById(idspan).style.display = "none";
+  var str = document.getElementById("inputSkills").value;
+  var newstr = "";
+  str = str.split(',');
+  for(i=0;i<str.length;i++){
+    if(str[i]==deleteword){
+      str[i] = str[i].replace(deleteword,'');
+      
+    }
+    // console.log(str[i]);
+  }
+  for(i=1;i<str.length;i++){
+    if(str[i]!=""){
+      newstr = newstr+"," + str[i];
+      // str[i] = str[i].replace(deleteword,'');
+      
+    }
+  }
+  // newstr = newstr.substring(1,newstr.length)
+  console.log(newstr);
+  // console.log('delete\n' +deleteword +"\n"+  str);
+  document.getElementById("inputSkills").value = newstr;
+}
+
+function viewMorePost(commentEle){
+  // alert(commentEle);
+  var p_id =commentEle.split('comments')[1];
+  var xhr =  new XMLHttpRequest();
+  this.responseType = 'text';
+  xhr.onreadystatechange  =  function() {
+      
+      var ourData = xhr.response;
+      if (this.readyState == 4 && this.status == 200) {//if result successful
+        var myObj = JSON.parse(this.responseText);
+        var htmltemp = "";
+        for(i = 0; i<myObj.length; i++){
+          htmltemp = htmltemp + "<div id= "+myObj[i]["id"]+" >"+myObj[i]["name"]+" <span>"+myObj[i]["comment"]+" </span><div class= report onclick= reportPost(&quot;"+myObj[i]["id"]+"&quot;); >Report?</div></div>"
+        }
+        // console.log(htmltemp);
+        document.getElementById(commentEle).innerHTML = htmltemp;
+      }
+      
+  };
+  var id = getCookie("userId=");
+  var params = 'id='+p_id;
+  xhr.open("post", "assets/php/getcomments.php", true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.send(params);
+}
+function reportPost(postid){
+  document.getElementById(postid).style.display = "none";
+  var xhr =  new XMLHttpRequest();
+  this.responseType = 'text';
+  xhr.onreadystatechange  =  function() {
+      
+      var ourData = xhr.response;
+      if (this.readyState == 4 && this.status == 200) {//if result successful
+        // var myObj = JSON.parse(this.responseText);
+        if(this.responseText == "success "){
+          // window.location = "profile.html"
+        }
+
+      }
+      
+  };
+  var id = getCookie("userId=");
+  var params = 'id='+postid;
+  xhr.open("post", "assets/php/postreportedpost.php", true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.send(params);
+
+}
+
+function commentLoad(comments,post_id){
+  if(comments.length == 0){
+    // console.log("em");
+    return "<div class= center > No comments </div>"
+  }
+  else if(comments.length>0){
+    // console.log(parseInt(comments.length));
+    if(parseInt(comments.length)== 1){
+      // console.log("hell1\n");
+      var htmltemp = "<div id= "+comments[0]["id"]+" >"+comments[0]["name"]+" <span>"+comments[0]["comment"]+" </span><div class= report onclick= reportPost(&quot;"+comments[0]["id"]+"&quot;); >Report?</div></div>";
+      // console.log(htmltemp);
+      return htmltemp;
+    }
+    else if(parseInt(comments.length)== 2){
+      var htmltemp = "<div id= "+comments[0]["id"]+" >"+comments[0]["name"]+" <span>"+comments[0]["comment"]+" </span><div class= report onclick= reportPost(&quot;"+comments[0]["id"]+"&quot;); >Report?</div></div>"+
+      "<div id= "+comments[1]["id"]+" >"+comments[1]["name"]+" <span>"+comments[1]["comment"]+" </span><div class= report onclick= reportPost(&quot;"+comments[1]["id"]+"&quot;); >Report?</div></div>";
+      // console.log("hell2\n");
+      return htmltemp;
+    }
+    else if(parseInt(comments.length)== 3){
+      var htmltemp = "<div id= "+comments[0]["id"]+" >"+comments[0]["name"]+" <span>"+comments[0]["comment"]+" </span><div class= report onclick= reportPost(&quot;"+comments[0]["id"]+"&quot;); >Report?</div></div>"+
+      "<div id= "+comments[1]["id"]+" >"+comments[1]["name"]+" <span>"+comments[1]["comment"]+" </span><div class= report onclick= reportPost(&quot;"+comments[1]["id"]+"&quot;); >Report?</div></div>"+
+      "<div id= "+comments[2]["id"]+" >"+comments[2]["name"]+" <span>"+comments[2]["comment"]+" </span><div class= report onclick= reportPost(&quot;"+comments[2]["id"]+"&quot;); >Report?</div></div>";
+      // console.log("hell3\n");
+      return htmltemp;
+    }
+  }
+}
+
+//To Edit profile Data
+function editProfileData(){
+  setCookie("isEdit",1);
+  window.location= "premiumedit.html";
+}
+
+function confrimupload(){
+  document.getElementById('b64').innerHTML = "Image Uploaded!..."
+  setTimeout(function(){ 
+    
+    document.getElementById('loginBox1').style.display="none";
+   }, 1000);
+}
+
+function cancelupload(){
+  document.getElementById('b64').innerHTML = "Upload Canceled";
+  postimage = null;
+  setTimeout(function(){ 
+    
+    document.getElementById('loginBox1').style.display="none";
+   }, 1000);
+}
+function postImageGetter(data) {
+  postimage = data;
+  console.log("hell is heaven");
 }

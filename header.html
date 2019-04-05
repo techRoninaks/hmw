@@ -1,7 +1,7 @@
 <div class="header">
 
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="index.html">
             <img class="logoheader" src="assets/img/logos/HEADER-LOGO.png">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,16 +10,13 @@
         
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item ml-auto active">
+            <li class="nav-item ml-auto" id="Home">
                 <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item ml-auto ">
-                <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item ml-auto ">
+            <li class="nav-item ml-auto " id="Contact">
                 <a class="nav-link" href="#">Contact Us</a>
             </li>
-            <li class="nav-item ml-auto ">
+            <li class="nav-item ml-auto " id="loginHead">
                 <a class="nav-link" onclick="javascript:toggleSignUp('loginBox','all','id01')" style="cursor:pointer;" id="logInHead">Login</a>
             </li>
             <li class="nav-item ml-auto ">
@@ -33,7 +30,7 @@
                 </div>
             </li>
             <li class="nav-item ml-auto " style="display:none;" id="signOutHead">
-                <a class="nav-link" href="javascript:dropHeader('myDropdown2')" id="profileName"></a>
+                <a class="nav-link" href="javascript:dropHeader('myDropdown2')" id="profileName"><script>getCookie('userName=')</script></a>
                 <div id="myDropdown2" class="dropdown-content">
                     <a class="nav-link" onclick="reDirect('profile.html');" style="cursor:pointer;" id="profilePage">Profile</a> 
                     <a class="nav-link" onclick="setCookie('userName');reDirect('index.html');" style="cursor:pointer;" id="logOutHead">Log Out</a>

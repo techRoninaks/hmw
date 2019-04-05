@@ -17,7 +17,11 @@
             $count = $row["id"];
         }
         $count = $count+1;
-        echo $count;
+        // echo $count;
+        if($tag == ""){
+            $tag = "assets/img/icon/ic_random.png";
+            echo $tag;
+        }
 
         $address = "assets/img/posts/".$count.".png";
         $like = 0;
@@ -25,16 +29,16 @@
         $sql_query =  "INSERT INTO `posts_table`(`id`, `u_id`, `postimage`, `des`, `likes`, `comments`, `offer`) VALUES ('$count','$u_id','$address','$des','$like','$comments','$tag')";//SQL command
         $result = mysqli_query($con,$sql_query);
         if($result){
-            echo "suss";
-            $img = $image;
+            // echo "suss";
+            $img =explode(",", $image);
             define('UPLOAD_DIR', '../img/posts/');
-            $img = str_replace('data:image/png;base64,', '', $img);
-            $img = str_replace(' ', '+', $img);
-            $data = base64_decode($img);
+            // $img = str_replace('data:image/png;base64,', '', $img[1]);
+            $img[1] = str_replace(' ', '+', $img[1]);
+            $data = base64_decode($img[1]);
             // $file = UPLOAD_DIR . uniqid() . '.png';
             $file = UPLOAD_DIR.$count.'.png';
             $success = file_put_contents($file, $data);
-            print $success ? $file : 'Unable to save the file.';
+            // print $success ? $file : 'Unable to save the file.';
         }
 
 
