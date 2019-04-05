@@ -19,6 +19,7 @@
         $image = $_POST["image"];
         $skills = $_POST["skills"];
         $phone2 = $_POST["phone2"];
+        $privatetag = $_POST["privatetag"];
 
         $count = 0;
         require "init.php";//needed for connection with database
@@ -43,6 +44,11 @@
         
         $sql_query =  "INSERT INTO `profile_table`(`id`, `profile_image`, `name`, `role`, `rating`, `link`, `sublocation`, `whatapp`, `location`, `skils`, `union`, `website`, `phone`, `email`, `address`, `card`, `privatestat`, `password`, `category`, `country`, `state`, `pincode`, `type`, `phone2`, `primium`) VALUES ('$count','assets/img/profile/userimage/$count.png','$name','$role','0','profile.html?cat_type=$count.png','$sublocation','$whatsapp','$location','$skills','$union','$website','$phone','$email','$address','assets/img/profile/card/$count.png','$count','$password','$category','$country','$state','$pincode','$type','$phone2','$count')";//SQL command
         $result = mysqli_query($con,$sql_query);
+
+        if($privatetag == 1){
+            $sql_query = "UPDATE `profile_table` SET `privatestat`= 1 WHERE id = $id ";
+            $result = mysqli_query($con,$sql_query);
+        }
         if($result){
             echo "success";
             

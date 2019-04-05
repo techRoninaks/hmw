@@ -20,8 +20,15 @@
         $skills = $_POST["skills"];
         $phone2 = $_POST["phone2"];
         $id = $_POST["id"];
+        $privatetag = $_POST["privatetag"];
         require "init.php";//needed for connection with database
+
+        if($privatetag == 1){
+            $sql_query = "UPDATE `profile_table` SET `privatestat`= 1 WHERE id = $id ";
+            $result = mysqli_query($con,$sql_query);
+        }
         
+
         // $sql_query =  "UPDATE `profile_table` SET `name`=$name,`role`=$role,`sublocation`=$sublocation,`whatapp`=$whatsapp,`location`=$location,`skils`=$skills,`union`=$unionlist,`website`=$website,`phone`=$phone,`email`=$email,`address`=$address,`password`=$password,`category`=$category,`country`=$country,`state`=$state,`pincode`=$pincode,`type`=$type,`phone2`=$phone2 WHERE `id` = $id";//SQL command
         $sql_query = "UPDATE `profile_table` SET `name`='$name',`role`='$role',`sublocation`='$sublocation',`whatapp`='$whatsapp',`location`='$location',`skils`='$skills',`union`='$unionlist',`website`='$website',`phone`='$phone',`email`='$email',`address`='$address',`password`='$password',`category`='$category',`country`='$country',`state`='$state',`pincode`='$pincode',`type`='$type',`phone2`='$phone2' WHERE `id` = $id ";
         $result = mysqli_query($con,$sql_query);
@@ -32,6 +39,5 @@
         if(!$result){
             echo "fail";
         }
-        // echo $id;
 
 ?> 

@@ -57,7 +57,7 @@
 
     <div class="homebanner">
         <div class="title">
-            <p>PREMIUM SIGNUP</p>
+            <p>SIGNUP</p>
         </div>
     </div>
 
@@ -482,8 +482,12 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <label for="inputWebsite">SECONDARY CONTACT (OPTIONAL)</label>
-                                        <input type="text" class="form-control height45" id="inputSecondaryContact" placeholder="">
-                                        <button type="button" class="btn plusform"><i class="plusicon"></i></button>
+                                        <!-- <input type="text" class="form-control height45" id="inputSecondaryContact" placeholder=""> -->
+                                        <div class="form-control height45"  id="spanreplacephone">
+                                            <input id="hidephone" type="number" class="hide">
+                                        </div>
+                                        <input id="inputSecondaryContact" type="hidden">
+                                        <button type="button" id="myBtn1" class="btn plusform" onclick="javascript:getphonevalue();"><i class="plusicon"></i></button>
                                     </div>
                             </div>
                             <div class="hidden1" id="vaildation">Error Message</div>
@@ -528,6 +532,7 @@
 
 
       var input = document.getElementById("hide");
+      var input1 = document.getElementById("hidephone");
 
 // Execute a function when the user releases a key on the keyboard
 input.addEventListener("keyup", function(event) {
@@ -537,6 +542,15 @@ input.addEventListener("keyup", function(event) {
     event.preventDefault();
     // Trigger the button element with a click
     document.getElementById("myBtn").click();
+  }
+});
+input1.addEventListener("keyup", function(event) {
+  // Number 13 is the "Enter" key on the keyboard
+  if (event.keyCode === 13) {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("myBtn1").click();
   }
 }); 
 

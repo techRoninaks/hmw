@@ -194,49 +194,7 @@
     </div>
 
     <script>
-        // loadProfileInfo('profilecard',getCookie("userId="));
-        // loadProfileInfo('profilepost',getCookie("userId="));
-
-        var qryUserId = "";
-        // var success= NaN;
-        var qryStrings = getQueryString();
-        if(qryStrings == "null"){
-            if(getCookie("userId=")!="null"){
-                loadProfileInfo('profilecard',getCookie("userId="));
-                loadProfileInfo('profilepost',getCookie("userId="));
-            }
-            else{
-                alert("Login Please");
-                window.location = "index.html";
-            }
-        }else if(qryStrings == ""){
-            console.log("emptyArry");
-            reDirect("error.html");
-        }
-        else{
-            qryStrings.forEach(element => {
-            if(element.startsWith('user_id')){
-                qryUserId = element.split('=')[1];
-                if(isNaN(parseInt(qryUserId))){
-                    reDirect("error.html");
-                }else{
-                    if(qryUserId == getCookie("userId=")){
-                        loadProfileInfo('profilecard',qryUserId);
-                        loadProfileInfo('profilepost',qryUserId);
-                    }
-                    else{
-                        // console.log(qryUserId);
-                        loadProfileInfo('profilecard',qryUserId);
-                        loadProfileInfo('profilepost',qryUserId);
-                        setTimeout(function () {
-                            document.getElementById('editButton').style.display= "none";
-                        }, 1000);
-                    }
-                }
-            } 
-        });
-        }
-        
+        queryHandlerProfile();        
     </script>
 
     
