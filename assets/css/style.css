@@ -1450,3 +1450,7 @@ footer .line{
     }
 }
 
+.privateTag{
+    color: red;
+    margin: 10px;
+}

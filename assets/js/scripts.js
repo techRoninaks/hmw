@@ -9,6 +9,7 @@ var countries = ["Afghanistan~1","Albania","Algeria","Andorra","Angola","Anguill
 var imagedata ;
 var postimage ;
 var local =1;
+var priv = "";
 
 //For fetching common elements
 function includeHTML() {
@@ -313,14 +314,18 @@ function premiumSignUp(){
   var website = document.getElementById('inputWebsite').value;
   var phone2 = document.getElementById('inputSecondaryContact').value;
   var skills = document.getElementById('inputSkills').value;
-  skills = skills.substring(1);
-  skills = skills.split(",");
-  var newstr = skills;
-  skills = "";
-  for(i=0;i<newstr.length-1;i++){
-    skills = skills+"," + newstr[i];
+  var privatetag = 0;
+  if(skills.charAt(0)==","){
+    skills = skills.substr(1,skills.length)
   }
-  skills = skills.substring(1);
+  if(phone2.charAt(0)==","){
+    phone2 = phone2.substr(1,phone2.length)
+  }
+  if (document.getElementById("privateTag").checked == 1){
+    privatetag = 1;
+  } else {
+    privatetag = 0;
+  }
   
   
   // ||phone+password1+password2+category+role
@@ -358,7 +363,7 @@ function premiumSignUp(){
       }
       
   };
-  var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata+"&phone2="+phone2+"&skills="+skills;
+  var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata+"&phone2="+phone2+"&skills="+skills+"&id="+id+"&privatetag="+privatetag;
   xhr.open("post", "assets/php/postprofiledata.php", true);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   xhr.send(params);
@@ -369,11 +374,6 @@ function premiumSignUp(){
 }
 
 //To handle skills field in signup page 
-function getskillvalue(){
-  var skils = document.getElementById("inputSkills").value;
-  alert(skils);
-  document.getElementById("inputSkills").value = "hello";
-}
 
 //To load all dynamic elements in home page
 function loadUnionInfo(caller){
@@ -740,16 +740,17 @@ function loadProfileInfo(caller, id){
         switch (caller){
           case "profilecard":
               uprofilecardload(myObj);
+
+              return priv;
               break;
           case "profilepost":
               profilepostload(myObj);
-              // var data = myObj[16];
-              // console.log(data[0][1]);
               break;
           default:
             // homeload(myObj);
             break;
         }
+        
       }
       
   };
@@ -787,8 +788,8 @@ function uprofilecardload(array){
       "<li><b>PERSON / COMPANY NAME:</b>"+data["name"]+"</li>"+
       "<li><b>JOB TITLE/ JOB ROLE:</b>"+data["role"]+"</li>"+
       "<li><b>LOCATION:</b>"+data["sublocation"]+", "+data["location"]+"</li>"+
-      "<li><b>WHATSAPP NUMBER:</b>"+data["whatapp"]+"</li>"+
-      "<li><b>LOCATION:</b>"+data["location"]+"</li>"+
+      "<li id= whatsappnum ><b>WHATSAPP NUMBER:</b>"+data["whatapp"]+"</li>"+
+      "<li><b>CONTACT NUMBER:</b>"+data["phone"]+"</li>"+
       "<li><b>SKILLS:</b>"+data["skills"]+"</li>"+
   "</ul>"+
 "</div>"+
@@ -796,14 +797,14 @@ function uprofilecardload(array){
       "<ul>"+
           "<li><b>UNION:</b>"+data["union"]+"</li>"+
           "<li><b>WEBSITE:</b>"+data["website"]+"</li>"+
-          "<li><b>CONTACT NUMBER:</b>"+data["phone"]+"</li>"+
+          "<li id= scnumber ><b>SECONDARY CONTACT</b>"+data["phone2"]+"</li>"+
           "<li><b>EMAIL:</b>"+data["email"]+"</li>"+
-          "<li><b>ADDRESS:</b>"+data["address"]+"</li>"+
+          "<li id= addresshide ><b>ADDRESS:</b>"+data["address"]+"</li>"+
       "</ul>"+
 "</div>"+
 "<div class= col-sm-2 >"+
   "<div class= center >"+
-  "<div class= popup1  onclick= myFunction(&quot;a&quot;)>"+
+  "<div class= popup1 id= whatsappimg  onclick= myFunction(&quot;a&quot;)>"+
               "<img src= assets/img/icon/ic_whatsapp_profile_page-min.png class= profileicons >"+
           "<span class= popuptext1  id= a >"+data["whatapp"]+"</span>"+
           "</div>"+
@@ -818,6 +819,9 @@ function uprofilecardload(array){
       "<button class= profileedit  id= editButton   onclick= editProfileData();  >EDIT</button>"
   "</div>"+
 "</div></div></div></div>";
+
+priv =data["privatetag"];
+// console.log(priv+"in templ")
 
   document.getElementById('profilecard').innerHTML = htmltemp; 
 }
@@ -881,7 +885,7 @@ function templateprofilepost(data, array){
 
 
 //Toggle Model helper
-function toggleSignUp(box1,box2,innerId){
+function toggleSignUp1(box1,box2,innerId){
 
   document.getElementById(box1).style.display='block';
   document.getElementById(innerId).style.display='block';
@@ -1185,9 +1189,9 @@ function loginManagement(){
   if(parseInt(getCookie("isLogged="))==1){
     // console.log("logged");
     setTimeout(function () {
-        document.getElementById('loginHead').innerHTML = "<a class= nav-link  href= profile.html?"+getCookie("userId=")+" >"+getCookie("userName=")+"</a>";
+        document.getElementById('loginHead').innerHTML = "<a class= nav-link  href= profile.html?user_id="+getCookie("userId=")+" >"+getCookie("userName=")+"</a>";
         document.getElementById('signUpHead').innerHTML = "<a class= nav-link  href= javascript:logOutProcess() >Log Out</a>";
-	  }, 1000);    
+	  }, 100);    
   }
 }
 
@@ -1241,6 +1245,18 @@ function premiumSignUpEdit(){
   var website = document.getElementById('inputWebsite').value;
   var phone2 = document.getElementById('inputSecondaryContact').value;
   var skills = document.getElementById('inputSkills').value;
+  var privatetag = 0;
+  if(skills.charAt(0)==","){
+    skills = skills.substr(1,skills.length)
+  }
+  if(phone2.charAt(0)==","){
+    phone2 = phone2.substr(1,phone2.length)
+  }
+  if (document.getElementById("privateTag").checked == 1){
+    privatetag = 1;
+  } else {
+    privatetag = 0;
+  }
 
   
   
@@ -1254,10 +1270,6 @@ function premiumSignUpEdit(){
   }
   else if(password1 != password2){
     document.getElementById('vaildation').innerHTML= "Password don't match!";
-    document.getElementById('vaildation').style.display = "block";
-  }
-  else if(imagedata == null ){
-    document.getElementById('vaildation').innerHTML= "Image is empty";
     document.getElementById('vaildation').style.display = "block";
   }
   else{
@@ -1280,7 +1292,7 @@ function premiumSignUpEdit(){
       
   };
   var id = getCookie("userId=");
-  var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata+"&phone2="+phone2+"&skills="+skills+"&id="+id;
+  var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata+"&phone2="+phone2+"&skills="+skills+"&id="+id+"&privatetag="+privatetag;
   xhr.open("post", "assets/php/updateprofiledata.php", true);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   xhr.send(params);
@@ -1322,7 +1334,13 @@ function getPremiumData(){
         document.getElementById('inputSecondaryContact').value = data["phone2"];
         document.getElementById('inputSkills').value = data["skills"];
         // console.log(data["type"]);
-        spanPopulate1(document.getElementById("inputSkills").value);
+        if(document.getElementById("inputSkills").value !=""){
+          spanPopulate1(document.getElementById("inputSkills").value);
+        }
+        if(document.getElementById("inputSecondaryContact").value !=""){
+          spanPopulatePhone1(document.getElementById("inputSecondaryContact").value);
+        }
+        
 			}, 600);
     }
   }
@@ -1385,12 +1403,13 @@ function postComment(p_id){
 
 function spanPopulate(data){
   data = data + ",";
+  var htmltemp = ""
  
   var data1 = data.substr(1, data.length-2);
   // console.log(data1);
   data1 = data1.split(',');
   if(data1.length>10){
-    alert("Skills execeds Limit ")
+    alert("Maximum 10 skills")
   }
   else{
     for(i=0;i<data1.length;i++){
@@ -1427,13 +1446,16 @@ function deleteFormForm(idspan,deleteword){
   str = str.split(',');
   for(i=0;i<str.length;i++){
     if(str[i]==deleteword){
-      str[i] = str[i].replace(deleteword,'');
+      str[i] = str[i].replace(deleteword,'~');
       
     }
-    // console.log(str[i]);
+    console.log(str[i]);
   }
-  for(i=1;i<str.length;i++){
+  for(i=0;i<str.length;i++){
     if(str[i]!=""){
+      if(str[i] == "~"){
+        continue;
+      }
       newstr = newstr+"," + str[i];
       // str[i] = str[i].replace(deleteword,'');
       
@@ -1549,3 +1571,151 @@ function postImageGetter(data) {
   postimage = data;
   console.log("hell is heaven");
 }
+
+function getphonevalue(){
+
+  var skils = document.getElementById("hidephone").value;
+  if(skils != ""){
+    if(skils.length == 10){
+      document.getElementById("inputSecondaryContact").value = document.getElementById("inputSecondaryContact").value +"," +skils ;
+      document.getElementById("hidephone").value = "";
+      spanPopulatePhone(document.getElementById("inputSecondaryContact").value);
+    }
+
+  }
+
+}
+function getphonevalue2(){
+  if(event.keyCode === 13){
+    var skils = document.getElementById("hidephone").value;
+    if(skils != ""){
+      if(skils.length == 10){
+        document.getElementById("inputSecondaryContact").value = document.getElementById("inputSecondaryContact").value +"," +skils ;
+        document.getElementById("hidephone").value = "";
+        spanPopulatePhone(document.getElementById("inputSecondaryContact").value);
+      }
+      else{
+        alert("Enter 10 digits for phone number.")
+      }
+    }
+  }
+}
+
+function spanPopulatePhone(data){
+  data = data + ",";
+  var htmltemp = ""
+ 
+  var data1 = data.substr(1, data.length-2);
+  // console.log(data1);
+  data1 = data1.split(',');
+  if(data1.length>3){
+    alert("Maximum 3 Number")
+  }
+  else if(data1 == ""){
+
+  }
+  else{
+    for(i=0;i<data1.length;i++){
+      var str = data1[i];
+      str = str.replace(/ /g,"&#32;");
+      htmltemp = htmltemp + "<div id= spanphone"+i+"  class='tagInForm'>"+data1[i]+"<i class='closeicon' onclick='deleteFromPhone(&quot;spanphone"+i+"&quot;,&quot;"+str+"&quot;);' ></i> </div>";
+  }
+  htmltemp = htmltemp + "<input id='hidephone'  class='hide' onkeypress='getphonevalue2();'>";
+  document.getElementById('spanreplacephone').innerHTML = htmltemp;
+  document.getElementById('hidephone').focus();
+  }
+
+}
+
+
+function spanPopulatePhone1(data1){
+  var htmltemp = "";
+  data1  = data1.split(",");
+    for(i=0;i<data1.length;i++){
+      var str = data1[i];
+      str = str.replace(/ /g,"&#32;");
+      htmltemp = htmltemp + "<div id= spanphone"+i+"  class='tagInForm'>"+data1[i]+"<i class='closeicon' onclick='deleteFromPhone(&quot;spanphone"+i+"&quot;,&quot;"+str+"&quot;);' ></i> </div>";
+    }
+  htmltemp = htmltemp + "<input id='hidephone'  class='hide' onkeypress='getphonevalue2();'>";
+  document.getElementById('spanreplacephone').innerHTML = htmltemp;
+  // document.getElementById('hide').focus();
+  }
+
+  function deleteFromPhone(idspan,deleteword){
+    document.getElementById(idspan).style.display = "none";
+    var str = document.getElementById("inputSecondaryContact").value;
+    var newstr = "";
+    str = str.split(',');
+    for(i=0;i<str.length;i++){
+      if(str[i]==deleteword){
+        str[i] = str[i].replace(deleteword,'~');
+        
+      }
+      // console.log(str[i]);
+    }
+    for(i=0;i<str.length;i++){
+      if(str[i]!=""){
+        if(str[i] == "~"){
+          continue;
+        }
+        newstr = newstr+"," + str[i];
+        // str[i] = str[i].replace(deleteword,'');
+        
+      }
+    }
+    // newstr = newstr.substring(1,newstr.length)
+    console.log(newstr);
+    // console.log('delete\n' +deleteword +"\n"+  str);
+    document.getElementById("inputSecondaryContact").value = newstr;
+  }
+  function queryHandlerProfile(){
+    var qryUserId = "";
+    // var success= NaN;
+    var qryStrings = getQueryString();
+    if(qryStrings == "null"){
+        if(getCookie("userId=")!="null"){
+            loadProfileInfo('profilecard',getCookie("userId="));
+            loadProfileInfo('profilepost',getCookie("userId="));
+        }
+        else{
+            alert("Login Please");
+            window.location = "index.html";
+        }
+    }else if(qryStrings == ""){
+        console.log("emptyArry");
+        reDirect("error.html");
+    }
+    else{
+        qryStrings.forEach(element => {
+        if(element.startsWith('user_id')){
+            qryUserId = element.split('=')[1];
+            if(isNaN(parseInt(qryUserId))){
+                reDirect("error.html");
+            }else{
+                if(qryUserId == getCookie("userId=")){
+                    loadProfileInfo('profilecard',qryUserId);
+                    loadProfileInfo('profilepost',qryUserId);
+                }
+                else{
+                    // console.log(qryUserId);
+                    loadProfileInfo('profilecard',qryUserId);
+                    
+                    loadProfileInfo('profilepost',qryUserId);
+                    setTimeout(function () {
+                        document.getElementById('editButton').style.display= "none";
+                        if(priv == 1){
+                          document.getElementById('whatsappnum').style.display= "none";
+                          document.getElementById('scnumber').style.display= "none";
+                          document.getElementById('addresshide').style.display= "none";
+                          document.getElementById('whatsappimg').style.display= "none";
+                        }
+                    }, 100);
+                }
+            }
+        } 
+        else if(isNaN(parseInt(qryUserId))){
+          reDirect("error.html");
+      }
+    });
+    }
+  }

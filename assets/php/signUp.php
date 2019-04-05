@@ -6,7 +6,7 @@
     $data = json_decode($dataJSON);
     
     if($data->userType == 'premium'){
-        $sql = "INSERT INTO `profile_table` (`name`,`phone`,`premium`) VALUES ('$data->newName','$data->newPhone','1');";  
+        $sql = "INSERT INTO `profile_table` (`name`,`phone`) VALUES ('$data->newName','$data->newPhone');";  
     } else {
         $sql = "INSERT INTO `profile_table` (`name`,`phone`,`password`) VALUES ('$data->newName','$data->newPhone','$data->newPassword');";  
     }

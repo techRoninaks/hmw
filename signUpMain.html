@@ -52,15 +52,11 @@
           <div class="w3-container" style="padding:2rem;">
             <span onclick="document.getElementById('id04').style.display='none'" class="w3-button w3-display-topright">&times;</span>
             <h5 style="text-align:center;font-family:defaultBarlowBold;">OTP VERIFICATION</h5><br>
-            <div style="text-align:center;display:none;" id="limitDisplay">
-            <h5 style="font-family:defaultBarlowBold;color:red;">Maximum number of attempts reached.<br>Try again later!</h5><br>
-            <button class="btn" onclick="javascript:window.location.replace('index.html')">HOME</button>
-            </div>
-            <form method="POST" action="javascript:otpVerify()" id="otpForm">
+            <form method="POST" action="javascript:otpVerify()">
                 <label>ENTER OTP</label>
                 <input type="password" class="form-control" style="outline:0;border:none;border-radius:5px;background-color: #f1f1f1;" id="otp" required><br>
-                <label><a href="javascript:sendOTP()">RESEND OTP</a></label>
-                <p style="display:none;color:red;" id="otpError">The OTP you have entered is incorrect!</p>
+                <label>RESEND OTP</label>
+                <p style="display:none" id="otpError">The OTP you have entered is incorrect!</p>
                 <button type="submit" class="btn" style="float:right;color:white;background:#333333;">SUBMIT</button>
             </form>
           </div>
