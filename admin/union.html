@@ -118,9 +118,9 @@
                             <!--<input type="text" class="form-control formStyle" placeholder="Labels" id="labelName" required><br>-->
                             <!--<label>Union Name</label><p style="display:inline;color:red;">*</p>-->
                             <!--<input type="text" class="form-control formStyle" placeholder="Union Name" id="unionName" required><br>-->
-                            <label>Select image to upload:</label>
-                            <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" src=''>
-                            <br>
+                            <!--<label>Select image to upload:</label>-->
+                            <!--<input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" src=''>-->
+                            <!--<br>-->
                             <button type="submit" style="display:inline" class="btn btn-secondary-outline" value="Submit" id="submitbutton">UPLOAD</button>
                             <button type="button" class="btn btn-secondary-outline" value="Cancel" onclick="cancelFunc()">CANCEL</button>
                             </form>
@@ -160,6 +160,8 @@
 	<script src="assets/js/demo.js"></script>
     <script type="text/javascript">
         var userId = "";
+        // document.getElementById("fileToUpload").addEventListener("change", readFile);
+        
         $(document).ready(function(){
             if(!checkCookie("userId")){
                 // window.location = window.location.origin;
@@ -168,6 +170,11 @@
 
     	});
         includeHTML();
+        window.onload = function(){
+           setTimeout(function(){
+               activateSideNav();
+           }, 100);
+        };
         showData();
         function toggleTabs(type){
             switch(type){

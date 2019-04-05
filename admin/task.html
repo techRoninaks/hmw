@@ -5,7 +5,7 @@
 	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Manage Categories - HELLOmywork Admin</title>
+	<title>Manage Tasks - HELLOmywork Admin</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -35,11 +35,6 @@
 
 <div class="wrapper">
     <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg" w3-include-html="sidenav.html">
-
-    <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
-
-
-    	
     </div>
 
     <div class="main-panel">
@@ -50,29 +45,34 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">Manage Categories</h4>
-                        <p class="category">Add/Delete/Edit Categories</p>
+                        <h4 class="title">Manage Tasks</h4>
+                        <p class="category">Add/Delete/Edit Tasks</p>
                         <div style="padding-top: 8px;">
-                            <button class="btn btn-info btn-fill" onclick="toggleTabs('addCategory')" id="btnCategory">Add Category</button>
+                            <button class="btn btn-info btn-fill" onclick="toggleTabs('addTask')" id="btnTask">Add New Task</button>
                         </div>
                     </div>
-                    <div class="content table-responsive table-full-width" id="categoryTable">
+                    <div class="content table-responsive table-full-width" id="taskTable">
                     </div>
-                    <div style="padding:2rem;display:none;" id="addCategory">
-                        <form enctype="multipart/form-data" action="javascript:dataUpdate('category')" method="post">
-                            <label>Category Name</label><p style="display:inline;color:red;">*</p>
-                            <input type="text" class="form-control formStyle" placeholder="Category Name" id="catName" required><br>
-                            <label>Labels</label><p style="display:inline;color:red;">*</p>
-                            <input type="text" class="form-control formStyle" placeholder="Labels" id="labelName" required><br>
-                            <label>Union Name</label><p style="display:inline;color:red;">*</p><br>
-                            <select name="union" id="unionName"></select><br><br>
-                            <label>Select image to upload:</label>
-                            <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" src=''>
-                            <br>
+                    <div style="padding:2rem;display:none;" id="addTask">
+                        <form enctype="multipart/form-data" action="javascript:dataUpdate('task')" method="post">
+                            <label>Username</label><p style="display:inline;color:red;">*</p><br>
+                            <!--<input type="text" class="form-control formStyle" placeholder="Username" id="userName" required><br>-->
+                            <select id="userName" onchange="fetchUserId()"></select><br><br>
+                            <label>UserId</label><p style="display:inline;color:red;">*</p><br>
+                            <select id="userId" ></select><br><br>
+                            <label>Prospect Target</label><p style="display:inline;color:red;">*</p>
+                            <input type="text" class="form-control formStyle" placeholder="Prospect Target" id="targetPros" required><br>
+                            <label>Leads Target</label><p style="display:inline;color:red;">*</p>
+                            <input type="text" class="form-control formStyle" placeholder="Leads Target" id="targetLeads" required><br>
+                            <label>Start date:</label><p style="display:inline;color:red;">*</p>
+                            <input type="date" name="Start" id="startDate" required><br><br>
+                            <label>End date:</label><p style="display:inline;color:red;">*</p>
+                            <input type="date" name="End" id="endDate" required><br><br>
                             <button type="submit" style="display:inline" class="btn btn-secondary-outline" value="Submit" id="submitbutton">UPLOAD</button>
                             <button type="button" class="btn btn-secondary-outline" value="Cancel" onclick="cancelFunc()">CANCEL</button>
                             </form>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -107,8 +107,8 @@
 	<script src="assets/js/demo.js"></script>
     <script type="text/javascript">
         var userId = "";
-        document.getElementById("fileToUpload").addEventListener("change", readFile);
-
+        var response = {};
+        var response2 = {};
         $(document).ready(function(){
             if(!checkCookie("userId")){
                 // window.location = window.location.origin;
@@ -125,28 +125,29 @@
         showData();
         function toggleTabs(type){
             switch(type){
-                case "addCategory":
-                    $('#btnCategory').removeClass().addClass('btn btn-fill');
-                    $('#categoryTable').hide();
-                    $('#addCategory').show();
+                case "addTask":
+                    $('#btnTask').removeClass().addClass('btn btn-fill');
+                    $('#taskTable').hide();
+                    $('#addTask').show();
                 break;
             }
         }
+        
         function showData() {
             $.ajax({
                 type: 'GET',
                 dataType:'json',
-                url: 'assets/php/getCategories.php', 
+                url: 'assets/php/getTasks.php', 
                 success: function(responseData) {
                     if(responseData.data.success == "successful"){
-                        var response = responseData.data.result;
-                        var tabHeader = "<table class='table table-hover table-striped'><thead><th>ID</th><th>Category</th><th>Labels</th><th>Union</th><th>Action</th></thead>";
+                        response = responseData.data.result;
+                        var tabHeader = "<table class='table table-hover table-striped'><thead><th>ID</th><th>UserId</th><th>Username</th><th>Prospect Target</th><th>Leads Target</th><th>Start Date</th><th>End Date</th><th>Last Modified</th><th>Action</th></thead>";
                         var tabCategories = tabHeader;
                         response.forEach(element => {
-                            tabCategories = tabCategories + buildHtml("categoryTable", element);
+                            tabCategories = tabCategories + buildHtml("taskTable", element);
                         });
                         tabCategories = tabCategories + "</table>";
-                        document.getElementById("categoryTable").innerHTML = tabCategories;
+                        document.getElementById("taskTable").innerHTML = tabCategories;
                     }else{
                         demo.showNotification('top','center', 'Something went wrong', 4);
                         // window.location = window.location.origin;
@@ -157,18 +158,24 @@
                     // window.location = window.location.origin;
                 }
             });
+            
             $.ajax({
                 type: 'GET',
                 dataType:'json',
-                url: 'assets/php/getUnions.php',
+                url: 'assets/php/getUsers.php',
                 success:function(responseData) {
-                        var optionUnions = "<option>Select<option>";
+                        var optionCategories = "<option>Select<option>";
+                        var optionId = "<option>Select<option>";
                             if(responseData.data.success == "successful"){
-                                var response = responseData.data.result;
-                                response.forEach(element => {
-                                optionUnions = optionUnions + buildHtml("unionName", element);
+                                response2 = responseData.data.result;
+                                response2.forEach(element => {
+                                optionCategories = optionCategories + buildHtml("userName", element);
                             });
-                            document.getElementById("unionName").innerHTML = optionUnions;
+                            response2.forEach(element => {
+                                optionId = optionId + buildHtml("userId", element);
+                            });
+                            document.getElementById("userName").innerHTML = optionCategories;
+                            document.getElementById("userId").innerHTML = optionId;
                             } else {
                                 demo.showNotification('top','center', 'Something went wrong', 4);
                                 // window.location = window.location.origin;
@@ -180,21 +187,33 @@
                 }
             });
         }
-
+        
         function buildHtml(template, data){
             var htmlString = "";
-            var pageName = "'category'";
+            var pageName = "'task'";
+            
             switch(template){
-                case "categoryTable":
-                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td>" + data.tags + "</td><td>" + data.union + "</td><td><img src='assets/img/edit-button.png' onclick="+"toggleTabs('addCategory');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
+                
+                case "taskTable":
+                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.userId + "</td><td>" + data.userName +"</td><td>" + data.targetPros +"</td><td>" + data.targetLeads+"</td><td>" + data.startDate +"</td><td>" + data.endDate +"</td><td>" + data.modDate + "</td><td><img src='assets/img/edit-button.png' onclick="+"toggleTabs('addTask');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
                 break;
-                case "unionName":
-                    htmlString = "<option>" + data.name + "</option>";
+                case "userName": htmlString = "<option>" + data.name + "</option>";
+                break;
+                case "userId": htmlString = "<option>" + data.id + "</option>";
                 break;
             }
             return htmlString;
         }
-        
+        function fetchUserId(){
+            var userSelected = document.getElementById("userName").value;
+            for(i = 0; i<response2.length; i++){
+                if(response2[i].name == userSelected){
+                    document.getElementById("userId").value = response2[i].id;
+                    document.getElementById("userId").disabled = true;
+                    break;
+                }
+            }
+        }
 	</script>
 
 </html>
