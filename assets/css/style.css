@@ -306,6 +306,9 @@ ul#menu .active {
     position: relative;
     bottom: 12px;
     text-decoration: none;
+    display: block;
+    height: 25px;
+    word-wrap: inherit;
 }
 .imagetextcate a:hover{
 
@@ -388,6 +391,16 @@ ul#menu .active {
 
 .salmon{
     background: url(../img/cate_icons_background/ic_bg_brown-min.png) no-repeat ;
+    background-size: cover;
+    /* height: 100px;
+    width: 130px; */
+    object-fit: cover;
+    background-position: center;
+    resize: block;
+}
+
+.hearty{
+    background: url(../img/cate_icons_background/icons-and-backgrounds-min.png) no-repeat ;
     background-size: cover;
     /* height: 100px;
     width: 130px; */
@@ -1453,4 +1466,8 @@ footer .line{
 .privateTag{
     color: red;
     margin: 10px;
+}
+
+.viewmore{
+    cursor: pointer;
 }
