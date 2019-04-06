@@ -60,7 +60,7 @@ function getCookie(cname) {
 
 function checkCookie(cname) {
   var value = getCookie(cname);
-  if (value == "") {
+  if (value === "null" || value === "") {
     return false;
   }
   return true;

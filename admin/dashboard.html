@@ -211,12 +211,10 @@
         };
         includeHTML();
         getData();
-        console.log("userFirst->"+userLive.userId);
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
+        // google.charts.load('current', {'packages':['corechart']});
+        // google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-            console.log("final-"+ typeof userLive.finalPros);
             var a =userLive.finalPros;
             var dataPros = google.visualization.arrayToDataTable([
             ['Effort', 'Amount given'],
@@ -266,9 +264,9 @@
         }
         $(document).ready(function(){
             if(!checkCookie("userId")){
-                window.location = window.location.origin;
+                cancelFunc(-1);
             }
-        	demo.initChartist();
+        // 	demo.initChartist();
         	$.notify({
             	icon: 'pe-7s-gift',
             	message: "Welcome to <b>HELLOmywork Admin</b> - Manage your tasks here."
@@ -315,14 +313,14 @@
                         var tabCategories = tabHeader;
                         response.forEach(element => {
                             tabCategories = tabCategories + buildHtml("conversionsTable", element);
-                            console.log("inside->"+element.userId);
                             if(element.userId == getCookie("userId")){
                                 userLive = element;
-                                console.log("userInside->"+userLive.userId);
                             }
                         });
                         tabCategories = tabCategories + "</tbody></table>";
                         document.getElementById("conversionsTable").innerHTML = tabCategories;
+                        google.charts.load('current', {'packages':['corechart']});
+                        google.charts.setOnLoadCallback(drawChart);
                     }else{
                         demo.showNotification('top','center', 'Nothing to display', 4);
                         // window.location = window.location.origin;
