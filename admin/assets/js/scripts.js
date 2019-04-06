@@ -69,7 +69,7 @@ function checkCookie(cname) {
 function activateSideNav(){
     var loc = window.location.href;
     var activePage = "";
-    console.log("loc->"+loc.includes("dashboard.html"));
+    // console.log("loc->"+loc.includes("dashboard.html"));
     if(loc.includes("dashboard.html")){
         activePage = "dashboard";
     }else if(loc.includes("customer.html")){
@@ -107,7 +107,10 @@ function readFile() {
      FR.readAsDataURL( this.files[0] );
   }
 }
-function cancelFunc(){
+function loadProfile(){
+    document.getElementById("acName").innerHTML = getCookie("userName");
+}
+function cancelFunc(val=0){
     setCookie("userOnEdit");
     setCookie("catOnEdit");
     setCookie("unionOnEdit");
@@ -115,7 +118,17 @@ function cancelFunc(){
     setCookie("customerOnEdit");
     setCookie("taskOnEdit");
     setCookie("notifOnEdit");
-    window.location.reload();
+    
+    if(val !== 0){
+        setCookie("userId");
+        setCookie("userName");
+        setCookie("isAdmin");
+        var page = window.location.protocol+"//"+window.location.hostname+"/helloMyWork/admin/login/login.html";
+        window.location.replace(page);
+    } else {
+        window.location.reload();
+    }
+    
 }
 
 function dataUpdate(pageName){
@@ -149,7 +162,7 @@ function dataUpdate(pageName){
             data[3] =  document.getElementById("contact").value;
             data[4] =  document.getElementById("password").value;
             data[5] =  document.getElementById("fileToUpload").files[0];
-            console.log("imagedat->"+data[5]);
+            // console.log("imagedat->"+data[5]);
             prevName = getCookie("userOnEdit");
             myObj = {"fName":data[0],"lName":data[1],"eMail":data[2],"contact":data[3],"password":data[4],"cookieName":prevName};
         } else if(pageName == 'category'){
@@ -203,7 +216,7 @@ function dataUpdate(pageName){
             }
             
             myObj = {"custName":data[0],"typeName":data[1],"roleName":data[2],"catName":data[3],"unionName":data[4],"addName":data[5],"locName":data[6],"subLocName":data[7],"stateName":data[8],"countryName":data[9],"pincode":data[10],"primaryPhone":data[11],"secondaryPhone":data[12],"whatsappPhone":data[13],"eMail":data[14],"webSite":data[15],"skillName":data[16],"password":data[17],"cookieName":prevName,"image":postimage};
-            console.log("->>>"+myObj);
+            // console.log("->>>"+myObj);
         } else if(pageName == 'task'){
             data[0] = document.getElementById("userName").value;
             data[1] = document.getElementById("targetPros").value;
@@ -212,7 +225,7 @@ function dataUpdate(pageName){
             data[4] = document.getElementById("endDate").value;
             data[5] = document.getElementById("userId").value;
             prevId = getCookie("taskOnEdit");
-            myObj = {"userName":data[0],"targetPros":data[1],"targetLeads":data[2],"startDate":data[3],"endDate":data[4],"mainUserId":data[5],"cookieTaskId":prevId};
+            myObj = {"userName":data[0],"targetPros":data[1],"targetLeads":data[2],"startDate":data[3],"endDate":data[4],"mainUserId":data[5],"cookieUserId":prevId};
         } else if(pageName == 'notifications'){
             data[0] = document.getElementById("notifHead").value;
             data[1] = document.getElementById("notifContent").value;
@@ -221,7 +234,7 @@ function dataUpdate(pageName){
         }
         var jSONObj = JSON.stringify(myObj);
         
-        console.log("-> "+jSONObj);
+        // console.log("-> "+jSONObj);
         xhr =  new XMLHttpRequest();
         this.responseType = 'text';
            xhr.onreadystatechange  =  function() {
@@ -330,6 +343,8 @@ function fetchData(id,pageName){
                         } else if(pageName == "task"){
                             document.getElementById("userName").value = myObj.userName;
                             document.getElementById("userName").disabled = true;
+                            document.getElementById("userId").value = myObj.userId;
+                            document.getElementById("userId").disabled = true;
                             document.getElementById("targetPros").value = myObj.targetPros;
                             document.getElementById("targetLeads").value = myObj.targetLeads;
                             document.getElementById("startDate").value = myObj.startDate;

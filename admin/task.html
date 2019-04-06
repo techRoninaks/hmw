@@ -111,7 +111,7 @@
         var response2 = {};
         $(document).ready(function(){
             if(!checkCookie("userId")){
-                // window.location = window.location.origin;
+                window.location = window.location.origin;
             }
         	userId = getCookie("userId");
 
@@ -120,6 +120,9 @@
         window.onload = function(){
            setTimeout(function(){
                activateSideNav();
+           }, 100);
+           setTimeout(function(){
+               loadProfile();
            }, 100);
         };
         showData();

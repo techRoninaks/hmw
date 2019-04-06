@@ -142,23 +142,24 @@
         var globCopy2 = "";
         $(document).ready(function(){
             if(!checkCookie("userId")){
-                // window.location = window.location.origin;
+                window.location = window.location.origin;
             }
         	userId = getCookie("userId");
 
     	});
-        includeHTML();
-        document.getElementById("fileToUpload").addEventListener("change", readFile);
-        window.onload = function(){
+    	window.onload = function(){
            setTimeout(function(){
                activateSideNav();
            }, 100);
-        };
-        window.onload = function(){
+           setTimeout(function(){
+               loadProfile();
+           }, 100);
            setTimeout(function(){
                premium();
            }, 100);
-        };  
+        };
+        includeHTML();
+        document.getElementById("fileToUpload").addEventListener("change", readFile);
         showData();
         function toggleTabs(type){
             switch(type){
@@ -254,7 +255,7 @@
             var pageName = "'customer'";
             switch(template){
                 case "customerTable":
-                    htmlString = "<tr><td>" + data.id + "</td><td><i class='pe-7s-diamond' style='display:none;' id='premium'></i>" + data.name + "</td><td>" + data.role + "</td><td>"+ data.skills+"</td><td>"+data.union + "</td><td>" + data.location + "</td><td>" + data.phone + "</td><td>"+ data.doj +"</td><td><img src='assets/img/edit-button.png' onclick="+"toggleTabs('addCustomer');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
+                    htmlString = "<tr><td>" + data.id + "</td><td><img src='assets/img/gold-crown-icon.png' style='display:none;height:16px;width:16px;' id='premium'> " + data.name + "</td><td>" + data.role + "</td><td>"+ data.skills+"</td><td>"+data.union + "</td><td>" + data.location + "</td><td>" + data.phone + "</td><td>"+ data.doj +"</td><td><img src='assets/img/edit-button.png' onclick="+"toggleTabs('addCustomer');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
                 break;
                 case "catName":
                     htmlString = "<option>" + data.name + "</option>";

@@ -5,7 +5,7 @@
 	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Notifications - HELLOmywork Admin</title>
+	<title>Manage Contests - HELLOmywork Admin</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -45,10 +45,10 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">Manage Notifications</h4>
-                        <p class="category">Add/Delete/Edit Notifications</p>
+                        <h4 class="title">Manage Contests</h4>
+                        <p class="category">Add/Delete/Edit Contests</p>
                         <div style="padding-top: 8px;">
-                            <button class="btn btn-info btn-fill" onclick="toggleTabs('addNotif')" id="btnNotif">Add New Notification</button>
+                            <button class="btn btn-info btn-fill" onclick="toggleTabs('addNotif')" id="btnNotif">Add New Contests</button>
                         </div>
                     </div>
                     <div class="content table-responsive table-full-width" id="notifTable">
@@ -105,7 +105,7 @@
         var response2 = {};
         $(document).ready(function(){
             if(!checkCookie("userId")){
-                // window.location = window.location.origin;
+                window.location = window.location.origin;
             }
         	userId = getCookie("userId");
 
@@ -114,6 +114,9 @@
         window.onload = function(){
            setTimeout(function(){
                activateSideNav();
+           }, 100);
+           setTimeout(function(){
+               loadProfile();
            }, 100);
         };
         showData();
