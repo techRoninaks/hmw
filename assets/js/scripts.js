@@ -509,12 +509,31 @@ function homeprofileload(array){
 //load category page
 function homeUnionload(array){
   var htmltemp = "";
+  
   var template = "<li class= item1&#32;active  onclick= filterunion('ALL') >ALL</li>";
+  var arraya = [array[1]["tag"]] ;
+  var count = 1;
+  for(i=1; i<array.length-1;i++){
+    var data = array[i+1];
+    var falg = 0;
+    for(j=0;j<arraya.length;j++){
+      if(data["tag"]==arraya[j]){
+        falg = 1;
+        break;
+      }  
+    }
+    if(falg!=1){
+      arraya[count]=data["tag"];
+      count++;
+    } 
+  }
+  for(i=0;i<arraya.length;i++){
+    template = template + "<li class= item1  onclick= filterunion('"+arraya[i]+"')   >"+arraya[i]+"</li>";
+  }
   filterdata = array;
   for(i = 1; i<array.length; i++){
       var data = array[i];
         htmltemp = htmltemp + templatehomeunion(data);
-        template = template + "<li class= item1  onclick= filterunion('"+data["tag"]+"')   >"+data["tag"]+"</li>";
   }
   // htmltemp = htmltemp + htmltemp + htmltemp + htmltemp + htmltemp;
   template = template + "<hr>";
@@ -596,11 +615,9 @@ function filterunion(tag){
     var data = filterdata[i];
     if(data['tag'] == tag){
       htmltemp = htmltemp + templatehomeunion(data);
-      console.log("filterdata")
     }
     if(tag == "ALL"){
       htmltemp = htmltemp + templatehomeunion(data);
-      console.log("hello")
     }  
     // else{
     //   flag = 1;
@@ -859,7 +876,7 @@ function templateprofilepost(data, array){
           "</div>"+
           "<div class= layer2 >"+
               "<div class= itemoverlay ><i class= heart ></i>"+data["likes"]+" LIKES</div>"+
-              "<div class= itemoverlay ><i class= commenticon ></i>"+data["comments"]+" COMMENTS</div>"+
+              "<div class= itemoverlay ><i class= commenticon ></i>"+data["commentnumber"]+" COMMENTS</div>"+
               "<div class= itemoverlaylast ><i class= shareicon ></i>SHARE</div>"+
           "</div>"+
       "</div>"+
@@ -870,7 +887,7 @@ function templateprofilepost(data, array){
       "</div>"+
       "<div class= line5 >"+
           "COMMENTS"+
-          "<p onclick= viewMorePost('comments"+data["id"]+"'); >VIEW MORE</p>"+
+          "<p class= viewmore  onclick= viewMorePost('comments"+data["id"]+"'); >VIEW MORE</p>"+
       "</div>"+
       "<div id= comments"+data["id"]+"  class= comments >"+
       commentLoad(data["comments"],data["id"])+
