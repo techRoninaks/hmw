@@ -49,9 +49,12 @@
                         <p class="category">Add/Delete/Edit Tasks</p>
                         <div style="padding-top: 8px;">
                             <button class="btn btn-info btn-fill" onclick="toggleTabs('addTask')" id="btnTask">Add New Task</button>
+                            <button class="btn btn-info btn-fill" onclick="toggleTabs('allTask')" id="btnAllTask">View All Tasks</button>
                         </div>
                     </div>
                     <div class="content table-responsive table-full-width" id="taskTable">
+                    </div>
+                    <div class="content table-responsive table-full-width" id="allTaskTable" style="display:none;">
                     </div>
                     <div style="padding:2rem;display:none;" id="addTask">
                         <form enctype="multipart/form-data" action="javascript:dataUpdate('task')" method="post">
@@ -64,6 +67,8 @@
                             <input type="text" class="form-control formStyle" placeholder="Prospect Target" id="targetPros" required><br>
                             <label>Leads Target</label><p style="display:inline;color:red;">*</p>
                             <input type="text" class="form-control formStyle" placeholder="Leads Target" id="targetLeads" required><br>
+                            <label>Conversions Target</label><p style="display:inline;color:red;">*</p>
+                            <input type="text" class="form-control formStyle" placeholder="Conversions Target" id="ConvLeads" required><br>
                             <label>Start date:</label><p style="display:inline;color:red;">*</p>
                             <input type="date" name="Start" id="startDate" required><br><br>
                             <label>End date:</label><p style="display:inline;color:red;">*</p>
@@ -110,11 +115,13 @@
         var response = {};
         var response2 = {};
         $(document).ready(function(){
-            if(!checkCookie("userId")){
+            if(!checkCookie("empId")){
                 cancelFunc(-1);
             }
-        	userId = getCookie("userId");
-
+        	userId = getCookie("empId");
+            if(!checkCookie("taskManage")){
+        	    window.location.replace("dashboard.html");
+        	}
     	});
         includeHTML();
         window.onload = function(){
@@ -130,8 +137,29 @@
             switch(type){
                 case "addTask":
                     $('#btnTask').removeClass().addClass('btn btn-fill');
-                    $('#taskTable').hide();
+                    $('#btnAllTask').removeClass().addClass('btn btn-info btn-fill');
                     $('#addTask').show();
+                    $('#taskTable').hide();
+                    $('#allTask').hide();
+                    $('#allTaskTable').hide();
+
+                break;
+                case "allTask":
+                    var x = document.getElementById("allTaskTable").style.display;
+                    if(x == "none"){
+                        document.getElementById("allTaskTable").style.display = "inline";
+                        $('#btnAllTask').removeClass().addClass('btn btn-fill');
+                        $('#btnTask').removeClass().addClass('btn btn-info btn-fill');
+                        $('#taskTable').hide();
+                        $('#addTask').hide();
+                        $('#allTask').show();
+                    } else { 
+                        document.getElementById("allTaskTable").style.display = "none";
+                        $('#btnAllTask').removeClass().addClass('btn btn-info btn-fill');
+                        $('#btnTask').removeClass().addClass('btn btn-fill');
+                        $('#allTask').hide();
+                        $('#taskTable').show();
+                    }
                 break;
             }
         }
@@ -144,7 +172,7 @@
                 success: function(responseData) {
                     if(responseData.data.success == "successful"){
                         response = responseData.data.result;
-                        var tabHeader = "<table class='table table-hover table-striped'><thead><th>ID</th><th>UserId</th><th>Username</th><th>Prospect Target</th><th>Leads Target</th><th>Start Date</th><th>End Date</th><th>Last Modified</th><th>Action</th></thead>";
+                        var tabHeader = "<table class='table table-hover table-striped'><thead><th>ID</th><th>UserId</th><th>Username</th><th>Prospect Target</th><th>Leads Target</th><th>Conversions Target</th><th>Start Date</th><th>End Date</th><th>Last Modified</th><th>Action</th></thead>";
                         var tabCategories = tabHeader;
                         response.forEach(element => {
                             tabCategories = tabCategories + buildHtml("taskTable", element);
@@ -152,7 +180,7 @@
                         tabCategories = tabCategories + "</table>";
                         document.getElementById("taskTable").innerHTML = tabCategories;
                     }else{
-                        demo.showNotification('top','center', 'Something went wrong', 4);
+                        demo.showNotification('top','center', 'No tasks this week', 4);
                         // window.location = window.location.origin;
                     }
                 },
@@ -161,7 +189,30 @@
                     // window.location = window.location.origin;
                 }
             });
-            
+            $.ajax({
+                type: 'GET',
+                dataType:'json',
+                url: 'assets/php/getAllTasks.php', 
+                success: function(responseData) {
+                    if(responseData.data.success == "successful"){
+                        response = responseData.data.result;
+                        var tabHeader = "<table class='table table-hover table-striped'><thead><th>ID</th><th>UserId</th><th>Username</th><th>Prospect Target</th><th>Leads Target</th><th>Conversions Target</th><th>Start Date</th><th>End Date</th><th>Last Modified</th><th>Action</th></thead>";
+                        var tabCategories = tabHeader;
+                        response.forEach(element => {
+                            tabCategories = tabCategories + buildHtml("allTaskTable", element);
+                        });
+                        tabCategories = tabCategories + "</table>";
+                        document.getElementById("allTaskTable").innerHTML = tabCategories;
+                    }else{
+                        demo.showNotification('top','center', 'No tasks this week', 4);
+                        // window.location = window.location.origin;
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    demo.showNotification('top','center', 'Something went wrong', 4);
+                    // window.location = window.location.origin;
+                }
+            });
             $.ajax({
                 type: 'GET',
                 dataType:'json',
@@ -198,12 +249,15 @@
             switch(template){
                 
                 case "taskTable":
-                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.userId + "</td><td>" + data.userName +"</td><td>" + data.targetPros +"</td><td>" + data.targetLeads+"</td><td>" + data.startDate +"</td><td>" + data.endDate +"</td><td>" + data.modDate + "</td><td><img src='assets/img/edit-button.png' onclick="+"toggleTabs('addTask');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
+                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.userId + "</td><td>" + data.userName +"</td><td>" + data.targetPros +"</td><td>" + data.targetLeads+"</td><td>" + data.ConvLeads +"</td><td>"+ data.startDate +"</td><td>" + data.endDate +"</td><td>" + data.modDate + "</td><td><img src='assets/img/edit-button.png' onclick="+"toggleTabs('addTask');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
                 break;
                 case "userName": htmlString = "<option>" + data.name + "</option>";
                 break;
                 case "userId": htmlString = "<option>" + data.id + "</option>";
                 break;
+                case "allTaskTable":
+                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.userId + "</td><td>" + data.userName +"</td><td>" + data.targetPros +"</td><td>" + data.targetLeads+"</td><td>" + data.ConvLeads +"</td><td>"+ data.startDate +"</td><td>" + data.endDate +"</td><td>" + data.modDate + "</td><td><img src='assets/img/edit-button.png' onclick="+"toggleTabs('addTask');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
+                    break;
             }
             return htmlString;
         }

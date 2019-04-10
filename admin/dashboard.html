@@ -215,7 +215,6 @@
         // google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-            var a =userLive.finalPros;
             var dataPros = google.visualization.arrayToDataTable([
             ['Effort', 'Amount given'],
             ['Completed',     parseInt(userLive.finalPros)],
@@ -263,7 +262,7 @@
             document.getElementById("dvConvCount").innerHTML = userLive.conversions+"/"+userLive.targetConversions;
         }
         $(document).ready(function(){
-            if(!checkCookie("userId")){
+            if(!checkCookie("empId")){
                 cancelFunc(-1);
             }
         // 	demo.initChartist();
@@ -313,12 +312,28 @@
                         var tabCategories = tabHeader;
                         response.forEach(element => {
                             tabCategories = tabCategories + buildHtml("conversionsTable", element);
-                            if(element.userId == getCookie("userId")){
-                                userLive = element;
-                            }
                         });
                         tabCategories = tabCategories + "</tbody></table>";
                         document.getElementById("conversionsTable").innerHTML = tabCategories;
+                    }else{
+                        demo.showNotification('top','center', 'Nothing to display', 4);
+                        // window.location = window.location.origin;
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    demo.showNotification('top','center', 'Something went wrong', 4);
+                    // window.location = window.location.origin;
+                }
+            });
+    	    $.ajax({
+                type: 'POST',
+                dataType:'json',
+                data:({userId:getCookie("empId")}),
+                url: 'assets/php/getPieData.php', 
+                success: function(responseData) {
+                    if(responseData.data.success == "successful"){
+                        var response = responseData.data.result;
+                        userLive = response[0];
                         google.charts.load('current', {'packages':['corechart']});
                         google.charts.setOnLoadCallback(drawChart);
                     }else{
@@ -331,7 +346,7 @@
                     // window.location = window.location.origin;
                 }
             });
-
+            
     	}
     	
     	function buildHtml(template, data){
@@ -340,13 +355,12 @@
             switch(template){
                 
                 case "notifTable":
-                    htmlString = '<tr style="cursor:pointer;" onclick="expandNews(&quot;' + data.id + '&quot;)"><td><div>' + data.headline + '<div style="display:none;font-style:italic;" id="'+data.id+'">'+data.content+'</div></div></td></tr>';
+                    htmlString = '<tr style="cursor:pointer;" onclick="expandNews(&quot;' + data.id + '&quot;)"><td><div style="color:red;"><b>' + data.headline + '</b><div class="category" style="display:none;font-style:italic;" id="'+data.id+'">'+data.content+'</div></div></td></tr>';
                 break;
                 case "conversionsTable":
                     htmlString = "<tr><td>" + count + "</td><td>" + data.userName + "</td><td>" + data.conversions + "</td></tr>";
                     count++;
                     break;
-                    
             }
             return htmlString;
         }

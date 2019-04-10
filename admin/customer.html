@@ -16,7 +16,7 @@
 
     <!-- Animation library for notifications   -->
     <link href="assets/css/animate.min.css" rel="stylesheet"/>
-
+    <link href="assets/css/searchTab.css" rel="stylesheet" />
     <!--  Light Bootstrap Table core CSS    -->
     <link href="assets/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet"/>
 
@@ -32,14 +32,20 @@
     <script src="assets/js/scripts.js" type="text/javascript"></script>
 </head>
 <body>
+<style>
+    .td{
+        white-space:pre-wrap;
+        
+        word-wrap:break-word;
+    }
+    .table {
+    border-collapse:collapse;
+    table-layout:fixed;
+    }
 
+</style>
 <div class="wrapper">
     <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg" w3-include-html="sidenav.html">
-
-    <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
-
-
-    	
     </div>
 
     <div class="main-panel">
@@ -51,10 +57,22 @@
                 <div class="card">
                     <div class="header">
                         <h4 class="title">Manage Customers</h4>
-                        <p class="category">Edit/Delete Customers</p>
-                        <!--<div style="padding-top: 8px;">-->
-                        <!--    <button class="btn btn-info btn-fill" onclick="toggleTabs('addCustomer')" id="btnCustomer">Add Category</button>-->
-                        <!--</div>-->
+                        <p class="category">Search/Edit/Delete Customers</p>
+                        <div class="topnav" style="padding-top: 8px;">
+                                <form enctype="multipart/form-data" action="javascript:searchCust()" method="post">
+                                    <div class="search-container" style="float:left;">
+                                        &emsp;<label>Start date:</label>
+                                        <input type="date" name="Start" id="startDate">&emsp;
+                                        <label>End date:</label>
+                                        <input type="date" name="End" id="endDate">
+                                        <button type="submit"><i class="fa fa-search"></i></button>
+                                    </div>
+                                    <div class="search-container">
+                                      <input type="text" placeholder="Search.." name="search" id="srchKey">
+                                      <button type="submit"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </form>
+                        </div>
                     </div>
                     <div class="content table-responsive table-full-width" id="customerTable">
                     </div>
@@ -141,21 +159,21 @@
         var globCopy = "";
         var globCopy2 = "";
         $(document).ready(function(){
-            if(!checkCookie("userId")){
+            if(!checkCookie("empId")){
                 cancelFunc(-1);
             }
-        	userId = getCookie("userId");
+        	userId = getCookie("empId");
+        	if(!checkCookie("custManage")){
+        	    window.location.replace("dashboard.html");
+        	}
 
     	});
     	window.onload = function(){
            setTimeout(function(){
                activateSideNav();
-           }, 100);
+           }, 10);
            setTimeout(function(){
                loadProfile();
-           }, 100);
-           setTimeout(function(){
-               premium();
            }, 100);
         };
         includeHTML();
@@ -164,7 +182,6 @@
         function toggleTabs(type){
             switch(type){
                 case "addCustomer":
-                    // $('#btnCustomer').removeClass().addClass('btn btn-fill');
                     $('#customerTable').hide();
                     $('#addCustomer').show();
                 break;
@@ -196,7 +213,6 @@
                     // window.location = window.location.origin;
                 }
             });
-
             $.ajax({
                 type: 'GET',
                 dataType:'json',
@@ -242,20 +258,111 @@
                 }
             });
         }
-          
-        function premium(){
-            for(i=0;i<globCopy2.length;i++)
-            if(globCopy2[i].premium == "1"){
-                        document.getElementById('premium').style.display = "inline";
+        
+        function searchCust(){
+            startDate = document.getElementById("startDate").value;
+            endDate = document.getElementById("endDate").value;
+            srchKey = document.getElementById("srchKey").value;
+            if((startDate !== "" || endDate !== "") && srchKey == ""){
+                $.ajax({
+                    type: 'POST',
+                    dataType:'json',
+                    data:({sDate:startDate,eDate:endDate}),
+                    url: 'assets/php/srchByDate.php', 
+                    success: function(responseData) {
+                        if(responseData.data.success == "successful"){
+                            var response = responseData.data.result;
+                            globCopy2 = response;
+                            var tabHeader = "<table class='table table-hover table-striped'><thead><th>ID</th><th>Customer</th><th>Role</th><th>Skills</th><th>Union</th><th>Location</th><th>Phone</th><th>Date of joining</th><th>Action</th></thead>";
+                            var tabCategories = tabHeader;
+                            response.forEach(element => {
+                                tabCategories = tabCategories + buildHtml("customerTable", element);
+                            });
+                            tabCategories = tabCategories + "</table>";
+                            document.getElementById("customerTable").innerHTML = tabCategories;
+                            $.notify({icon: 'pe-7s-info',message: "Search Successful!"},{type: 'info',timer: 4000});
+                        }else{
+                            demo.showNotification('top','center', 'Match not found!', 4);
+                            // window.location = window.location.origin;
+                        }
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        demo.showNotification('top','center', 'Something went wrong', 4);
+                        // window.location = window.location.origin;
+                    }
+                });
+            } else if((startDate == "" || endDate == "") && (srchKey)){
+                $.ajax({
+                type: 'POST',
+                dataType:'json',
+                data:({searchKey:srchKey}),
+                url: 'assets/php/srchCustomer.php', 
+                success: function(responseData) {
+                    if(responseData.data.success == "successful"){
+                        var response = responseData.data.result;
+                        globCopy2 = response;
+                        var tabHeader = "<table class='table table-hover table-striped'><thead><th>ID</th><th>Customer</th><th>Role</th><th>Skills</th><th>Union</th><th>Location</th><th>Phone</th><th>Date of joining</th><th>Action</th></thead>";
+                        var tabCategories = tabHeader;
+                        response.forEach(element => {
+                            tabCategories = tabCategories + buildHtml("customerTable", element);
+                        });
+                        tabCategories = tabCategories + "</table>";
+                        document.getElementById("customerTable").innerHTML = tabCategories;
+                        $.notify({icon: 'pe-7s-info',message: "Search Successful!"},{type: 'info',timer: 4000});
+                    }else{
+                        demo.showNotification('top','center', 'Match not found!', 4);
+                        // window.location = window.location.origin;
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    demo.showNotification('top','center', 'Something went wrong', 4);
+                    // window.location = window.location.origin;
+                }
+                });
+            } else if(startDate !== "" && endDate !== "" && srchKey !== ""){
+                $.ajax({
+                type: 'POST',
+                dataType:'json',
+                data:({sDate:startDate,eDate:endDate,searchKey:srchKey}),
+                url: 'assets/php/srchDateKey.php', 
+                success: function(responseData) {
+                    if(responseData.data.success == "successful"){
+                        var response = responseData.data.result;
+                        globCopy2 = response;
+                        var tabHeader = "<table class='table table-hover table-striped'><thead><th>ID</th><th>Customer</th><th>Role</th><th>Skills</th><th>Union</th><th>Location</th><th>Phone</th><th>Date of joining</th><th>Action</th></thead>";
+                        var tabCategories = tabHeader;
+                        response.forEach(element => {
+                            tabCategories = tabCategories + buildHtml("customerTable", element);
+                        });
+                        tabCategories = tabCategories + "</table>";
+                        document.getElementById("customerTable").innerHTML = tabCategories;
+                        $.notify({icon: 'pe-7s-info',message: "Search Successful!"},{type: 'info',timer: 4000});
+                    }else{
+                        demo.showNotification('top','center', 'Match not found!', 4);
+                        // window.location = window.location.origin;
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    demo.showNotification('top','center', 'Something went wrong', 4);
+                    // window.location = window.location.origin;
+                }
+                });
+                
+            } else {
+                alert("Sorry, Match not found!");
             }
         }
         
         function buildHtml(template, data){
             var htmlString = "";
             var pageName = "'customer'";
+            var premiumImg = "";
             switch(template){
                 case "customerTable":
-                    htmlString = "<tr><td>" + data.id + "</td><td><img src='assets/img/gold-crown-icon.png' style='display:none;height:16px;width:16px;' id='premium'> " + data.name + "</td><td>" + data.role + "</td><td>"+ data.skills+"</td><td>"+data.union + "</td><td>" + data.location + "</td><td>" + data.phone + "</td><td>"+ data.doj +"</td><td><img src='assets/img/edit-button.png' onclick="+"toggleTabs('addCustomer');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
+                    if(data.premium == '1'){
+                        premiumImg = "<img src='assets/img/gold-crown-icon.png' style='height:16px;width:16px;'> ";
+                    }
+                    htmlString = "<tr><td>" + data.id + "</td><td>"+ premiumImg + data.name + "</td><td>" + data.role + "</td><td>"+ data.skills+"</td><td>"+data.union + "</td><td>" + data.location + "</td><td>" + data.phone + "</td><td>"+ data.doj +"</td><td><img src='assets/img/edit-button.png' onclick="+"toggleTabs('addCustomer');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
                 break;
                 case "catName":
                     htmlString = "<option>" + data.name + "</option>";

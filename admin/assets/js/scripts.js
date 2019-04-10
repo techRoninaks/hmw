@@ -36,6 +36,13 @@ function getQueryString(){
   return queryStrings;
 }
 
+function reDirect(loc){ //redirect to any page without storing as cache.. mainly used when logged in
+
+    // var page = window.location.protocol+"//"+window.location.hostname+"/helloMyWork/"+loc;
+    var page = "../"+loc;
+    window.location.replace(page);
+}
+
 function setCookie(cname, cvalue=null, exdays=1) {
   var d = new Date();
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -60,7 +67,7 @@ function getCookie(cname) {
 
 function checkCookie(cname) {
   var value = getCookie(cname);
-  if (value === "null" || value === "") {
+  if (value === "null" || value === "" || value === "0") {
     return false;
   }
   return true;
@@ -70,6 +77,31 @@ function activateSideNav(){
     var loc = window.location.href;
     var activePage = "";
     // console.log("loc->"+loc.includes("dashboard.html"));
+    if(getCookie("userManage") !=="0"){
+        document.getElementById("employee").style.display = "inline";
+    }
+    if(getCookie("custManage") !== "0"){
+        document.getElementById("customer").style.display = "inline";
+    }
+   if(getCookie("roleManage") !== "0"){
+        document.getElementById("roles").style.display = "inline";
+    }
+    if(getCookie("catManage") !== "0"){
+        document.getElementById("category").style.display = "inline";
+    }
+    if(getCookie("unionManage") !== "0"){
+        document.getElementById("union").style.display = "inline";
+    }
+    if(getCookie("taskManage") !== "0"){
+        document.getElementById("task").style.display = "inline";
+    }
+    if(getCookie("contestManage") !== "0"){
+        document.getElementById("notifications").style.display = "inline";
+    }
+    if(getCookie("dataManage") !== "0"){
+        document.getElementById("import").style.display = "inline";
+    }
+    //loading sideNav after role check
     if(loc.includes("dashboard.html")){
         activePage = "dashboard";
     }else if(loc.includes("customer.html")){
@@ -108,7 +140,7 @@ function readFile() {
   }
 }
 function loadProfile(){
-    document.getElementById("acName").innerHTML = getCookie("userName");
+    document.getElementById("acName").innerHTML = getCookie("empName");
 }
 function cancelFunc(val=0){
     setCookie("userOnEdit");
@@ -118,12 +150,23 @@ function cancelFunc(val=0){
     setCookie("customerOnEdit");
     setCookie("taskOnEdit");
     setCookie("notifOnEdit");
+    setCookie("leadsOnEdit");
     
     if(val !== 0){
-        setCookie("userId");
-        setCookie("userName");
+        setCookie("empId");
+        setCookie("empName");
         setCookie("isAdmin");
-        var page = window.location.protocol+"//"+window.location.hostname+"/helloMyWork/admin/login/login.html";
+        setCookie("role");
+        setCookie("userManage");
+        setCookie("roleManage");
+        setCookie("catManage");
+        setCookie("unionManage");
+        setCookie("dataManage");
+        setCookie("custManage");
+        setCookie("taskManage");
+        setCookie("contestManage");        
+        // var page = window.location.protocol+"//"+window.location.hostname+"/helloMyWork/admin/login/login.html";
+        var page = "login/login.html";
         window.location.replace(page);
     } else {
         window.location.reload();
@@ -153,6 +196,8 @@ function dataUpdate(pageName){
                     break;
         case 'notifications': phpFile = "updateNotifications";
                     break;
+        case 'leads': phpFile = "updateLeads";
+                    break;
     }
     if(confirm("Confirm Upload?")){
         if(pageName == 'user'){
@@ -161,10 +206,9 @@ function dataUpdate(pageName){
             data[2] =  document.getElementById("eMail").value;
             data[3] =  document.getElementById("contact").value;
             data[4] =  document.getElementById("password").value;
-            data[5] =  document.getElementById("fileToUpload").files[0];
-            // console.log("imagedat->"+data[5]);
+            data[5] =  document.getElementById("roleName").value;
             prevName = getCookie("userOnEdit");
-            myObj = {"fName":data[0],"lName":data[1],"eMail":data[2],"contact":data[3],"password":data[4],"cookieName":prevName};
+            myObj = {"fName":data[0],"lName":data[1],"eMail":data[2],"contact":data[3],"password":data[4],"roleName":data[5],"cookieName":prevName};
         } else if(pageName == 'category'){
             data[0] =  document.getElementById("catName").value;
             data[1] =  document.getElementById("labelName").value;
@@ -172,7 +216,6 @@ function dataUpdate(pageName){
             prevName = getCookie("catOnEdit");
             
             myObj = {"catName":data[0],"labelName":data[1],"unionName":data[2],"cookieName":prevName,"image":postimage};
-            console.log("->>>"+myObj);
         } else if(pageName == 'union'){
             data[0] =  document.getElementById("unionName").value;
             prevName = getCookie("unionOnEdit");
@@ -184,13 +227,16 @@ function dataUpdate(pageName){
             data[3] = document.getElementById("catManage").checked;
             data[4] = document.getElementById("dataManage").checked;
             data[5] = document.getElementById("unionManage").checked;
+            data[6] = document.getElementById("custManage").checked;
+            data[7] = document.getElementById("taskManage").checked;
+            data[8] = document.getElementById("contestManage").checked;
             prevName = getCookie("roleOnEdit");
-            for(i = 1;i<6;i++){
+            for(i = 1;i<=8;i++){
                 if(data[i] === false){
                     data[i] = 0;
                 }
             }
-            myObj = {"roleName":data[0],"userManage":data[1],"roleManage":data[2],"catManage":data[3],"dataManage":data[4],"unionManage":data[5],"cookieName":prevName};
+            myObj = {"roleName":data[0],"userManage":data[1],"roleManage":data[2],"catManage":data[3],"dataManage":data[4],"unionManage":data[5],"custManage":data[6],"taskManage":data[7],"contestManage":data[8],"cookieName":prevName};
         } else if(pageName == 'customer'){
             data[0] = document.getElementById("custName").value;
             data[1] = document.getElementById("typeName").value;
@@ -224,13 +270,40 @@ function dataUpdate(pageName){
             data[3] = document.getElementById("startDate").value;
             data[4] = document.getElementById("endDate").value;
             data[5] = document.getElementById("userId").value;
+            data[6] = document.getElementById("ConvLeads").value;
             prevId = getCookie("taskOnEdit");
-            myObj = {"userName":data[0],"targetPros":data[1],"targetLeads":data[2],"startDate":data[3],"endDate":data[4],"mainUserId":data[5],"cookieUserId":prevId};
+            myObj = {"userName":data[0],"targetPros":data[1],"targetLeads":data[2],"startDate":data[3],"endDate":data[4],"mainUserId":data[5],"ConvLeads":data[6],"cookieUserId":prevId};
         } else if(pageName == 'notifications'){
             data[0] = document.getElementById("notifHead").value;
             data[1] = document.getElementById("notifContent").value;
             prevId = getCookie("notifOnEdit");
             myObj = {"headline":data[0],"content":data[1],"cookieId":prevId};
+        } else if(pageName == 'leads'){
+            data[0] = document.getElementById("custName").value;
+            data[1] = document.getElementById("typeName").value;
+            data[2] = document.getElementById("roleName").value;
+            data[3] = document.getElementById("catName").value;
+            data[4] = document.getElementById("unionName").value;
+            data[5] = document.getElementById("addName").value;
+            data[6] = document.getElementById("locName").value;
+            data[7] = document.getElementById("subLocName").value;
+            data[8] = document.getElementById("stateName").value;
+            data[9] = document.getElementById("countryName").value;
+            data[10] = document.getElementById("pincode").value;
+            data[11] = document.getElementById("primaryPhone").value;
+            data[12] = document.getElementById("secondaryPhone").value;
+            data[13] = document.getElementById("whatsappPhone").value;
+            data[14] = document.getElementById("eMail").value;
+            data[15] = document.getElementById("webSite").value;
+            data[16] = document.getElementById("skillName").value;
+            data[17] = document.getElementById("password").value;
+            userId = getCookie("empId");
+            leadId = getCookie("leadsOnEdit");
+            if(data[4] == ""){
+                data[4] = null;
+            }
+            
+            myObj = {"custName":data[0],"typeName":data[1],"roleName":data[2],"catName":data[3],"unionName":data[4],"addName":data[5],"locName":data[6],"subLocName":data[7],"stateName":data[8],"countryName":data[9],"pincode":data[10],"primaryPhone":data[11],"secondaryPhone":data[12],"whatsappPhone":data[13],"eMail":data[14],"webSite":data[15],"skillName":data[16],"password":data[17],"userId":userId,"leadId":leadId};
         }
         var jSONObj = JSON.stringify(myObj);
         
@@ -274,6 +347,8 @@ function fetchData(id,pageName){
                     break;
         case 'notifications': phpFile = "fetchNotifications";
                     break;
+        case 'leads': phpFile = "fetchCustomer";
+                    break;
     }
     var params = 'id='+id;
     
@@ -288,6 +363,7 @@ function fetchData(id,pageName){
                         document.getElementById("eMail").value = myObj.eMail;
                         document.getElementById("contact").value = myObj.contact;
                         document.getElementById("password").value =  myObj.password;
+                        document.getElementById("roleName").value = myObj.roleName;
                         setCookie("userOnEdit",myObj.userName);
                         } else if(pageName == "category"){
                             document.getElementById("catName").value = myObj.catName;
@@ -319,6 +395,9 @@ function fetchData(id,pageName){
                             document.getElementById("catManage").checked = myObj.catManage;
                             document.getElementById("dataManage").checked = myObj.dataManage;
                             document.getElementById("unionManage").checked = myObj.unionManage;
+                            document.getElementById("custManage").checked = myObj.custManage;
+                            document.getElementById("taskManage").checked = myObj.taskManage;
+                            document.getElementById("contestManage").checked = myObj.contestManage;
                             setCookie("roleOnEdit",myObj.roleName);
                         } else if(pageName == "customer"){
                             document.getElementById("custName").value = myObj.custName;
@@ -347,6 +426,7 @@ function fetchData(id,pageName){
                             document.getElementById("userId").disabled = true;
                             document.getElementById("targetPros").value = myObj.targetPros;
                             document.getElementById("targetLeads").value = myObj.targetLeads;
+                            document.getElementById("ConvLeads").value = myObj.ConvLeads;
                             document.getElementById("startDate").value = myObj.startDate;
                             document.getElementById("endDate").value = myObj.endDate;
                             setCookie("taskOnEdit",myObj.userId);
@@ -354,6 +434,26 @@ function fetchData(id,pageName){
                             document.getElementById("notifHead").value = myObj.headline;
                             document.getElementById("notifContent").value = myObj.content;
                             setCookie("notifOnEdit",myObj.id);
+                        } else if(pageName == "leads"){
+                            document.getElementById("custName").value = myObj.custName;
+                            document.getElementById("typeName").value = myObj.typeName;
+                            document.getElementById("roleName").value = myObj.roleName;
+                            document.getElementById("catName").value = myObj.catName;
+                            document.getElementById("unionName").value = myObj.unionName;
+                            document.getElementById("addName").value = myObj.addName;
+                            document.getElementById("locName").value = myObj.locName;
+                            document.getElementById("subLocName").value = myObj.subLocName;
+                            document.getElementById("stateName").value = myObj.stateName;
+                            document.getElementById("countryName").value = myObj.countryName;
+                            document.getElementById("pincode").value = myObj.pincode;
+                            document.getElementById("primaryPhone").value = myObj.primaryPhone;
+                            document.getElementById("secondaryPhone").value = myObj.secondaryPhone;
+                            document.getElementById("whatsappPhone").value = myObj.whatsappPhone;
+                            document.getElementById("eMail").value = myObj.eMail;
+                            document.getElementById("webSite").value = myObj.webSite;
+                            document.getElementById("skillName").value = myObj.skillName;
+                            document.getElementById("password").value = myObj.password;
+                            setCookie("leadsOnEdit",myObj.id);
                         }
             } else {
                 alert('Edit Failed!');
@@ -382,6 +482,8 @@ function deleteData(id,pageName){
             case 'task': phpFile = "deleteTask";
                         break;
             case 'notifications': phpFile = "deleteNotifications";
+                        break;
+            case 'leads': phpFile = "deleteLeads";
                         break;
         }
         var xhr =  new XMLHttpRequest();

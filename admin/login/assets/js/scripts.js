@@ -62,9 +62,20 @@ function login(){ //login validation
           if (this.readyState == 4 && this.status == 200) {
               if(xhr.responseText !== '0'){
                   var userObj = JSON.parse(xhr.responseText);
-                  setCookie("userId",userObj.userId);
-                  setCookie("userName",userObj.userName);
-                  setCookie("isAdmin",1);
+                  setCookie("empId",userObj.userId);
+                  setCookie("empName",userObj.userName);
+                  if((userObj.role).toLowerCase() == "admin"){
+                        setCookie("isAdmin",1);   
+                  }
+                  setCookie("role",userObj.role);
+                  setCookie("userManage",userObj.userManage);
+                  setCookie("roleManage",userObj.roleManage);
+                  setCookie("catManage",userObj.catManage);
+                  setCookie("unionManage",userObj.unionManage);
+                  setCookie("dataManage",userObj.dataManage);
+                  setCookie("custManage",userObj.custManage);
+                  setCookie("taskManage",userObj.taskManage);
+                  setCookie("contestManage",userObj.contestManage);
                   reDirect("dashboard.html");
               } else {
                   document.getElementById("errorNote").style.display= "inline";

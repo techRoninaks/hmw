@@ -129,7 +129,9 @@
                 cancelFunc(-1);
             }
         	userId = getCookie("userId");
-
+            if(!checkCookie("isAdmin")){
+        	    window.location.replace("dashboard.html");
+        	}
     	});
         includeHTML();
         window.onload = function(){

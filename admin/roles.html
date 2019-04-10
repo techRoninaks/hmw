@@ -46,7 +46,7 @@
                 <div class="card">
                     <div class="header">
                         <h4 class="title">Manage Roles</h4>
-                        <p class="category">Add/Delete/Edit Users</p>
+                        <p class="category">Add/Delete/Edit Roles</p>
                         <div style="padding-top: 8px;">
                             <button class="btn btn-info btn-fill" onclick="toggleTabs('addRole')" id="btnRole">Add New Role</button>
                         </div>
@@ -58,7 +58,10 @@
                             <label>Role Name</label><p style="display:inline;color:red;">*</p>
                             <input type="text" class="form-control formStyle" placeholder="Role Name" id="roleName" required><br>
                             <input type="checkbox" id="userManage">&emsp;
-                            <label>User Management</label>
+                            <label>Employee Management</label>
+                            <br>
+                            <input type="checkbox" id="custManage">&emsp;
+                            <label>Customer Management</label>
                             <br>
                             <input type="checkbox" id="roleManage">&emsp;
                             <label>Role Management</label>
@@ -68,6 +71,12 @@
                             <br>
                             <input type="checkbox" id="unionManage">&emsp;
                             <label>Union Management</label>
+                            <br>
+                            <input type="checkbox" id="taskManage">&emsp;
+                            <label>Task Management</label>
+                            <br>
+                            <input type="checkbox" id="contestManage">&emsp;
+                            <label>Contest Management</label>
                             <br>
                             <input type="checkbox" id="dataManage">&emsp;
                             <label>Data Management</label>
@@ -112,11 +121,13 @@
     <script type="text/javascript">
         var userId = "";
         $(document).ready(function(){
-            if(!checkCookie("userId")){
+            if(!checkCookie("empId")){
                 cancelFunc(-1);
             }
-        	userId = getCookie("userId");
-
+        	userId = getCookie("empId");
+            if(!checkCookie("roleManage")){
+        	    window.location.replace("dashboard.html");
+        	}
     	});
         includeHTML();
         window.onload = function(){

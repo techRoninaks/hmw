@@ -7,7 +7,7 @@
     $result = mysqli_query($conn,$sql);
     $row = mysqli_fetch_array($result);
     if($row){
-        $userData = array("fName"=>$row["firstName"],"lName"=>$row["lastName"],"contact"=>$row["contact"],"eMail"=>$row["email"],"password"=>$row["password"],"userName"=>$row["userName"]);
+        $userData = array("fName"=>$row["firstName"],"lName"=>$row["lastName"],"contact"=>$row["contact"],"eMail"=>$row["email"],"password"=>$row["password"],"userName"=>$row["userName"],"roleName"=>$row["role"]);
         $jsonData = json_encode($userData);
         echo $jsonData;
 	} else {

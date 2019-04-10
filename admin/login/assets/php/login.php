@@ -4,12 +4,13 @@
 	
 	$dataJSON = $_POST["jsonObj"];
     $data = json_decode($dataJSON);
+    $sql = "SELECT u.*,r.* from users u join roles r on u.role = r.name WHERE u.email = '$data->userEmail' AND u.password = '$data->userPassword'";
     
-    $sql = "SELECT * FROM users WHERE password='$data->userPassword' AND email='$data->userEmail'";
     $result = mysqli_query($conn,$sql);
-    $row = mysqli_fetch_array($result);
+    $row = mysqli_fetch_assoc($result);
+    // echo "row".$row."<br>";
 	if($row !== NULL){
-        $userData = array("userName"=>$row["userName"],"userId"=>$row["userId"]);
+        $userData = array("userName"=>$row["userName"],"userId"=>$row["userId"],"userManage"=>$row["userManage"],"roleManage"=>$row["roleManage"],"catManage"=>$row["catManage"],"unionManage"=>$row["unionManage"],"dataManage"=>$row["dataManage"],"custManage"=>$row["custManage"],"taskManage"=>$row["taskManage"],"contestManage"=>$row["contestManage"],"role"=>$row["role"]);
         $jsonData = json_encode($userData);
         echo $jsonData;
 	} else {

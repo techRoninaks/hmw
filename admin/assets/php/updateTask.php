@@ -12,10 +12,10 @@
     // echo "-1-".$sql;
     if($row !== NULL){
         $ID = $row['ID'];
-        $sql = "UPDATE tasks SET PROSPECT_TARGET='$data->targetPros',LEADS_TARGET='$data->targetLeads',DATE_START='$data->startDate',DATE_END='$data->endDate' WHERE ID='$ID'";
+        $sql = "UPDATE tasks SET PROSPECT_TARGET='$data->targetPros',LEADS_TARGET='$data->targetLeads',DATE_START='$data->startDate',DATE_END='$data->endDate',CONVERSIONS_TARGET='$data->ConvLeads' WHERE ID='$ID'";
     // echo "-2-".$sql;
     } else {
-        $sql = "INSERT INTO tasks (`USER_ID`,`PROSPECT_TARGET`,`LEADS_TARGET`,`DATE_START`,`DATE_END`) VALUES ('$data->mainUserId','$data->targetPros','$data->targetLeads','$data->startDate','$data->endDate')";
+        $sql = "INSERT INTO tasks (`USER_ID`,`PROSPECT_TARGET`,`LEADS_TARGET`,`DATE_START`,`DATE_END`,`CONVERSIONS_TARGET`) VALUES ('$data->mainUserId','$data->targetPros','$data->targetLeads','$data->startDate','$data->endDate','$data->ConvLeads')";
     // echo "-3-".$sql;
     }
     $result = mysqli_query($conn,$sql);
