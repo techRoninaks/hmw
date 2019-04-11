@@ -57,10 +57,18 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Import Data</h4>
-                                <p class="category">Upload CSV File formatted as (preserve same order as DB table)</p>
+                                <h4 class="title">Import/Export Data</h4>
+                                <p class="category">Import Data in CSV form or Export Data in CSV form</p>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div style="padding-top: 8px;">
+                                            <button class="btn btn-info btn-fill" onclick="toggleTabs('import')" id="btnImport">Import</button>
+                                            <button class="btn btn-fill" onclick="toggleTabs('export')" id="btnExport">Export</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div style="padding: 25px;">
+                            <div style="padding: 25px;" id="dvImport">
                                 <form class="form-horizontal" action="import.php" method="post" name="frmCSVImport" id="frmCSVImport"
                                 enctype="multipart/form-data">
                                     <div class="input-row">
@@ -68,16 +76,31 @@
                                             type="file" name="file" id="file" accept=".csv">
                                         <button type="submit" id="submit" name="import"
                                             class="btn btn-info btn-fill" style="margin-top: 15px;">Import</button>
-                                        <br />
-
+                                        <br/>
                                     </div>
                                     <div id="labelError"></div>
                                 </form>
                             </div>
+                            <div style="padding: 25px; display:none;" id="dvExport">
+                                <div class="row">
+                                    Select the table to export
+                                </div>
+                                <div class="row">
+                                    <select id="selTable">
+                                        <option value="">--Select--</option>
+                                        <option value="category">Category</option>
+                                        <option value="union">Union</option>
+                                        <option value="customer">Customer</option>
+                                    </select>
+                                </div>
+                                <div class="input-row">
+                                    <button type="submit" id="submitExport" name="export"
+                                        class="btn btn-info btn-fill" style="margin-top: 15px;" onclick="exportData();">Export</button>
+                                    <br/>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -125,13 +148,14 @@
         });
         includeHTML();
         $(document).ready(function(){
-            if(!checkCookie("empId")){
+            if(!checkCookie("userId")){
                 cancelFunc(-1);
             }
-        	userId = getCookie("empId");
+            userId = getCookie("userId");
             if(!checkCookie("isAdmin")){
-        	    window.location.replace("dashboard.html");
-        	}
+                window.location.replace("dashboard.html");
+            }
+
     	});
         window.onload = function(){
            setTimeout(function(){
@@ -152,7 +176,43 @@
                 }
                 return true;
             });
-	});
+        });
+        function toggleTabs(tab){
+            switch(tab){
+                case "export":
+                $('#btnExport').removeClass().addClass('btn btn-info btn-fill');
+                $('#btnImport').removeClass().addClass('btn btn-fill');
+                $('#dvImport').hide();
+                $('#dvExport').show();
+                break;
+                case "import":
+                $('#btnExport').removeClass().addClass('btn btn-fill');
+                $('#btnImport').removeClass().addClass('btn btn-info btn-fill');
+                $('#dvImport').show();
+                $('#dvExport').hide();
+                break;
+            }
+        }
+        function exportData(){
+            var selTable = $('#selTable').val().toLowerCase();
+            if(selTable == ""){
+                demo.showNotification('top','center', 'Please select a value', 4);
+            }else{
+                // $.ajax({
+                // type: 'GET',
+                // data:"table=" + selTable,
+                // dataType:'json',
+                // url: 'assets/php/export.php', 
+                // success: function(responseData) {
+
+                // },
+                // error: function(XMLHttpRequest, textStatus, errorThrown) {
+                //     demo.showNotification('top','center', 'Something went wrong' + errorThrown, 4);
+                // }
+                // });
+                window.open('assets/php/export.php?table='+selTable, '_blank');
+            }
+        }
 
 	</script>
 
