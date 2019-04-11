@@ -73,6 +73,15 @@ function checkCookie(cname) {
   return true;
 }
 
+function getQueryString(){
+    if(document.URL.includes("?")){
+        return document.URL.split('?')[1].split('&');
+    }
+    else{
+        return "null";
+    }  
+}
+
 function activateSideNav(){
     var loc = window.location.href;
     var activePage = "";
@@ -182,7 +191,7 @@ function cancelFunc(val=0){
     
 }
 
-function dataUpdate(pageName){
+function dataUpdate(pageName,userId=null){
     var data = [];
     var myObj = {};
     var phpFile = "";
@@ -306,7 +315,7 @@ function dataUpdate(pageName){
             data[15] = document.getElementById("webSite").value;
             data[16] = document.getElementById("skillName").value;
             // data[17] = document.getElementById("password").value;
-            userId = getCookie("empId");
+            // userId = getCookie("empId");
             leadId = getCookie("leadsOnEdit");
             if(data[4] == ""){
                 data[4] = null;

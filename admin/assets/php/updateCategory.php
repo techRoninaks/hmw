@@ -17,10 +17,12 @@
         $imgData = base64_decode($img[1]);
         $file = UPLOAD_DIR.$data->catName.'.png';
         $success = file_put_contents($file, $imgData);
+        $address = "assets/img/cate_icons/"."$data->catName".".png";
+    } else {
+         $address = "assets/img/cate_icons/defaultCat.png";
     }
     if($row !== NULL){
         if($success){
-            $address = "assets/img/cate_icons/"."$data->catName".".png";
             $sql = "UPDATE `category` SET `name`='$data->catName',`tag`='$data->labelName',`union_name`='$data->unionName',image_address='$address' WHERE `name`='$data->cookieName'";
         } else {
         $sql = "UPDATE `category` SET `name`='$data->catName',`tag`='$data->labelName',`union_name`='$data->unionName' WHERE `name`='$data->cookieName'";
@@ -28,7 +30,6 @@
     // echo "-2-".$sql;
     } else {
         if($success){
-            $address = "assets/img/cate_icons/"."$data->catName".".png";
             $sql = "INSERT INTO `category` (`name`,`tag`,`union_name`,`image_address`) VALUES ('$data->catName','$data->labelName','$data->unionName','$address')";
         } else {
         $sql = "INSERT INTO `category` (`name`,`tag`,`union_name`) VALUES ('$data->catName','$data->labelName','$data->unionName')";

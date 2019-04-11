@@ -230,7 +230,7 @@
             var pageName = "'user'";
             switch(template){
                 case "userTable":
-                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td>" + data.pass + "</td><td>" + data.type + "</td><td><img src='assets/img/edit-button.png' onclick="+"toggleTabs('userForm');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
+                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td>" + data.pass + "</td><td>" + data.type + "</td><td><img src='assets/img/bar-chart.png' onclick="+"window.location.href='leads.html?empId="+data.id+"';"+">&emsp;<img src='assets/img/edit-button.png' onclick="+"toggleTabs('userForm');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
                 break;
                 case "roleName":
                     htmlString = "<option>" + data.name + "</option>";
