@@ -88,8 +88,8 @@
                             <input type="text" class="form-control formStyle" placeholder="Website" id="webSite"><br>
                             <label>Skills</label>
                             <input type="text" class="form-control formStyle" placeholder="Skills" id="skillName" ><br>
-                            <label>Password</label>
-                            <input type="password" class="form-control formStyle" placeholder="Password" id="password" ><br>
+                            <!--<label>Password</label>-->
+                            <!--<input type="password" class="form-control formStyle" placeholder="Password" id="password" ><br>-->
                             <button type="submit" style="display:inline" class="btn btn-secondary-outline" value="Submit" id="submitbutton">UPLOAD</button>
                             <button type="button" class="btn btn-secondary-outline" value="Cancel" onclick="cancelFunc()">CANCEL</button>
                             </form>
@@ -240,7 +240,7 @@
             switch(template){
                 
                 case "leadsTable":
-                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td>" + data.skills +"</td><td>" + data.contact + "</td><td>" + data.email +"</td><td><img src='assets/img/edit-button.png' onclick="+"toggleTabs('addLeads');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
+                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td>" + data.skills +"</td><td>" + data.contact + "</td><td>" + data.email +"</td><td><img src='assets/img/verified.png' onclick="+"setCookie('leadId',"+data.id+");window.location.href='../premiumedit.html';"+">&emsp;<img src='assets/img/edit-button.png' onclick="+"toggleTabs('addLeads');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
                 break;
                 case "catName":
                     htmlString = "<option>" + data.name + "</option>";

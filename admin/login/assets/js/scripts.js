@@ -76,6 +76,7 @@ function login(){ //login validation
                   setCookie("custManage",userObj.custManage);
                   setCookie("taskManage",userObj.taskManage);
                   setCookie("contestManage",userObj.contestManage);
+                  setCookie("postManage",userObj.postManage);
                   reDirect("dashboard.html");
               } else {
                   document.getElementById("errorNote").style.display= "inline";
