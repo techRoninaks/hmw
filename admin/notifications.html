@@ -104,11 +104,13 @@
         var response = {};
         var response2 = {};
         $(document).ready(function(){
-            if(!checkCookie("userId")){
+            if(!checkCookie("empId")){
                 cancelFunc(-1);
             }
-        	userId = getCookie("userId");
-
+        	userId = getCookie("empId");
+            if(!checkCookie("contestManage")){
+        	    window.location.replace("dashboard.html");
+        	}
     	});
         includeHTML();
         window.onload = function(){

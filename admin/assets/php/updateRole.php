@@ -14,7 +14,7 @@
         $sql = "UPDATE `roles` SET `name`='$data->roleName' WHERE `name`='$data->cookieName'";
     // echo "-2-".$sql;
     } else {
-        $sql = "INSERT INTO `roles` (`name`,`userManage`,`roleManage`,`catManage`,`unionManage`,`dataManage`) VALUES ('$data->roleName',$data->userManage,$data->roleManage,$data->catManage,$data->unionManage,$data->dataManage)";
+        $sql = "INSERT INTO `roles` (`name`,`userManage`,`roleManage`,`catManage`,`unionManage`,`dataManage`,`custManage`,`taskManage`,`contestManage`) VALUES ('$data->roleName',$data->userManage,$data->roleManage,$data->catManage,$data->unionManage,$data->dataManage,$data->custManage,$data->taskManage,$data->contestManage)";
     // echo "-3-".$sql;
     }
     $result = mysqli_query($conn,$sql);

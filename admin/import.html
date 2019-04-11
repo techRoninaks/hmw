@@ -151,7 +151,10 @@
             if(!checkCookie("userId")){
                 cancelFunc(-1);
             }
-        	userId = getCookie("userId");
+            userId = getCookie("userId");
+            if(!checkCookie("isAdmin")){
+                window.location.replace("dashboard.html");
+            }
 
     	});
         window.onload = function(){
