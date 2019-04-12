@@ -232,8 +232,8 @@
             ]);
             var dataTotal = google.visualization.arrayToDataTable([
             ['Effort', 'Amount given'],
-            ['Prospects',     parseInt(userLive.finalPros)],
             ['Leads',     parseInt(userLive.finalLeads)],
+            ['Prospects',     parseInt(userLive.finalPros)],
             ['Conversions',     parseInt(userLive.conversions)]
             ]);
             var optionsHollow = {
@@ -252,13 +252,13 @@
             var chart = new google.visualization.PieChart(document.getElementById('dvChartDistribution'));
             chart.draw(dataTotal, optionsPie);
             var chart = new google.visualization.PieChart(document.getElementById('donut_single1'));
-            chart.draw(dataPros, optionsHollow);
-            var chart = new google.visualization.PieChart(document.getElementById('donut_single2'));
             chart.draw(dataLeads, optionsHollow);
+            var chart = new google.visualization.PieChart(document.getElementById('donut_single2'));
+            chart.draw(dataPros, optionsHollow);
             var chart = new google.visualization.PieChart(document.getElementById('donut_single3'));
             chart.draw(dataConversions, optionsHollow);
-            document.getElementById("dvLeadsCount").innerHTML = userLive.finalPros+"/"+userLive.targetPros;
-            document.getElementById("dvProspectsCount").innerHTML = userLive.finalLeads+"/"+userLive.targetLeads;
+            document.getElementById("dvProspectsCount").innerHTML = userLive.finalPros+"/"+userLive.targetPros;
+            document.getElementById("dvLeadsCount").innerHTML = userLive.finalLeads+"/"+userLive.targetLeads;
             document.getElementById("dvConvCount").innerHTML = userLive.conversions+"/"+userLive.targetConversions;
         }
         $(document).ready(function(){

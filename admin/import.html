@@ -148,11 +148,11 @@
         });
         includeHTML();
         $(document).ready(function(){
-            if(!checkCookie("userId")){
+            if(!checkCookie("empId")){
                 cancelFunc(-1);
             }
-            userId = getCookie("userId");
-            if(!checkCookie("isAdmin")){
+            userId = getCookie("empId");
+            if(!checkCookie("dataManage")){
                 window.location.replace("dashboard.html");
             }
 

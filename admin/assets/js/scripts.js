@@ -101,6 +101,9 @@ function activateSideNav(){
     if(getCookie("dataManage") !== "0"){
         document.getElementById("import").style.display = "inline";
     }
+    if(getCookie("postManage") !== "0"){
+        document.getElementById("posts").style.display = "inline";
+    }
     //loading sideNav after role check
     if(loc.includes("dashboard.html")){
         activePage = "dashboard";
@@ -122,6 +125,10 @@ function activateSideNav(){
         activePage = "table";
     } else if(loc.includes("import.html")){
         activePage = "import";
+    } else if(loc.includes("posts.html")){
+        activePage = "posts";
+    } else if(loc.includes("leads.html")){
+        activePage = "leads";
     }
     document.getElementById(activePage).className = "active";
 }
@@ -164,7 +171,8 @@ function cancelFunc(val=0){
         setCookie("dataManage");
         setCookie("custManage");
         setCookie("taskManage");
-        setCookie("contestManage");        
+        setCookie("contestManage");
+        setCookie("postManage");
         // var page = window.location.protocol+"//"+window.location.hostname+"/helloMyWork/admin/login/login.html";
         var page = "login/login.html";
         window.location.replace(page);
@@ -230,13 +238,14 @@ function dataUpdate(pageName){
             data[6] = document.getElementById("custManage").checked;
             data[7] = document.getElementById("taskManage").checked;
             data[8] = document.getElementById("contestManage").checked;
+            data[9] = document.getElementById("postManage").checked;
             prevName = getCookie("roleOnEdit");
-            for(i = 1;i<=8;i++){
+            for(i = 1;i<=9;i++){
                 if(data[i] === false){
                     data[i] = 0;
                 }
             }
-            myObj = {"roleName":data[0],"userManage":data[1],"roleManage":data[2],"catManage":data[3],"dataManage":data[4],"unionManage":data[5],"custManage":data[6],"taskManage":data[7],"contestManage":data[8],"cookieName":prevName};
+            myObj = {"roleName":data[0],"userManage":data[1],"roleManage":data[2],"catManage":data[3],"dataManage":data[4],"unionManage":data[5],"custManage":data[6],"taskManage":data[7],"contestManage":data[8],"postManage":data[9],"cookieName":prevName};
         } else if(pageName == 'customer'){
             data[0] = document.getElementById("custName").value;
             data[1] = document.getElementById("typeName").value;
@@ -296,14 +305,14 @@ function dataUpdate(pageName){
             data[14] = document.getElementById("eMail").value;
             data[15] = document.getElementById("webSite").value;
             data[16] = document.getElementById("skillName").value;
-            data[17] = document.getElementById("password").value;
+            // data[17] = document.getElementById("password").value;
             userId = getCookie("empId");
             leadId = getCookie("leadsOnEdit");
             if(data[4] == ""){
                 data[4] = null;
             }
             
-            myObj = {"custName":data[0],"typeName":data[1],"roleName":data[2],"catName":data[3],"unionName":data[4],"addName":data[5],"locName":data[6],"subLocName":data[7],"stateName":data[8],"countryName":data[9],"pincode":data[10],"primaryPhone":data[11],"secondaryPhone":data[12],"whatsappPhone":data[13],"eMail":data[14],"webSite":data[15],"skillName":data[16],"password":data[17],"userId":userId,"leadId":leadId};
+            myObj = {"custName":data[0],"typeName":data[1],"roleName":data[2],"catName":data[3],"unionName":data[4],"addName":data[5],"locName":data[6],"subLocName":data[7],"stateName":data[8],"countryName":data[9],"pincode":data[10],"primaryPhone":data[11],"secondaryPhone":data[12],"whatsappPhone":data[13],"eMail":data[14],"webSite":data[15],"skillName":data[16],"userId":userId,"leadId":leadId};
         }
         var jSONObj = JSON.stringify(myObj);
         
@@ -349,6 +358,8 @@ function fetchData(id,pageName){
                     break;
         case 'leads': phpFile = "fetchCustomer";
                     break;
+        case 'posts': phpFile = "restorePosts";
+                    break;
     }
     var params = 'id='+id;
     
@@ -389,6 +400,18 @@ function fetchData(id,pageName){
                             if(myObj.unionManage == 0 || myObj.unionManage == ""){
                                 myObj.unionManage = false;
                             }
+                            if(myObj.custManage == 0 || myObj.custManage == ""){
+                                myObj.custManage = false;
+                            }
+                            if(myObj.taskManage == 0 || myObj.taskManage == ""){
+                                myObj.taskManage = false;
+                            }
+                            if(myObj.contestManage == 0 || myObj.contestManage == ""){
+                                myObj.contestManage = false;
+                            }
+                            if(myObj.postManage == 0 || myObj.postManage == ""){
+                                myObj.postManage = false;
+                            }
                             document.getElementById("roleName").value = myObj.roleName;
                             document.getElementById("userManage").checked = myObj.userManage;
                             document.getElementById("roleManage").checked = myObj.roleManage;
@@ -398,6 +421,7 @@ function fetchData(id,pageName){
                             document.getElementById("custManage").checked = myObj.custManage;
                             document.getElementById("taskManage").checked = myObj.taskManage;
                             document.getElementById("contestManage").checked = myObj.contestManage;
+                            document.getElementById("postManage").checked = myObj.postManage;
                             setCookie("roleOnEdit",myObj.roleName);
                         } else if(pageName == "customer"){
                             document.getElementById("custName").value = myObj.custName;
@@ -452,8 +476,12 @@ function fetchData(id,pageName){
                             document.getElementById("eMail").value = myObj.eMail;
                             document.getElementById("webSite").value = myObj.webSite;
                             document.getElementById("skillName").value = myObj.skillName;
-                            document.getElementById("password").value = myObj.password;
+                            // document.getElementById("password").value = myObj.password;
                             setCookie("leadsOnEdit",myObj.id);
+                        } else if(pageName == "posts"){
+                            console.log("comment");
+                            alert("Comment restored!");
+                            window.location.reload();
                         }
             } else {
                 alert('Edit Failed!');
@@ -466,7 +494,11 @@ function fetchData(id,pageName){
 }
 
 function deleteData(id,pageName){
-    if(confirm("Confirm deletion?")){
+    var confirmTxt = "Confirm deletion?";
+    if(pageName == "posts"){
+        confirmTxt = "Remove comment?";
+    }
+    if(confirm(confirmTxt)){
         var phpFile = "";
         switch(pageName){
             case 'user': phpFile = "deleteUser";
@@ -485,18 +517,24 @@ function deleteData(id,pageName){
                         break;
             case 'leads': phpFile = "deleteLeads";
                         break;
+            case 'posts': phpFile = "removeRepComments";
+                        break;
         }
         var xhr =  new XMLHttpRequest();
         var params = 'id='+id;
         xhr.onreadystatechange  =  function() {
                 if (this.readyState == 4 && this.status == 200) {//if result successful
-                        if(xhr.responseText !== "0"){
-                            alert('Deletion successful!');
+                    var message = 'Deletion successful!';
+                    if(pageName == "posts"){
+                            message = 'Removed successfully!';
+                    }
+                    if(xhr.responseText !== "0"){
+                            alert(message);
                             window.location.reload();
-                } else {
-                    alert('Deletion Failed!');
+                    } else {
+                        alert('Deletion Failed!');
+                    }
                 }
-            }
         };
         xhr.open("POST", "assets/php/"+phpFile+".php", true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
