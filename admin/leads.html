@@ -53,7 +53,7 @@
                     </div>
                     <div class="content table-responsive table-full-width" id="leadsTable"></div>
                     <div style="padding:2rem;display:none;" id="addLeadsForm">
-                        <form enctype="multipart/form-data" action="javascript:dataUpdate('leads')" method="post">
+                        <form enctype="multipart/form-data" action="javascript:dataUpdate1('leads')" method="post">
                             <label>Customer Name</label><p style="display:inline;color:red;">*</p>
                             <input type="text" class="form-control formStyle" placeholder="Customer Name" id="custName"><br>
                             <label>Job type</label>
@@ -128,15 +128,23 @@
 	<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
 	<script src="assets/js/demo.js"></script>
     <script type="text/javascript">
-        var userId = "";
+        var userId = getCookie("empId");
         var response = {};
         var response2 = {};
         $(document).ready(function(){
             if(!checkCookie("empId")){
                 cancelFunc(-1);
             }
-        	userId = getCookie("empId");
-
+            var qryStrings = getQueryString();
+            qryStrings.forEach(element => {
+                if(element.startsWith('empId')){
+                    var qryEmp = element.split('=')[1];
+                    if(!isNaN(parseInt(qryEmp))){
+                        userId = parseInt(qryEmp);
+                    }
+                }
+            });
+        showData(userId);
     	});
         includeHTML();
         window.onload = function(){
@@ -148,7 +156,7 @@
                activateSideNav();
            }, 10);
         };
-        showData();
+    
         function toggleTabs(type){
             switch(type){
                 case "addLeads":
@@ -160,11 +168,11 @@
             }
         }
         
-        function showData() {
+        function showData(empId) {
             $.ajax({
                 type: 'POST',
                 dataType:'json',
-                data:({id:getCookie("empId")}),
+                data:({id:empId}),
                 url: 'assets/php/getLeads.php', 
                 success: function(responseData) {
                     if(responseData.data.success == "successful"){
@@ -250,6 +258,9 @@
                 break;
             }
             return htmlString;
+        }
+        function dataUpdate1(str){
+            dataUpdate(str, userId);
         }
 	</script>
 
