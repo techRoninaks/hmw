@@ -20,6 +20,7 @@
     <!-- Basic js -->
     <script src="js/basics.js"></script>
     <script src="assets/js/scripts.js"></script>
+    <script src="assets/js/categoryScripts.js"></script>
  <!-- Latest compiled and minified CSS -->
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -369,7 +370,8 @@
     </div>
 
     <script>
-        loadServices('serviespost',"1");
+        // loadServices('serviespost',"1");
+        queryHandlerService();
         loginManagement();
     </script>
 
@@ -384,7 +386,7 @@
 
     <script>
         includeHTML();
-        document.getElementById("inp").addEventListener("change", readFile);
+        // document.getElementById("inp").addEventListener("change", readFile);
     </script>
 
 

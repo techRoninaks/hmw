@@ -314,6 +314,7 @@ function premiumSignUp(){
   var website = document.getElementById('inputWebsite').value;
   var phone2 = document.getElementById('inputSecondaryContact').value;
   var skills = document.getElementById('inputSkills').value;
+  var employId= 0;
   var privatetag = 0;
   if(skills.charAt(0)==","){
     skills = skills.substr(1,skills.length)
@@ -325,6 +326,9 @@ function premiumSignUp(){
     privatetag = 1;
   } else {
     privatetag = 0;
+  }
+  if(getCookie("isAdmin=")==1){
+    employId = getCookie("empId=");
   }
   
   
@@ -363,7 +367,7 @@ function premiumSignUp(){
       }
       
   };
-  var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata+"&phone2="+phone2+"&skills="+skills+"&id="+id+"&privatetag="+privatetag;
+  var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata+"&phone2="+phone2+"&skills="+skills+"&privatetag="+privatetag+"&employId="+employId;
   xhr.open("post", "assets/php/postprofiledata.php", true);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   xhr.send(params);
@@ -1208,6 +1212,7 @@ function loginManagement(){
     setTimeout(function () {
         document.getElementById('loginHead').innerHTML = "<a class= nav-link  href= profile.html?user_id="+getCookie("userId=")+" >"+getCookie("userName=")+"</a>";
         document.getElementById('signUpHead').innerHTML = "<a class= nav-link  href= javascript:logOutProcess() >Log Out</a>";
+        document.getElementById('MyUnion').style.display = "block";
 	  }, 100);    
   }
 }
@@ -1268,6 +1273,9 @@ function premiumSignUpEdit(){
   }
   if(phone2.charAt(0)==","){
     phone2 = phone2.substr(1,phone2.length)
+  }
+  else if(imagedata == null ){
+        imagedata = 1;
   }
   if (document.getElementById("privateTag").checked == 1){
     privatetag = 1;
@@ -1728,6 +1736,70 @@ function spanPopulatePhone1(data1){
                         }
                     }, 100);
                 }
+            }
+        } 
+        else if(isNaN(parseInt(qryUserId))){
+          reDirect("error.html");
+      }
+    });
+    }
+  }
+
+  function queryHandlerService(){
+    var qryUserId = "";
+    var qryStrings = getQueryString();
+    if(qryStrings == "null"){
+        if(getCookie("union_type=")!="null"){
+          loadServices('serviespost',getCookie("userId="));
+        }
+        else{
+            alert("Login Please");
+            window.location = "index.html";
+        }
+    }else if(qryStrings == ""){
+        console.log("emptyArry");
+        reDirect("error.html");
+    }
+    else{
+        qryStrings.forEach(element => {
+        if(element.startsWith('union_type')){
+            qryUserId = element.split('=')[1];
+            if(isNaN(parseInt(qryUserId))){
+                reDirect("error.html");
+            }else{
+                if(qryUserId == getCookie("userId=")){
+                  loadServices('serviespost',qryUserId);
+                }
+                else{
+                    loadServices('serviespost',qryUserId);
+                }
+            }
+        } 
+        else if(isNaN(parseInt(qryUserId))){
+          reDirect("error.html");
+      }
+    });
+    }
+  }
+
+  function queryHandlerIndex(){
+    var qryUserId = "";
+    var qryStrings = getQueryString();
+    if(qryStrings == "null"){
+
+    }else if(qryStrings == ""){
+        // console.log("emptyArry");
+        reDirect("error.html");
+    }
+    else{
+        qryStrings.forEach(element => {
+        if(element.startsWith('show_model')){
+            qryUserId = element.split('=')[1];
+            if(qryUserId == "true"){
+              console.log(qryUserId);
+              setTimeout(function () {
+                toggleSignUp('loginBox','all','id01');
+            }, 100);
             }
         } 
         else if(isNaN(parseInt(qryUserId))){

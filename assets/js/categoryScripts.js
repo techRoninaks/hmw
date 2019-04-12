@@ -17,7 +17,7 @@ function loadCatList(catObj){
                             '<div class="circBtn popup" style="left:60%;" onclick="javascript:myFunction(&quot;'+popBox3+'&quot;)">'+
                                 '<img style="position:absolute;top:0;left:0;height:25px;width:25px;display:inline-block;" src="assets/img/icon/ic_email_bnw-min.png"><span class="popuptext" id='+popBox3+'>'+catObj[j].userMail+'</span></div>'+
                             
-                            '<img class="hmwCard" src="assets/img/profile/card/'+catObj[j].userId+'.png">'+
+                            '<img class="hmwCard" src="'+catObj[j].card+'">'+
                             '<div style="z-index:1;width:100%;height:10px;position:absolute;top:41%;background-color:#ffffff;"></div>'+
                             '</div>'+
                             '<div style="padding-left:20px;padding-top:0;"><br>'+

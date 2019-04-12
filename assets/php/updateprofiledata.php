@@ -21,7 +21,26 @@
         $phone2 = $_POST["phone2"];
         $id = $_POST["id"];
         $privatetag = $_POST["privatetag"];
+        $unqId="";
         require "init.php";//needed for connection with database
+
+        $sql_query = "SELECT uniqueId FROM `profile_table` WHERE id = 7 ";
+        $result = mysqli_query($con,$sql_query);
+        while($row=mysqli_fetch_array($result)){
+            $unqId = $row['uniqueId'];
+        }
+    //     echo $unqId;
+    // // echo json_encode(array($row["uniqueId"]));
+        if($image == 1){
+            echo "null";
+        }else{
+            define('UPLOAD_DIR', '../img/profile/userimage/');
+            $img =explode(",", $image);
+            $img[1] = str_replace(' ', '+', $img[1]);
+            $data = base64_decode($img[1]);
+            $file = UPLOAD_DIR.$unqId.'.png';
+            $success = file_put_contents($file, $data);
+        }
 
         if($privatetag == 1){
             $sql_query = "UPDATE `profile_table` SET `privatestat`= 1 WHERE id = $id ";
