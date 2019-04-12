@@ -10,7 +10,7 @@
     $row = mysqli_fetch_assoc($result);
     // echo "row".$row."<br>";
 	if($row !== NULL){
-        $userData = array("userName"=>$row["userName"],"userId"=>$row["userId"],"userManage"=>$row["userManage"],"roleManage"=>$row["roleManage"],"catManage"=>$row["catManage"],"unionManage"=>$row["unionManage"],"dataManage"=>$row["dataManage"],"custManage"=>$row["custManage"],"taskManage"=>$row["taskManage"],"contestManage"=>$row["contestManage"],"role"=>$row["role"]);
+        $userData = array("userName"=>$row["userName"],"userId"=>$row["userId"],"userManage"=>$row["userManage"],"roleManage"=>$row["roleManage"],"catManage"=>$row["catManage"],"unionManage"=>$row["unionManage"],"dataManage"=>$row["dataManage"],"custManage"=>$row["custManage"],"taskManage"=>$row["taskManage"],"contestManage"=>$row["contestManage"],"postManage"=>$row["postManage"],"role"=>$row["role"]);
         $jsonData = json_encode($userData);
         echo $jsonData;
 	} else {

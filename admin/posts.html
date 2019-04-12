@@ -5,7 +5,7 @@
 	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Manage Roles - HELLOmywork Admin</title>
+	<title>Manage Posts - HELLOmywork Admin</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -45,50 +45,11 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">Manage Roles</h4>
-                        <p class="category">Add/Delete/Edit Roles</p>
-                        <div style="padding-top: 8px;">
-                            <button class="btn btn-info btn-fill" onclick="toggleTabs('addRole')" id="btnRole">Add New Role</button>
-                        </div>
+                        <h4 class="title">Manage Posts</h4>
+                        <p class="category">Remove/Restore Reported Comments</p>
                     </div>
-                    <div class="content table-responsive table-full-width" id="roleTable">
+                    <div class="content table-responsive table-full-width" id="postTable">
                     </div>
-                    <div style="padding:2rem;display:none;" id="addRole">
-                        <form enctype="multipart/form-data" action="javascript:dataUpdate('role')" method="post">
-                            <label>Role Name</label><p style="display:inline;color:red;">*</p>
-                            <input type="text" class="form-control formStyle" placeholder="Role Name" id="roleName" required><br>
-                            <input type="checkbox" id="userManage">&emsp;
-                            <label>Employee Management</label>
-                            <br>
-                            <input type="checkbox" id="custManage">&emsp;
-                            <label>Customer Management</label>
-                            <br>
-                            <input type="checkbox" id="roleManage">&emsp;
-                            <label>Role Management</label>
-                            <br>
-                            <input type="checkbox" id="catManage">&emsp;
-                            <label>Category Management</label>
-                            <br>
-                            <input type="checkbox" id="unionManage">&emsp;
-                            <label>Union Management</label>
-                            <br>
-                            <input type="checkbox" id="taskManage">&emsp;
-                            <label>Task Management</label>
-                            <br>
-                            <input type="checkbox" id="contestManage">&emsp;
-                            <label>Contest Management</label>
-                            <br>
-                            <input type="checkbox" id="dataManage">&emsp;
-                            <label>Data Management</label>
-                            <br>
-                            <input type="checkbox" id="postManage">&emsp;
-                            <label>Post Management</label>
-                            <br><br>
-                            <button type="submit" style="display:inline" class="btn btn-secondary-outline" value="Submit" id="submitbutton">UPLOAD</button>
-                            <button type="button" class="btn btn-secondary-outline" value="Cancel" onclick="cancelFunc()">CANCEL</button>
-                            </form>
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -123,12 +84,13 @@
 	<script src="assets/js/demo.js"></script>
     <script type="text/javascript">
         var userId = "";
+
         $(document).ready(function(){
             if(!checkCookie("empId")){
                 cancelFunc(-1);
             }
         	userId = getCookie("empId");
-            if(!checkCookie("roleManage")){
+            if(!checkCookie("postManage")){
         	    window.location.replace("dashboard.html");
         	}
     	});
@@ -142,33 +104,24 @@
            }, 100);
         };
         showData();
-        function toggleTabs(type){
-            switch(type){
-                case "addRole":
-                    $('#btnRole').removeClass().addClass('btn btn-fill');
-                    $('#roleTable').hide();
-                    $('#addRole').show();
-                break;
-            }
-        }
         
         function showData() {
             $.ajax({
                 type: 'GET',
                 dataType:'json',
-                url: 'assets/php/getRoles.php', 
+                url: 'assets/php/getPosts.php', 
                 success: function(responseData) {
                     if(responseData.data.success == "successful"){
                         var response = responseData.data.result;
-                        var tabHeader = "<table class='table table-hover table-striped'><thead><th>ID</th><th>Roles</th><th>Action</th></thead>";
+                        var tabHeader = "<table class='table table-hover table-striped'><thead><th>ID</th><th>Comment</th><th>Post</th><th>User</th><th>Date</th><th>Action</th></thead>";
                         var tabCategories = tabHeader;
                         response.forEach(element => {
-                            tabCategories = tabCategories + buildHtml("roleTable", element);
+                            tabCategories = tabCategories + buildHtml("postTable", element);
                         });
                         tabCategories = tabCategories + "</table>";
-                        document.getElementById("roleTable").innerHTML = tabCategories;
+                        document.getElementById("postTable").innerHTML = tabCategories;
                     }else{
-                        demo.showNotification('top','center', 'Something went wrong', 4);
+                        demo.showNotification('top','center', 'Nothing to display', 4);
                         // window.location = window.location.origin;
                     }
                 },
@@ -177,20 +130,20 @@
                     // window.location = window.location.origin;
                 }
             });
-
         }
-
+        
         function buildHtml(template, data){
             var htmlString = "";
-            var pageName = "'role'";
+            var pageName = "'posts'";
+            
             switch(template){
-                case "roleTable":
-                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td><img src='assets/img/edit-button.png' onclick="+"toggleTabs('addRole');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
+                
+                case "postTable":
+                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.comment + "</td><td>" + data.post +"</td><td>" + data.user + "</td><td>" + data.comDate + "</td><td><img src='assets/img/restore-button.png' onclick="+"fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
                 break;
             }
             return htmlString;
         }
-        
 	</script>
 
 </html>
