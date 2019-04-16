@@ -1,10 +1,9 @@
 <?php
-
-        $id = $_POST["id"];
+$id = $_POST["id"];
         require "init.php";//needed for connection with database
         
        
-        $sql_query =  "SELECT pt.*,prt.name,prt.role,prt.location FROM posts_table pt JOIN profile_table prt on pt.u_id = prt.id where u_id in (select id from profile_table prt where category = (select name from category c where id = $id))";//SQL command
+        $sql_query =  "SELECT pt.*,prt.name,prt.role,prt.location FROM posts_table pt JOIN profile_table prt on pt.u_id = prt.id where u_id in (select id from profile_table prt where prt.union = (select name from unions u where u.id = $id))";//SQL command
         $response = array();
         $data = array();
         $success = "unsuccessful";

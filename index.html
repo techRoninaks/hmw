@@ -19,6 +19,7 @@
 
     <!-- Basic js -->
     <script src="assets/js/scripts.js"></script>
+    <script src="assets/js/categoryScripts.js"></script>
  <!-- Latest compiled and minified CSS -->
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -45,9 +46,9 @@
                     <form class="form-inline my-2 my-lg-0" autocomplete="off" id="serachform" onsubmit="return false">
                     <!-- <button class=" homebannerbtn"><i class="image-button"></i>Kochi</button> -->
                     <div class="dropdown1">
-                        <button class="dropbtn1 homebannerbtn" type="button"id="dropdownMenuButton"><i class="image-button"></i>Kochi</button>
+                        <button class="dropbtn1 homebannerbtn" type="button"id="dropdownMenuButton"><i class="image-button"></i>Kaloor</button>
                         <div class="dropdown-content1" id="Slist">
-                          <a href="#" onclick="javascript:replacetext('Kochi');">Kochi</a>
+                          <a href="#" onclick="javascript:replacetext('Kochi');">Kaloor</a>
                         </div>
                       </div> 
                     <input class="homesearch" type="search" id="search" placeholder="Search for services anywhere">
@@ -566,7 +567,8 @@
         
     includeHTML();
     $(window).load(function() {
-     $("#owl-demo").owlCarousel({
+        setTimeout(function () {
+            $("#owl-demo").owlCarousel({
         nav: true,
         loop:true,
         items:3,
@@ -594,7 +596,9 @@
             items:2
         }
     }
-     }).delay(1000);
+     }).delay(100);
+	}, 500);
+    
      document.getElementById('Home').classList.add('active');
    });
 
@@ -610,7 +614,9 @@ document.getElementById('search').onkeypress = function(e) {
     }
 }
 loginManagement();
-
+window.onload = function(){
+    queryHandlerIndex();
+}
 </script>
 
 

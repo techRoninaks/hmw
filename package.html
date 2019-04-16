@@ -301,6 +301,7 @@
             "image": "assets/img/logos/favicon.png",
             "handler": function (response){
                 // alert(response.razorpay_payment_id);
+                console.log(response);
                 document.getElementById('successfullMessage').innerHTML = "Thanks for your Rs 594 transcation. Here is your transaction ID " +response.razorpay_payment_id ;
                 toggleSignUp1('loginBox1','all','id01');
             },

@@ -239,7 +239,7 @@ body {
     margin-top: 25px;
     /* margin-left: 25px; */
     margin-bottom: 25px;
-    font-size: 15px;
+    font-size: 18px;
     font-family: defaultBarlowBoldX;
 }
 #menu{
@@ -870,12 +870,16 @@ footer .line{
     position: relative;
     left: 46%;
     top: 45%;
+    font-size: 18pt;
+    font-family: defaultBarlowBoldX;
 }
 .title1{
     color: white;
     position: relative;
-    left: 50%;
-    top: 50%;
+    left: 46%;
+    top: 45%;
+    font-size: 18pt;
+    font-family: defaultBarlowBoldX;
 }
 .col-sm-6 label{
     font-family: defaultBarlowBoldX;

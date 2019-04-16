@@ -16,6 +16,9 @@
             <li class="nav-item ml-auto " id="Contact">
                 <a class="nav-link" href="#">Contact Us</a>
             </li>
+            <li class="nav-item ml-auto " id="MyUnion" style="display:none">
+                <a class="nav-link" href="services.html">My Union</a>
+            </li>
             <li class="nav-item ml-auto " id="loginHead">
                 <a class="nav-link" onclick="javascript:toggleSignUp('loginBox','all','id01')" style="cursor:pointer;" id="logInHead">Login</a>
             </li>
@@ -23,19 +26,11 @@
                 <a class="nav-link disabled" id="bar" style="cursor:none;color:gray;" href="#">|</a>
             </li>
             <li class="nav-item ml-auto " id="signUpHead">
-                <a class="nav-link" href="javascript:dropHeader('myDropdown')">Sign Up</a>
-                <div id="myDropdown" class="dropdown-content">   
-                    <a class="dropdown" onclick="javascript:toggleSignUp('premiumBox','nonPremiumBox','id03')">Premium</a>
-                    <a class="dropdown" onclick="javascript:toggleSignUp('nonPremiumBox','premiumBox','id02')">Non-Premium</a>
-                </div>
+                <a class="nav-link" href="premiumsignup.html" id="profileName">Sign Up</a>
             </li>
-            <li class="nav-item ml-auto " style="display:none;" id="signOutHead">
-                <a class="nav-link" href="javascript:dropHeader('myDropdown2')" id="profileName"><script>getCookie('userName=')</script></a>
-                <div id="myDropdown2" class="dropdown-content">
-                    <a class="nav-link" onclick="reDirect('profile.html');" style="cursor:pointer;" id="profilePage">Profile</a> 
-                    <a class="nav-link" onclick="setCookie('userName');reDirect('index.html');" style="cursor:pointer;" id="logOutHead">Log Out</a>
-                </div>
-            </li>
+            <!-- <li class="nav-item ml-auto " style="display:none;" id="signOutHead">
+                <a class="nav-link" href="premiumsignup.html" id="profileName">Sign Up</a>
+            </li> -->
             </ul>
         </div>
         </nav>
