@@ -2,7 +2,7 @@
     require 'init.php';
     header("Content-Type: application/json; charset=UTF-8");
 	
-	$dataJSON = $_POST["jsonObj"];
+    $dataJSON = $_POST["jsonObj"];
     $data = json_decode($dataJSON);
     
     $sql = "SELECT * FROM `profile_table` WHERE (`password`= $data->userPassword) AND (`phone` =$data->userPhone)";
@@ -14,5 +14,6 @@
         echo $jsonData;
 	} else {
 	    echo "0";
-	}
+    }
+    
 ?>

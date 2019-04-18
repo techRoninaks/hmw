@@ -9,7 +9,7 @@ var countries = ["Afghanistan~1","Albania","Algeria","Andorra","Angola","Anguill
 var imagedata ;
 var postimage ;
 var local =1;
-var priv = "";
+var priv = "",currentUid = 1;
 
 //For fetching common elements
 function includeHTML() {
@@ -62,7 +62,7 @@ function toggleSignUp(box1,box2,innerId){ //close unwanted popups
         document.getElementById('premiumBox').style.display='none';
         document.getElementById('nonPremiumBox').style.display='none';
     }
-    document.getElementById("myDropdown").style.display='none';
+    // document.getElementById("myDropdown").style.display='none';
     
 }
 
@@ -75,7 +75,8 @@ function signUp(selectBox){ //sign up form
         if(selectBox == 'premium'){
             data[0] =  document.getElementById("premiumName").value;
             data[1] =  document.getElementById("premiumPhone").value;
-            myObj = {"newName":data[0],"newPhone":data[1],"userType":selectBox};
+            data[2] = getCookie("emId=");
+            myObj = {"newName":data[0],"newPhone":data[1],"userType":selectBox,"emId":data[2]};
             globeCopy = myObj;
             toggleSignUp("otpBox","all","id04");
             sendOTP();
@@ -98,19 +99,19 @@ function signUp(selectBox){ //sign up form
         xhr =  new XMLHttpRequest();
         this.responseType = 'text';
            xhr.onreadystatechange  =  function() {
-            var ourData = xhr.response;
             if (this.readyState == 4 && this.status == 200) {
-                if(xhr.responseText == '1'){
+              var data = xhr.responseText.split("~");
+                if(data[0] == '1'){
                     alert("Successful!");
                     setCookie("userName",myObj.newName);
-                    window.location.reload();
+                    window.location = "prepremiumsignup.html?user_id="+data[1];
                 } else {
                     alert("Update Failed! Try again!");
                 }
             }
         };
         xhr.open("POST", "assets/php/signUp.php", true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.setRequestHeader("Content-type", "application/json");
         xhr.send("jsonObj="+jSONObj);
     }
 }
@@ -170,11 +171,13 @@ function otpVerify(){ //otp verification
               xhr.onreadystatechange  =  function() {
                 var ourData = xhr.response;
                 if (this.readyState == 4 && this.status == 200) {
-                    if(xhr.responseText == '1'){
+                    var data = xhr.responseText.split("~");
+                    if(data[0] == '1'){
                         alert("OTP Verified!");
                         setCookie("userName",myObj.newName);
                         OTPcount = 3;
-                        reDirect("premiumsignup.html");
+                        window.location = "premiumsignup.html?user_id="+data[1];
+                        // reDirect("premiumsignup.html?user_id="+data[1]);
                     } else {
                         alert("Verification Failed! Try again!");
                     }
@@ -313,7 +316,8 @@ function premiumSignUp(){
   var phone2 = document.getElementById('inputSecondaryContact').value;
   var skills = document.getElementById('inputSkills').value;
   var employId= 0;
-  var privatetag = 0;
+  var privatetag = 0,prospectTag=0;
+  var id = currentUid;
   if(skills.charAt(0)==","){
     skills = skills.substr(1,skills.length)
   }
@@ -324,6 +328,11 @@ function premiumSignUp(){
     privatetag = 1;
   } else {
     privatetag = 0;
+  }
+  if (document.getElementById("prospectTag").checked == 1){
+    prospectTag = 1;
+  } else {
+    prospectTag = 0;
   }
   if(getCookie("isAdmin=")==1){
     employId = getCookie("empId=");
@@ -365,7 +374,7 @@ function premiumSignUp(){
       }
       
   };
-  var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata+"&phone2="+phone2+"&skills="+skills+"&privatetag="+privatetag+"&employId="+employId;
+  var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata+"&phone2="+phone2+"&skills="+skills+"&privatetag="+privatetag+"&employId="+employId+"&id="+id+"&prospectTag="+prospectTag;
   xhr.open("post", "assets/php/postprofiledata.php", true);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   xhr.send(params);
@@ -374,6 +383,8 @@ function premiumSignUp(){
   // console.log(name+"\n"+email+"\n"+phone+"\n"+password1+"\n"+password2+"\n"+category+"\n"+role+"\n"+country+"\n"+type);
   return false; 
 }
+
+
 
 //To handle skills field in signup page 
 
@@ -797,7 +808,7 @@ function uprofilecardload(array){
   var htmltemp ="";
   var data = array[1];
   htmltemp = htmltemp + "<div class= col-sm-4 >"+
-  "<img src= "+data["card"]+"  class= idprofile >"+
+  "<img src= "+data["profile_image"]+"  class= idprofile >"+
 "</div>"+
 "<div class= col-sm-8 >"+
 "<div class= cardwhite >"+
@@ -915,7 +926,7 @@ function toggleSignUp1(box1,box2,innerId){
       document.getElementById('premiumBox').style.display='none';
       document.getElementById('nonPremiumBox').style.display='none';
   }
-  document.getElementById("myDropdown").style.display='none';
+  // document.getElementById("myDropdown").style.display='none';
   return false;
 }
 
@@ -1805,4 +1816,200 @@ function spanPopulatePhone1(data1){
       }
     });
     }
+  }
+
+  function premiumSignUpSave(){
+    var name = document.getElementById('inputFirstname').value;
+    var email = document.getElementById('inputEmail').value;
+    var phone = document.getElementById('inputPhone').value;
+    var password1 = document.getElementById('inputPassword').value;
+    var password2 = document.getElementById('inputConfirmPassword').value;
+    var category = document.getElementById('inputCategory').value;
+    var role = document.getElementById('inputRoleInCompany').value;
+    var country = document.getElementById('inputCountry').value;
+    var type = document.getElementById('inputType').value;
+    var address = document.getElementById('inputAddressLine1').value;
+    var state = document.getElementById('inputState').value;
+    var location = document.getElementById('inputLocation').value;
+    var sublocation = document.getElementById('inputSubLocation').value;
+    var pincode = document.getElementById('inputPinCode').value;
+    var union = document.getElementById('inputUnion').value;
+    var whatsapp = document.getElementById('inputWhatsappNumber').value;
+    var website = document.getElementById('inputWebsite').value;
+    var phone2 = document.getElementById('inputSecondaryContact').value;
+    var skills = document.getElementById('inputSkills').value;
+    var userId = currentUid;
+    var employId= 0;
+    var privatetag = 0;
+    var privatetag = 0;
+    if(skills.charAt(0)==","){
+      skills = skills.substr(1,skills.length)
+    }
+    if(phone2.charAt(0)==","){
+      phone2 = phone2.substr(1,phone2.length)
+    }
+    if (document.getElementById("privateTag").checked == 1){
+      privatetag = 1;
+    } else {
+      privatetag = 0;
+    }
+    if (document.getElementById("prospectTag").checked == 1){
+      prospectTag = 1;
+      
+    } else {
+      prospectTag = 0;
+      
+    }
+    if(getCookie("isAdmin=")==1){
+      employId = getCookie("empId=");
+    }
+    
+      document.getElementById('vaildation').style.display = "none";
+    
+    var xhr =  new XMLHttpRequest();
+    this.responseType = 'text';
+    xhr.onreadystatechange  =  function() {
+        
+        var ourData = xhr.response;
+        if (this.readyState == 4 && this.status == 200) {//if result successful
+          // var myObj = JSON.parse(this.responseText);
+          // if(this.responseText == "success "){
+          //   window.location = "package.html"
+          // }
+          alert("Information have been saved to the database.");
+  
+        }
+        
+    };
+    var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata+"&phone2="+phone2+"&skills="+skills+"&privatetag="+privatetag+"&employId="+employId+"&userId="+userId+"&prospectTag="+prospectTag;
+    xhr.open("post", "assets/php/saveDataProfile.php", true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(params);
+  
+    // }
+    // console.log(name+"\n"+email+"\n"+phone+"\n"+password1+"\n"+password2+"\n"+category+"\n"+role+"\n"+country+"\n"+type);
+    return false; 
+  }
+
+  function getSavedDataProfile(id){
+    currentUid = id;
+    var xhr =  new XMLHttpRequest();
+  this.responseType = 'text';
+  xhr.onreadystatechange  =  function() {
+  if (this.readyState == 4 && this.status == 200) {
+
+    if(this.responseText.split("~")[0]==1){
+      window.location = this.responseText.split("~")[1];
+    }
+    else{
+      var myObj = JSON.parse(this.responseText);
+      // console.log(myObj[1]);
+      var data = myObj[1];
+			setTimeout(function () {
+        document.getElementById('inputFirstname').value = data["name"];
+        document.getElementById('inputEmail').value = data["email"];
+        document.getElementById('inputPhone').value = data["phone"];
+        document.getElementById('inputPassword').value = data["password"];
+        document.getElementById('inputConfirmPassword').value = data["password"];
+        document.getElementById('inputCategory').value = data["union"];
+        document.getElementById('inputRoleInCompany').value = data["role"];
+        document.getElementById('inputCountry').value = data["country"];
+        document.getElementById('inputType').value = data["type"];
+        var address = data["address"];
+        address = address.replace(/&#32;/g," ");
+        document.getElementById('inputAddressLine1').value = address;
+        document.getElementById('inputState').value = data["state"];
+        document.getElementById('inputLocation').value = data["location"];
+        document.getElementById('inputSubLocation').value = data["sublocation"];
+        document.getElementById('inputPinCode').value = data["pincode"];
+        document.getElementById('inputUnion').value = data["union"];
+        document.getElementById('inputWhatsappNumber').value = data["whatapp"];
+        document.getElementById('inputWebsite').value = data["website"];
+        document.getElementById('inputSecondaryContact').value = data["phone2"];
+        document.getElementById('inputSkills').value = data["skills"];
+        if(data["isProspect"] == 1){
+          document.getElementById('prospectTag').checked = true;
+        }
+        console.log(data["isProspect"]);
+        
+        // console.log(data["type"]);
+        if(document.getElementById("inputSkills").value !=""){
+          spanPopulate1(document.getElementById("inputSkills").value);
+        }
+        if(document.getElementById("inputSecondaryContact").value !=""){
+          spanPopulatePhone1(document.getElementById("inputSecondaryContact").value);
+        }
+        
+			}, 600);
+    }
+
+    }
+  }
+  var params = 'id='+id;
+  xhr.open("post", "assets/php/getprofilepre.php", true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.send(params);
+  }
+
+  function freePackageHnadler(){
+    document.getElementById('successfullMessage').innerHTML = "You are selecting the free package, you will only have access to limited features, are you sure?";
+    document.getElementById('confrim').style.display = "block";
+    document.getElementById('cancel').style.display = "block";
+    document.getElementById('toProfile').style.display = "none";
+    document.getElementById('packageHeader').innerHTML = "Free Package Selected";
+    toggleSignUp1('loginBox1','all','id08');
+  }
+
+  function cancelpackage(){
+    setTimeout(function(){ 
+      
+      document.getElementById('loginBox1').style.display="none";
+     }, 100);
+  }
+
+  function freePackageSelect(){
+    var id = getCookie("userId=");
+    var emid = getCookie("emId=");
+    // console.log(id+"\n"+emid)
+    if(emid=="null"){
+      emid = 0;
+    }
+    var xhr =  new XMLHttpRequest();
+    this.responseType = 'text';
+    xhr.onreadystatechange  =  function() {
+    if (this.readyState == 4 && this.status == 200) {
+      window.location = "profile.html?user_id="+this.responseText;
+  
+      
+    }
+  }
+
+    var params = 'id='+id+'&emid='+emid;
+    xhr.open("post", "assets/php/postfreeprofile.php", true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(params);
+  }
+
+  function premiumPackageHandler(month){
+    console.log(month);
+    var id = getCookie("userId=");
+    var emid = getCookie("emId=");
+    // console.log(id+"\n"+emid)
+    if(emid=="null"){
+      emid = 0;
+    }
+    var xhr =  new XMLHttpRequest();
+    this.responseType = 'text';
+    xhr.onreadystatechange  =  function() {
+    if (this.readyState == 4 && this.status == 200) {
+      // window.location = "profile.html?user_id="+this.responseText;
+  
+      
+    }
+  }
+
+    var params = 'id='+id+'&emid='+emid+'&month='+month;
+    xhr.open("post", "assets/php/postpackageprofile.php", true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(params);
   }

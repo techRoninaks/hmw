@@ -864,6 +864,21 @@ footer .line{
     margin-top: 50px;
     /* transform: translate(-50%,-50%); */
 }
+.center2{
+    background: #000000;
+    color: white;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    position: absolute;
+    right: 180px;
+    bottom: 25px;
+    padding-left: 35px;
+    padding-right: 35px;
+    margin-top: 50px;
+    /* transform: translate(-50%,-50%); */
+}
 
 .title{
     color: white;
@@ -1474,4 +1489,8 @@ footer .line{
 
 .viewmore{
     cursor: pointer;
+}
+
+.checkBox{
+    color: black;
 }
