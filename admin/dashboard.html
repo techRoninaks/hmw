@@ -51,7 +51,7 @@
 
                             <div class="header">
                                 <h4 class="title">Conversion Ratio</h4>
-                                <p class="category">Performance</p>
+                                <p class="category">Overall Performance</p>
                             </div>
                             <div class="content">
                                 <div id="dvChartDistribution" style="height: 280px;"></div>
@@ -60,7 +60,7 @@
                                     <div class="legend">
                                         <i class="fa fa-circle text-info"></i> Leads
                                         <i class="fa fa-circle text-danger"></i> Prospects
-                                        <i class="fa fa-circle text-warning"></i> Conversions
+                                        <i class="fa fa-circle text-success"></i> Conversions
                                     </div>
                                     <hr>
                                     <div class="stats">
@@ -75,7 +75,7 @@
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Weekly Targets</h4>
-                                <p class="category" id="pWeekIdentifier">24 Hours performance</p>
+                                <p class="category" id="pWeekIdentifier">Your performance</p>
                             </div>
                             <div class="content">
                                 <div class="row">
@@ -109,7 +109,7 @@
                                     <h5>Notes</h5>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-12" id="dvNotes">
+                                    <div class="col-sm-12" id="dvNotes" style="color:#999999;">
                                         No new notes for this week.
                                     </div>
                                 </div>
@@ -218,17 +218,17 @@
             var dataPros = google.visualization.arrayToDataTable([
             ['Effort', 'Amount given'],
             ['Completed',     parseInt(userLive.finalPros)],
-            ['Remaining',     parseInt(userLive.targetPros)],
+            ['Remaining',     Math.abs(parseInt(userLive.targetPros)-parseInt(userLive.finalPros))],
             ]);
             var dataLeads = google.visualization.arrayToDataTable([
             ['Effort', 'Amount given'],
             ['Completed',     parseInt(userLive.finalLeads)],
-            ['Remaining',     parseInt(userLive.targetLeads)],
+            ['Remaining',     Math.abs(parseInt(userLive.targetLeads)-parseInt(userLive.finalLeads))],
             ]);
             var dataConversions = google.visualization.arrayToDataTable([
             ['Effort', 'Amount given'],
             ['Completed',     parseInt(userLive.conversions)],
-            ['Remaining',     parseInt(userLive.targetConversions)],
+            ['Remaining',     Math.abs(parseInt(userLive.targetConversions)-parseInt(userLive.conversions))],
             ]);
             var dataTotal = google.visualization.arrayToDataTable([
             ['Effort', 'Amount given'],
@@ -246,7 +246,7 @@
 
             var optionsPie = {
                 legend: 'none',
-                colors: ['#1DC7EA', '#FF9500', '#FF4A55']
+                colors: ['#1DC7EA', '#FF9500', '#87CB16']
             }
 
             var chart = new google.visualization.PieChart(document.getElementById('dvChartDistribution'));
@@ -336,6 +336,7 @@
                         userLive = response[0];
                         google.charts.load('current', {'packages':['corechart']});
                         google.charts.setOnLoadCallback(drawChart);
+                        document.getElementById("dvNotes").innerHTML = response[0].notes;
                     }else{
                         demo.showNotification('top','center', 'Nothing to display', 4);
                         // window.location = window.location.origin;

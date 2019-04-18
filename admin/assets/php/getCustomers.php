@@ -1,7 +1,7 @@
 <?php
     require "init.php";
     $success = "unsuccessful";
-    $sql_query = "select * from profile_table order by doj;";
+    $sql_query = "select * from profile_table where isActive = 1 order by id desc;";
     $result = mysqli_query($conn, $sql_query);
     $response = array();
     $count = 0;

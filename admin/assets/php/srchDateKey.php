@@ -4,7 +4,7 @@
     $sDate = $_POST["sDate"];
     $eDate = $_POST["eDate"];
     $srchKey = $_POST["searchKey"];
-    $sql_query = "select * from profile_table where (doj>='$sDate' AND dox<='$eDate') AND (name LIKE '%$srchKey%' OR role LIKE '%$srchKey%' OR skils LIKE '%$srchKey%' OR profile_table.union LIKE '%$srchKey%' OR location LIKE '%$srchKey%' OR sublocation LIKE '%$srchKey%') order by doj desc;";
+    $sql_query = "select * from profile_table where (doj>='$sDate' AND doj<='$eDate') AND (name LIKE '%$srchKey%' OR role LIKE '%$srchKey%' OR skils LIKE '%$srchKey%' OR profile_table.union LIKE '%$srchKey%' OR location LIKE '%$srchKey%' OR sublocation LIKE '%$srchKey%') order by doj desc;";
 
     $result = mysqli_query($conn, $sql_query);
     $response = array();
