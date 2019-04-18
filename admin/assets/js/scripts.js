@@ -552,3 +552,12 @@ function deleteData(id,pageName){
         return;
     }
 }
+
+function getQueryString(){		
+     if(document.URL.includes("?")){		
+         return document.URL.split('?')[1].split('&');		
+     }		
+     else{		
+         return "null";		
+     }  		
+}
