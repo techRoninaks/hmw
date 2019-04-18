@@ -63,6 +63,7 @@ function login(){ //login validation
               if(xhr.responseText !== '0'){
                   var userObj = JSON.parse(xhr.responseText);
                   setCookie("empId",userObj.userId);
+                  setCookie("emId",userObj.userId);
                   setCookie("empName",userObj.userName);
                   if((userObj.role).toLowerCase() == "admin"){
                         setCookie("isAdmin",1);   

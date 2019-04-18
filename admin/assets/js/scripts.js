@@ -73,15 +73,6 @@ function checkCookie(cname) {
   return true;
 }
 
-function getQueryString(){
-    if(document.URL.includes("?")){
-        return document.URL.split('?')[1].split('&');
-    }
-    else{
-        return "null";
-    }  
-}
-
 function activateSideNav(){
     var loc = window.location.href;
     var activePage = "";
@@ -169,6 +160,7 @@ function cancelFunc(val=0){
     setCookie("leadsOnEdit");
     
     if(val !== 0){
+        setCookie("emId");
         setCookie("empId");
         setCookie("empName");
         setCookie("isAdmin");
@@ -191,7 +183,7 @@ function cancelFunc(val=0){
     
 }
 
-function dataUpdate(pageName,userId=null){
+function dataUpdate(pageName){
     var data = [];
     var myObj = {};
     var phpFile = "";
@@ -289,8 +281,9 @@ function dataUpdate(pageName,userId=null){
             data[4] = document.getElementById("endDate").value;
             data[5] = document.getElementById("userId").value;
             data[6] = document.getElementById("ConvLeads").value;
+            data[7] = document.getElementById("notes").value;
             prevId = getCookie("taskOnEdit");
-            myObj = {"userName":data[0],"targetPros":data[1],"targetLeads":data[2],"startDate":data[3],"endDate":data[4],"mainUserId":data[5],"ConvLeads":data[6],"cookieUserId":prevId};
+            myObj = {"userName":data[0],"targetPros":data[1],"targetLeads":data[2],"startDate":data[3],"endDate":data[4],"mainUserId":data[5],"ConvLeads":data[6],"notes":data[7],"cookieUserId":prevId};
         } else if(pageName == 'notifications'){
             data[0] = document.getElementById("notifHead").value;
             data[1] = document.getElementById("notifContent").value;
@@ -315,7 +308,7 @@ function dataUpdate(pageName,userId=null){
             data[15] = document.getElementById("webSite").value;
             data[16] = document.getElementById("skillName").value;
             // data[17] = document.getElementById("password").value;
-            // userId = getCookie("empId");
+            userId = getCookie("empId");
             leadId = getCookie("leadsOnEdit");
             if(data[4] == ""){
                 data[4] = null;
@@ -335,6 +328,12 @@ function dataUpdate(pageName,userId=null){
                     alert("Successful!");
                     postimage = "";
                     cancelFunc();
+                } else if(parseInt(xhr.responseText)<0 && pageName == "task"){
+                    if(confirm("Task already assigned! Switch to editing?")){
+                        fetchData(Math.abs(parseInt(xhr.responseText)),"task");
+                    } else {
+                        cancelFunc();
+                    }
                 } else {
                     alert("Update Failed! Try again!");
                 }
@@ -460,6 +459,7 @@ function fetchData(id,pageName){
                             document.getElementById("targetPros").value = myObj.targetPros;
                             document.getElementById("targetLeads").value = myObj.targetLeads;
                             document.getElementById("ConvLeads").value = myObj.ConvLeads;
+                            document.getElementById("notes").value = myObj.notes;
                             document.getElementById("startDate").value = myObj.startDate;
                             document.getElementById("endDate").value = myObj.endDate;
                             setCookie("taskOnEdit",myObj.userId);

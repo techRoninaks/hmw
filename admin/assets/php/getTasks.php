@@ -1,7 +1,7 @@
 <?php
     require "init.php";
     $success = "unsuccessful";
-    $sql_query = "select u.userName,u.userId, t.* from users u join tasks t on u.userId = t.USER_ID where WEEK(NOW()) = WEEK(t.DATE_END) order by DATE_MODIFIED";
+    $sql_query = "select u.userName,u.userId, t.* from users u join tasks t on u.userId = t.USER_ID where WEEK(NOW()) <= WEEK(t.DATE_END) order by DATE_MODIFIED";
     $result = mysqli_query($conn, $sql_query);
     $response = array();
     $count = 0;

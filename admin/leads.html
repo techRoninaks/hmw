@@ -49,13 +49,19 @@
                         <p class="category">Add/Delete/Edit Leads</p>
                         <div style="padding-top: 8px;">
                             <button class="btn btn-info btn-fill" onclick="javascript:toggleTabs('addLeads')" id="btnLeads">Add New Leads</button>
+                            <div class="legend">
+                                <br>
+                                        <i class="fa fa-circle text-info"></i> Leads
+                                        <i class="fa fa-circle text-danger"></i> Prospects
+                                        <i class="fa fa-circle text-success"></i> Conversions
+                            </div>
                         </div>
                     </div>
                     <div class="content table-responsive table-full-width" id="leadsTable"></div>
                     <div style="padding:2rem;display:none;" id="addLeadsForm">
                         <form enctype="multipart/form-data" action="javascript:dataUpdate1('leads')" method="post">
                             <label>Customer Name</label><p style="display:inline;color:red;">*</p>
-                            <input type="text" class="form-control formStyle" placeholder="Customer Name" id="custName"><br>
+                            <input type="text" class="form-control formStyle" placeholder="Customer Name" id="custName" required><br>
                             <label>Job type</label>
                             <input type="text" class="form-control formStyle" placeholder="Job-type" id="typeName"><br>
                             <label>Role</label>
@@ -66,8 +72,8 @@
                             <select name="union" id="unionName"></select><br><br>
                             <label>Address</label>
                             <input type="text" class="form-control formStyle" placeholder="Address" id="addName"><br>
-                            <label>Location</label>
-                            <input type="text" class="form-control formStyle" placeholder="Location" id="locName"><br>
+                            <label>Location</label><p style="display:inline;color:red;">*</p>
+                            <input type="text" class="form-control formStyle" placeholder="Location" id="locName" required><br>
                             <label>Sub-Location</label>
                             <input type="text" class="form-control formStyle" placeholder="Sub-location" id="subLocName" ><br>
                             <label>State</label>
@@ -76,18 +82,18 @@
                             <input type="text" class="form-control formStyle" placeholder="Country" id="countryName" ><br>
                             <label>PinCode</label>
                             <input type="text" class="form-control formStyle" pattern="[0-9]{6}" placeholder="6-digit Pincode" title="Pincode must be a 6-digit number!" id="pincode" ><br>
-                            <label>Primary Phone</label>
-                            <input type="tel" class="form-control formStyle" pattern="[1-9]{1}[0-9]{9}" title="Enter 10 digit mobile number" id="primaryPhone" placeholder="Phone number" ><br>
+                            <label>Primary Phone</label><p style="display:inline;color:red;">*</p>
+                            <input type="tel" class="form-control formStyle" pattern="[1-9]{1}[0-9]{9}" title="Enter 10 digit mobile number" id="primaryPhone" placeholder="Phone number" required><br>
                             <label>Secondary Phone</label>
                             <input type="tel" class="form-control formStyle" pattern="[1-9]{1}[0-9]{9}" title="Enter 10 digit mobile number" id="secondaryPhone" placeholder="Phone number"><br>
                             <label>WhatsApp Number</label>
                             <input type="tel" class="form-control formStyle" pattern="[1-9]{1}[0-9]{9}" title="Enter 10 digit mobile number" id="whatsappPhone" placeholder="WhatsApp Number"><br>
-                            <label>E-mail</label>
-                            <input type="email" class="form-control formStyle" placeholder="Email" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" id="eMail" ><br>
+                            <label>E-mail</label><p style="display:inline;color:red;">*</p>
+                            <input type="email" class="form-control formStyle" placeholder="Email" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" id="eMail" required><br>
                             <label>Website</label>
                             <input type="text" class="form-control formStyle" placeholder="Website" id="webSite"><br>
-                            <label>Skills</label>
-                            <input type="text" class="form-control formStyle" placeholder="Skills" id="skillName" ><br>
+                            <label>Skills</label><p style="display:inline;color:red;">*</p>
+                            <input type="text" class="form-control formStyle" placeholder="Skills" id="skillName" required><br>
                             <!--<label>Password</label>-->
                             <!--<input type="password" class="form-control formStyle" placeholder="Password" id="password" ><br>-->
                             <button type="submit" style="display:inline" class="btn btn-secondary-outline" value="Submit" id="submitbutton">UPLOAD</button>
@@ -129,6 +135,7 @@
 	<script src="assets/js/demo.js"></script>
     <script type="text/javascript">
         var userId = getCookie("empId");
+        setCookie("emId",getCookie("empId"));
         var response = {};
         var response2 = {};
         $(document).ready(function(){
@@ -160,10 +167,7 @@
         function toggleTabs(type){
             switch(type){
                 case "addLeads":
-                    $('#btnLeads').removeClass().addClass('btn btn-fill');
-                    $('#leadsTable').hide();
-                    $('#addLeads').show();
-                    $('#addLeadsForm').show();
+                    window.location.href='../index.html?show_model=true';
                 break;
             }
         }
@@ -248,7 +252,14 @@
             switch(template){
                 
                 case "leadsTable":
-                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td>" + data.skills +"</td><td>" + data.contact + "</td><td>" + data.email +"</td><td><img src='assets/img/verified.png' onclick="+"setCookie('leadId',"+data.id+");window.location.href='../premiumedit.html';"+">&emsp;<img src='assets/img/edit-button.png' onclick="+"toggleTabs('addLeads');fetchData("+data.id+','+pageName+")"+">&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
+                    if(data.isProspect == '1' && data.isActive == '1'){
+                        prosImg = "<img src='assets/img/convert-green.png'>";
+                    } else if(data.isProspect == '1' && data.isActive == null){
+                        prosImg = "<img src='assets/img/convert-red.png' onclick="+"setCookie('userId',"+data.id+");window.location.href='../premiumsignup.html?user_id="+data.id+"';"+">";
+                    } else {
+                        prosImg = "<img src='assets/img/convert-blue.png' onclick="+"setCookie('userId',"+data.id+");window.location.href='../premiumsignup.html?user_id="+data.id+"';"+">";
+                    }
+                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td>" + data.skills +"</td><td>" + data.contact + "</td><td>" + data.email +"</td><td>"+prosImg+"&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
                 break;
                 case "catName":
                     htmlString = "<option>" + data.name + "</option>";

@@ -3,7 +3,7 @@
     $success = "unsuccessful";
     $sDate = $_POST["sDate"];
     $eDate = $_POST["eDate"];
-    $sql_query = "select * from profile_table where doj>='$sDate' AND dox<='$eDate' order by doj desc;";
+    $sql_query = "select * from profile_table where doj>='$sDate' AND doj<='$eDate' order by doj desc;";
     $result = mysqli_query($conn, $sql_query);
     $response = array();
     $count = 0;
