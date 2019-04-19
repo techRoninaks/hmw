@@ -45,14 +45,14 @@ import java.awt.geom.*;
 
 public class java {
    public static String uniqCode1 = "hell";
-  public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
       
     //   String uId = getUniqeId(args[0]);
     uniqCode1 = args[1];
     imageRounder(uniqCode1);
     Qrcode("http://localhost/hmw3/profile.html?user_id="+args[2],uniqCode1);
     
-    String add = imageIoWrite("C://Users/AshishKamal/Desktop/HELLOmywork_id_card_BLANK_GREEN-min.png", args[0]);
+    String add = imageIoWrite("C://wamp64/www/hmw3/assets/img/images/HELLOmywork_id_card_BLANK_GREEN-min.png", args[0]);
     File pro = new File("C://wamp64/www/hmw3/assets/img/profile/userimage/"+uniqCode1+"rounded.png");
     File pro1 = new File("C://wamp64/www/hmw3/assets/img/profile/userimage/"+uniqCode1+"rounded.png");
     File qrcode = new File("C://wamp64/www/hmw3/assets/img/profile/QRCode/"+uniqCode1+".png");
@@ -71,8 +71,8 @@ public class java {
     op.filter(grayImg, gray);
     graphics.drawImage(grayImg ,0,0,null);
     Graphics2D g = im.createGraphics();
-    g.drawImage(im2, 60,228,151,151, null);
-    g.drawImage(gray, 665,324,71,65, null);
+    g.drawImage(im2, 50,220,168,168, null);
+    g.drawImage(gray, 665,320,72,72, null);
     g.drawImage(qrImage,650,50,100,100, null);
 
     AffineTransformOp op2 = new AffineTransformOp(rotateClockwise90(im), AffineTransformOp.TYPE_BILINEAR);
@@ -90,7 +90,8 @@ public class java {
     display(im);
     ImageIO.write(im, "png", new File("C://wamp64/www/hmw3/assets/img/profile/card/"+uniqCode1+".png"));
 
-    add = imageIoWrite("C://Users/AshishKamal/Desktop/HELLOmywork_id_card_BLANK_GOLD-min1.png", args[0]);
+
+    add = imageIoWrite("C://wamp64/www/hmw3/assets/img/images/HELLOmywork_id_card_BLANK_GOLD-min.png", args[0]);
     pro = new File("C://wamp64/www/hmw3/assets/img/profile/userimage/"+uniqCode1+"rounded.png");
     pro1 = new File("C://wamp64/www/hmw3/assets/img/profile/userimage/"+uniqCode1+"rounded.png");
     url = new File(add);
@@ -102,8 +103,8 @@ public class java {
     graphics = colorImage.createGraphics();
     graphics.drawImage(grayImg ,0,0,null);
     g = im.createGraphics();
-    g.drawImage(im2, 60,228,151,151, null);
-    g.drawImage(gray, 665,324,71,65, null);
+    g.drawImage(im2, 50,220,168,168, null);
+    g.drawImage(gray, 665,320,72,72, null);
     g.drawImage(qrImage,650,50,100,100, null);
     
     op2 = new AffineTransformOp(rotateClockwise90(im), AffineTransformOp.TYPE_BILINEAR);
@@ -379,7 +380,9 @@ public class java {
         
         // This method does it all!. You can clip the
         // image into the shape you wish, play it as you like!
-        g2.setClip(new RoundRectangle2D.Double(0,0,width,height,30,30));
+
+        g2.setClip(new RoundRectangle2D.Double(0,0,width,height,40,40));
+
         // System.out.println(width+"\n"+height+"\n"+width/4+"\n"+height/4);
         
         // Now, draw the image. The image is now

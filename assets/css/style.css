@@ -239,7 +239,7 @@ body {
     margin-top: 25px;
     /* margin-left: 25px; */
     margin-bottom: 25px;
-    font-size: 15px;
+    font-size: 18px;
     font-family: defaultBarlowBoldX;
 }
 #menu{
@@ -864,18 +864,37 @@ footer .line{
     margin-top: 50px;
     /* transform: translate(-50%,-50%); */
 }
+.center2{
+    background: #000000;
+    color: white;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    position: absolute;
+    right: 180px;
+    bottom: 25px;
+    padding-left: 35px;
+    padding-right: 35px;
+    margin-top: 50px;
+    /* transform: translate(-50%,-50%); */
+}
 
 .title{
     color: white;
     position: relative;
     left: 46%;
     top: 45%;
+    font-size: 18pt;
+    font-family: defaultBarlowBoldX;
 }
 .title1{
     color: white;
     position: relative;
-    left: 50%;
-    top: 50%;
+    left: 46%;
+    top: 45%;
+    font-size: 18pt;
+    font-family: defaultBarlowBoldX;
 }
 .col-sm-6 label{
     font-family: defaultBarlowBoldX;
@@ -1470,4 +1489,8 @@ footer .line{
 
 .viewmore{
     cursor: pointer;
+}
+
+.checkBox{
+    color: black;
 }

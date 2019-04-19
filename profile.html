@@ -42,6 +42,8 @@
 
 <body>
     <div w3-include-html="header.html" class="header"></div>
+    <div w3-include-html="loginPopUp.html"></div>
+    <div w3-include-html="signUpMain.html"></div>
     
     <div class="homebanner">
         <div class="title">
@@ -101,10 +103,10 @@
         </div>
     </div>
     <div id="loginBox1">
-            <div id="id01" class="w3-modal" style="z-index:999;">
+            <div id="id08" class="w3-modal" style="z-index:999;">
                     <div class="w3-modal-content" style="padding:5px;width:40%;border-radius:5px;">
                       <div class="w3-container" style="padding:2rem;">
-                        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                        <span onclick="document.getElementById('id08').style.display='none'" class="w3-button w3-display-topright">&times;</span>
                         <h5 style="text-align:center;font-family:defaultBarlowBold;">Upload Image</h5><br>
                         <div class="actions">
                             <a class="btn file-btn">
@@ -168,7 +170,7 @@
                     <input type="text" placeholder="assets/img/icon/ic_random.png" style="display:none" id="tagpost">
                     <input type="text" placeholder="" id="despost"  class="inputfield">
                     <div class="profilebuttonzone">
-                        <button class="profileupload" onclick="toggleSignUp1('loginBox1','all','id01');">UPLOAD IMAGE <i class="uploadicon"></i> </button>
+                        <button class="profileupload" onclick="toggleSignUp1('loginBox1','all','id08');">UPLOAD IMAGE <i class="uploadicon"></i> </button>
                         <input type="file" class="custom-file-input">
                         <button class="profilepost" onclick="postpush('1');">POST</button>
                     </div>

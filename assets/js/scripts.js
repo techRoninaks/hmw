@@ -9,7 +9,7 @@ var countries = ["Afghanistan~1","Albania","Algeria","Andorra","Angola","Anguill
 var imagedata ;
 var postimage ;
 var local =1;
-var priv = "";
+var priv = "",currentUid = 1;
 
 //For fetching common elements
 function includeHTML() {
@@ -62,7 +62,7 @@ function toggleSignUp(box1,box2,innerId){ //close unwanted popups
         document.getElementById('premiumBox').style.display='none';
         document.getElementById('nonPremiumBox').style.display='none';
     }
-    document.getElementById("myDropdown").style.display='none';
+    // document.getElementById("myDropdown").style.display='none';
     
 }
 
@@ -75,7 +75,8 @@ function signUp(selectBox){ //sign up form
         if(selectBox == 'premium'){
             data[0] =  document.getElementById("premiumName").value;
             data[1] =  document.getElementById("premiumPhone").value;
-            myObj = {"newName":data[0],"newPhone":data[1],"userType":selectBox};
+            data[2] = getCookie("emId=");
+            myObj = {"newName":data[0],"newPhone":data[1],"userType":selectBox,"emId":data[2]};
             globeCopy = myObj;
             toggleSignUp("otpBox","all","id04");
             sendOTP();
@@ -98,19 +99,19 @@ function signUp(selectBox){ //sign up form
         xhr =  new XMLHttpRequest();
         this.responseType = 'text';
            xhr.onreadystatechange  =  function() {
-            var ourData = xhr.response;
             if (this.readyState == 4 && this.status == 200) {
-                if(xhr.responseText == '1'){
+              var data = xhr.responseText.split("~");
+                if(data[0] == '1'){
                     alert("Successful!");
                     setCookie("userName",myObj.newName);
-                    window.location.reload();
+                    window.location = "prepremiumsignup.html?user_id="+data[1];
                 } else {
                     alert("Update Failed! Try again!");
                 }
             }
         };
         xhr.open("POST", "assets/php/signUp.php", true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.setRequestHeader("Content-type", "application/json");
         xhr.send("jsonObj="+jSONObj);
     }
 }
@@ -170,11 +171,13 @@ function otpVerify(){ //otp verification
               xhr.onreadystatechange  =  function() {
                 var ourData = xhr.response;
                 if (this.readyState == 4 && this.status == 200) {
-                    if(xhr.responseText == '1'){
+                    var data = xhr.responseText.split("~");
+                    if(data[0] == '1'){
                         alert("OTP Verified!");
                         setCookie("userName",myObj.newName);
                         OTPcount = 3;
-                        reDirect("premiumsignup.html");
+                        window.location = "premiumsignup.html?user_id="+data[1];
+                        // reDirect("premiumsignup.html?user_id="+data[1]);
                     } else {
                         alert("Verification Failed! Try again!");
                     }
@@ -274,11 +277,9 @@ function searchlist() {
   
   if(filter.length >= 2){
     ul.style.display = "block";
-    console.log(filter.length); 
   }
   else if(filter.length < 2){
     ul.style.display = "none";
-    console.log(filter.length); 
   }
 
   // Loop through all list items, and hide those who don't match the search query
@@ -315,7 +316,10 @@ function premiumSignUp(){
   var phone2 = document.getElementById('inputSecondaryContact').value;
   var skills = document.getElementById('inputSkills').value;
   var employId= 0;
-  var privatetag = 0;
+
+  var privatetag = 0,prospectTag=0;
+  var id = currentUid;
+
   if(skills.charAt(0)==","){
     skills = skills.substr(1,skills.length)
   }
@@ -326,6 +330,11 @@ function premiumSignUp(){
     privatetag = 1;
   } else {
     privatetag = 0;
+  }
+  if (document.getElementById("prospectTag").checked == 1){
+    prospectTag = 1;
+  } else {
+    prospectTag = 0;
   }
   if(getCookie("isAdmin=")==1){
     employId = getCookie("empId=");
@@ -367,7 +376,8 @@ function premiumSignUp(){
       }
       
   };
-  var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata+"&phone2="+phone2+"&skills="+skills+"&privatetag="+privatetag+"&employId="+employId;
+
+  var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata+"&phone2="+phone2+"&skills="+skills+"&privatetag="+privatetag+"&employId="+employId+"&id="+id+"&prospectTag="+prospectTag;
   xhr.open("post", "assets/php/postprofiledata.php", true);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   xhr.send(params);
@@ -376,6 +386,8 @@ function premiumSignUp(){
   // console.log(name+"\n"+email+"\n"+phone+"\n"+password1+"\n"+password2+"\n"+category+"\n"+role+"\n"+country+"\n"+type);
   return false; 
 }
+
+
 
 //To handle skills field in signup page 
 
@@ -502,12 +514,12 @@ function unionlistload(array){
 //load profile owl list
 function homeprofileload(array){
   var htmltemp ="";
+  // console.log(data);
   for(i = 1; i<array.length; i++){
-    if(array.length<=6){
       var data = array[i];
-        htmltemp = htmltemp + templatehomeprofile(data);
-    }
+      htmltemp = htmltemp + templatehomeprofile(data);
   }
+  
   document.getElementById('owl-demo').innerHTML = htmltemp;  
 }
 //load category page
@@ -591,7 +603,7 @@ function templatehomeprofile(data){
       "</div>"+
       "</div>"+
   "</a>"+
-"</div>";
+  "</div>";
 
   return template;
 }
@@ -640,49 +652,49 @@ function autocomplete(inp, arr) {
   var str = "";
   /*execute a function when someone writes in the text field:*/
   inp.addEventListener("input", function(e) {
-      var a, b, i, val = this.value;
-      /*close any already open lists of autocompleted values*/
-      closeAllLists();
-      if (!val) { return false;}
-      currentFocus = -1;
-      /*create a DIV element that will contain the items (values):*/
-      a = document.createElement("DIV");
-      a.setAttribute("id", this.id + "autocomplete-list");
-      a.setAttribute("class", "autocomplete-items");
-      /*append the DIV element as a child of the autocomplete container:*/
-      this.parentNode.appendChild(a);
-      /*for each item in the array...*/
-      for (i = 0; i < arr.length; i++) {
-        /*check if the item starts with the same letters as the text field value:*/
-        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-          /*create a DIV element for each matching element:*/
-          b = document.createElement("DIV");
-          /*make the matching letters bold:*/
-          // var datase = arr[i].substr(0, val.length)
-          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-          str = arr[i].substr(0, val.length);
-          // b.innerHTML += arr[i].substr(val.length);
-          str += arr[i].substr(val.length);
-          var temp1 = str.split('~');
-          b.innerHTML += temp1[0].substr(val.length);
-          /*insert a input field that will hold the current array item's value:*/
-          b.innerHTML += "<input type='hidden' value='" + temp1[0] + "'>";
-          // console.log(temp1[0]);
-          /*execute a function when someone clicks on the item value (DIV element):*/
-              b.addEventListener("click", function(e) {
-              /*insert the value for the autocomplete text field:*/
-              inp.value = this.getElementsByTagName("input")[0].value;
-              
-              
-              window.location = "profileList.html?cat_type="+temp1[1]+"&srch_key="+str+"&loc="+local;
-              // console.log("in click "+str);
-              /*close the list of autocompleted values,
-              (or any other open lists of autocompleted values:*/
-              closeAllLists();
-          });
-          a.appendChild(b);
-        }
+    var a, b, i, val = this.value;
+    /*close any already open lists of autocompleted values*/
+    closeAllLists();
+    if (!val) { return false;}
+    currentFocus = -1;
+    /*create a DIV element that will contain the items (values):*/
+    a = document.createElement("DIV");
+    a.setAttribute("id", this.id + "autocomplete-list");
+    a.setAttribute("class", "autocomplete-items");
+    /*append the DIV element as a child of the autocomplete container:*/
+    this.parentNode.appendChild(a);
+    /*for each item in the array...*/
+    for (i = 0; i < arr.length; i++) {
+      /*check if the item starts with the same letters as the text field value:*/
+      if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+        /*create a DIV element for each matching element:*/
+        b = document.createElement("DIV");
+        /*make the matching letters bold:*/
+        // var datase = arr[i].substr(0, val.length)
+        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+        str = arr[i].substr(0, val.length);
+        // b.innerHTML += arr[i].substr(val.length);
+        str += arr[i].substr(val.length);
+        var temp1 = str.split('~');
+        b.innerHTML += temp1[0].substr(val.length);
+        /*insert a input field that will hold the current array item's value:*/
+        b.innerHTML += "<input type='hidden' value='" + temp1[0] + "'>";
+        // console.log(temp1[0]);
+        /*execute a function when someone clicks on the item value (DIV element):*/
+        b.addEventListener("click", function(e) {
+        /*insert the value for the autocomplete text field:*/
+        inp.value = this.getElementsByTagName("input")[0].value;
+        
+        
+        window.location = "profileList.html?cat_type="+temp1[1]+"&srch_key="+str+"&loc="+local;
+        // console.log("in click "+str);
+        /*close the list of autocompleted values,
+        (or any other open lists of autocompleted values:*/
+        closeAllLists();
+        });
+        a.appendChild(b);
       }
+    }
   });
   /*execute a function presses a key on the keyboard:*/
   inp.addEventListener("keydown", function(e) {
@@ -738,13 +750,13 @@ function autocomplete(inp, arr) {
     for (var i = 0; i < x.length; i++) {
       if (elmnt != x[i] && elmnt != inp) {
       x[i].parentNode.removeChild(x[i]);
+      }
     }
   }
-}
-/*execute a function when someone clicks in the document:*/
-document.addEventListener("click", function (e) {
-    closeAllLists(e.target);
-});
+  /*execute a function when someone clicks in the document:*/
+  document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+  });
 } 
 
 
@@ -799,50 +811,50 @@ function uprofilecardload(array){
   var htmltemp ="";
   var data = array[1];
   htmltemp = htmltemp + "<div class= col-sm-4 >"+
-  "<img src= "+data["card"]+"  class= idprofile >"+
-"</div>"+
-"<div class= col-sm-8 >"+
-"<div class= cardwhite >"+
-"<div class= 'row padding' >"+
-  "<div class= col-sm-5&#32;profilelist >"+
-  "<ul>"+
-      "<li><b>PERSON / COMPANY NAME:</b>"+data["name"]+"</li>"+
-      "<li><b>JOB TITLE/ JOB ROLE:</b>"+data["role"]+"</li>"+
-      "<li><b>LOCATION:</b>"+data["sublocation"]+", "+data["location"]+"</li>"+
-      "<li id= whatsappnum ><b>WHATSAPP NUMBER:</b>"+data["whatapp"]+"</li>"+
-      "<li><b>CONTACT NUMBER:</b>"+data["phone"]+"</li>"+
-      "<li><b>SKILLS:</b>"+data["skills"]+"</li>"+
-  "</ul>"+
-"</div>"+
-"<div class= col-sm-5&#32;profilelist >"+
-      "<ul>"+
-          "<li><b>UNION:</b>"+data["union"]+"</li>"+
-          "<li><b>WEBSITE:</b>"+data["website"]+"</li>"+
-          "<li id= scnumber ><b>SECONDARY CONTACT</b>"+data["phone2"]+"</li>"+
-          "<li><b>EMAIL:</b>"+data["email"]+"</li>"+
-          "<li id= addresshide ><b>ADDRESS:</b>"+data["address"]+"</li>"+
-      "</ul>"+
-"</div>"+
-"<div class= col-sm-2 >"+
-  "<div class= center >"+
-  "<div class= popup1 id= whatsappimg  onclick= myFunction(&quot;a&quot;)>"+
-              "<img src= assets/img/icon/ic_whatsapp_profile_page-min.png class= profileicons >"+
-          "<span class= popuptext1  id= a >"+data["whatapp"]+"</span>"+
-          "</div>"+
-      "<div class= popup1  onclick= myFunction(&quot;b&quot;)>"+
-          "<img src= assets/img/icon/ic_phone_profile_page-min.png  class= profileicons >"+
-      "<span class= popuptext1  id= b >"+data["phone"]+"</span>"+
-      "</div>"+
-      "<div class= popup1  onclick= myFunction(&quot;c&quot;)>"+
-          "<img src= assets/img/icon/ic_email_profile_page-min.png  class= profileicons >"+
-      "<span class= popuptext1  id= c >"+data["email"]+"</span>"+
-      "</div>"+
-      "<button class= profileedit  id= editButton   onclick= editProfileData();  >EDIT</button>"
+  "<img src= "+data["profile_image"]+"  class= idprofile >"+
   "</div>"+
-"</div></div></div></div>";
+  "<div class= col-sm-8 >"+
+  "<div class= cardwhite >"+
+  "<div class= 'row padding' >"+
+    "<div class= col-sm-5&#32;profilelist >"+
+    "<ul>"+
+        "<li><b>PERSON / COMPANY NAME:</b>"+data["name"]+"</li>"+
+        "<li><b>JOB TITLE/ JOB ROLE:</b>"+data["role"]+"</li>"+
+        "<li><b>LOCATION:</b>"+data["sublocation"]+", "+data["location"]+"</li>"+
+        "<li id= whatsappnum ><b>WHATSAPP NUMBER:</b>"+data["whatapp"]+"</li>"+
+        "<li><b>CONTACT NUMBER:</b>"+data["phone"]+"</li>"+
+        "<li><b>SKILLS:</b>"+data["skills"]+"</li>"+
+    "</ul>"+
+  "</div>"+
+  "<div class= col-sm-5&#32;profilelist >"+
+        "<ul>"+
+            "<li><b>UNION:</b>"+data["union"]+"</li>"+
+            "<li><b>WEBSITE:</b>"+data["website"]+"</li>"+
+            "<li id= scnumber ><b>SECONDARY CONTACT</b>"+data["phone2"]+"</li>"+
+            "<li><b>EMAIL:</b>"+data["email"]+"</li>"+
+            "<li id= addresshide ><b>ADDRESS:</b>"+data["address"]+"</li>"+
+        "</ul>"+
+  "</div>"+
+  "<div class= col-sm-2 >"+
+    "<div class= center >"+
+    "<div class= popup1 id= whatsappimg  onclick= myFunction(&quot;a&quot;)>"+
+                "<img src= assets/img/icon/ic_whatsapp_profile_page-min.png class= profileicons >"+
+            "<span class= popuptext1  id= a >"+data["whatapp"]+"</span>"+
+            "</div>"+
+        "<div class= popup1  onclick= myFunction(&quot;b&quot;)>"+
+            "<img src= assets/img/icon/ic_phone_profile_page-min.png  class= profileicons >"+
+        "<span class= popuptext1  id= b >"+data["phone"]+"</span>"+
+        "</div>"+
+        "<div class= popup1  onclick= myFunction(&quot;c&quot;)>"+
+            "<img src= assets/img/icon/ic_email_profile_page-min.png  class= profileicons >"+
+        "<span class= popuptext1  id= c >"+data["email"]+"</span>"+
+        "</div>"+
+        "<button class= profileedit  id= editButton   onclick= editProfileData();  >EDIT</button>"
+    "</div>"+
+  "</div></div></div></div>";
 
-priv =data["privatetag"];
-// console.log(priv+"in templ")
+  priv =data["privatetag"];
+  // console.log(priv+"in templ")
 
   document.getElementById('profilecard').innerHTML = htmltemp; 
 }
@@ -917,7 +929,7 @@ function toggleSignUp1(box1,box2,innerId){
       document.getElementById('premiumBox').style.display='none';
       document.getElementById('nonPremiumBox').style.display='none';
   }
-  document.getElementById("myDropdown").style.display='none';
+  // document.getElementById("myDropdown").style.display='none';
   return false;
 }
 
@@ -972,50 +984,41 @@ function insertvalue(str, colorclass){
 
 // to Push post to the database
 function postpush(u_id){
-    var image = postimage;
-    var despost = document.getElementById('despost').value;
-    var tag  = document.getElementById('tagpost').value;
-    if(image == null){
-        alert("Image field is Empty");
-    }
-    else if(despost == ""){
-      alert("Comment field is Empty");
+  var image = postimage;
+  var despost = document.getElementById('despost').value;
+  var tag  = document.getElementById('tagpost').value;
+  if(image == null){
+      alert("Image field is Empty");
+  }
+  else if(despost == ""){
+    alert("Comment field is Empty");
   }
   else if(tag == null){
     alert("Tag field is Empty");
   }
-    else{
-      var xhr =  new XMLHttpRequest();
+  else{
+    var xhr =  new XMLHttpRequest();
     this.responseType = 'text';
     xhr.onreadystatechange  =  function() {
-        
-        var ourData = xhr.response;
-        if (this.readyState == 4 && this.status == 200) {//if result successful
-          // var myObj = JSON.parse(this.responseText);
-          console.log('hell');
-          image = "";
-          despost = "";
-          tag  = "";
-          document.getElementById('despost').value = "";
-          document.getElementById('tagpost').value = "";
-          alert("Posted Successfully!");
-           window.location = "profile.html";
-          }
-        
-        
+      
+      var ourData = xhr.response;
+      if (this.readyState == 4 && this.status == 200) {//if result successful
+        // var myObj = JSON.parse(this.responseText);
+        console.log('hell');
+        image = "";
+        despost = "";
+        tag  = "";
+        document.getElementById('despost').value = "";
+        document.getElementById('tagpost').value = "";
+        alert("Posted Successfully!");
+        window.location = "profile.html";
+      }   
     };
-
     var params = 'image='+image +"&des="+despost+"&tag="+tag+"&u_id="+u_id;
     xhr.open("post", "assets/php/postpost.php", true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send(params);
-    
-    
-
-  
-    // console.log(tag +despost +"\n\n\n"+image);
   }
-  console.log('out');
 }
 
 //to load sign up elements
@@ -1023,21 +1026,20 @@ function loadsignup(caller){
   var xhr =  new XMLHttpRequest();
   this.responseType = 'text';
   xhr.onreadystatechange  =  function() {
+    var ourData = xhr.response;
+    if (this.readyState == 4 && this.status == 200) {//if result successful
+      var myObj = JSON.parse(this.responseText);
       
-      var ourData = xhr.response;
-      if (this.readyState == 4 && this.status == 200) {//if result successful
-        var myObj = JSON.parse(this.responseText);
-        
-        switch (caller){
-          case "category":
-              categorylistload(myObj);
-              break;
-
-          default:
-            // homeload(myObj);
+      switch (caller){
+        case "category":
+            categorylistload(myObj);
             break;
-        }
+
+        default:
+          // homeload(myObj);
+          break;
       }
+    }
       
   };
 
@@ -1664,147 +1666,343 @@ function spanPopulatePhone1(data1){
   htmltemp = htmltemp + "<input id='hidephone'  class='hide' onkeypress='getphonevalue2();'>";
   document.getElementById('spanreplacephone').innerHTML = htmltemp;
   // document.getElementById('hide').focus();
-  }
+}
 
-  function deleteFromPhone(idspan,deleteword){
-    document.getElementById(idspan).style.display = "none";
-    var str = document.getElementById("inputSecondaryContact").value;
-    var newstr = "";
-    str = str.split(',');
-    for(i=0;i<str.length;i++){
-      if(str[i]==deleteword){
-        str[i] = str[i].replace(deleteword,'~');
-        
-      }
-      // console.log(str[i]);
+function deleteFromPhone(idspan,deleteword){
+  document.getElementById(idspan).style.display = "none";
+  var str = document.getElementById("inputSecondaryContact").value;
+  var newstr = "";
+  str = str.split(',');
+  for(i=0;i<str.length;i++){
+    if(str[i]==deleteword){
+      str[i] = str[i].replace(deleteword,'~');
+      
     }
-    for(i=0;i<str.length;i++){
-      if(str[i]!=""){
-        if(str[i] == "~"){
-          continue;
-        }
-        newstr = newstr+"," + str[i];
-        // str[i] = str[i].replace(deleteword,'');
-        
-      }
-    }
-    // newstr = newstr.substring(1,newstr.length)
-    console.log(newstr);
-    // console.log('delete\n' +deleteword +"\n"+  str);
-    document.getElementById("inputSecondaryContact").value = newstr;
+    // console.log(str[i]);
   }
-  function queryHandlerProfile(){
-    var qryUserId = "";
-    // var success= NaN;
-    var qryStrings = getQueryString();
-    if(qryStrings == "null"){
-        if(getCookie("userId=")!="null"){
-            loadProfileInfo('profilecard',getCookie("userId="));
-            loadProfileInfo('profilepost',getCookie("userId="));
-        }
-        else{
-            alert("Login Please");
-            window.location = "index.html";
-        }
-    }else if(qryStrings == ""){
-        console.log("emptyArry");
+  for(i=0;i<str.length;i++){
+    if(str[i]!=""){
+      if(str[i] == "~"){
+        continue;
+      }
+      newstr = newstr+"," + str[i];
+      // str[i] = str[i].replace(deleteword,'');
+      
+    }
+  }
+  // newstr = newstr.substring(1,newstr.length)
+  console.log(newstr);
+  // console.log('delete\n' +deleteword +"\n"+  str);
+  document.getElementById("inputSecondaryContact").value = newstr;
+}
+function queryHandlerProfile(){
+  var qryUserId = "";
+  // var success= NaN;
+  var qryStrings = getQueryString();
+  if(qryStrings == "null"){
+      if(getCookie("userId=")!="null"){
+          loadProfileInfo('profilecard',getCookie("userId="));
+          loadProfileInfo('profilepost',getCookie("userId="));
+      }
+      else{
+          alert("Login Please");
+          window.location = "index.html";
+      }
+  }else if(qryStrings == ""){
+      console.log("emptyArry");
+      reDirect("error.html");
+  }
+  else{
+      qryStrings.forEach(element => {
+      if(element.startsWith('user_id')){
+          qryUserId = element.split('=')[1];
+          if(isNaN(parseInt(qryUserId))){
+              reDirect("error.html");
+          }else{
+              if(qryUserId == getCookie("userId=")){
+                  loadProfileInfo('profilecard',qryUserId);
+                  loadProfileInfo('profilepost',qryUserId);
+              }
+              else{
+                  // console.log(qryUserId);
+                  loadProfileInfo('profilecard',qryUserId);
+                  
+                  loadProfileInfo('profilepost',qryUserId);
+                  setTimeout(function () {
+                      document.getElementById('editButton').style.display= "none";
+                      if(priv == 1){
+                        document.getElementById('whatsappnum').style.display= "none";
+                        document.getElementById('scnumber').style.display= "none";
+                        document.getElementById('addresshide').style.display= "none";
+                        document.getElementById('whatsappimg').style.display= "none";
+                      }
+                  }, 100);
+              }
+          }
+      } 
+      else if(isNaN(parseInt(qryUserId))){
         reDirect("error.html");
     }
-    else{
-        qryStrings.forEach(element => {
-        if(element.startsWith('user_id')){
-            qryUserId = element.split('=')[1];
-            if(isNaN(parseInt(qryUserId))){
-                reDirect("error.html");
-            }else{
-                if(qryUserId == getCookie("userId=")){
-                    loadProfileInfo('profilecard',qryUserId);
-                    loadProfileInfo('profilepost',qryUserId);
-                }
-                else{
-                    // console.log(qryUserId);
-                    loadProfileInfo('profilecard',qryUserId);
-                    
-                    loadProfileInfo('profilepost',qryUserId);
-                    setTimeout(function () {
-                        document.getElementById('editButton').style.display= "none";
-                        if(priv == 1){
-                          document.getElementById('whatsappnum').style.display= "none";
-                          document.getElementById('scnumber').style.display= "none";
-                          document.getElementById('addresshide').style.display= "none";
-                          document.getElementById('whatsappimg').style.display= "none";
-                        }
-                    }, 100);
-                }
-            }
-        } 
-        else if(isNaN(parseInt(qryUserId))){
-          reDirect("error.html");
-      }
-    });
-    }
+  });
   }
+}
 
-  function queryHandlerService(){
-    var qryUserId = "";
-    var qryStrings = getQueryString();
-    if(qryStrings == "null"){
-        if(getCookie("union_type=")!="null"){
-          loadServices('serviespost',getCookie("userId="));
-        }
-        else{
-            alert("Login Please");
-            window.location = "index.html";
-        }
-    }else if(qryStrings == ""){
-        console.log("emptyArry");
-        reDirect("error.html");
-    }
-    else{
-        qryStrings.forEach(element => {
-        if(element.startsWith('union_type')){
-            qryUserId = element.split('=')[1];
-            if(isNaN(parseInt(qryUserId))){
-                reDirect("error.html");
-            }else{
-                if(qryUserId == getCookie("userId=")){
+function queryHandlerService(){
+  var qryUserId = "";
+  var qryStrings = getQueryString();
+  if(qryStrings == "null"){
+      if(getCookie("union_type=")!="null"){
+        loadServices('serviespost',getCookie("userId="));
+      }
+      else{
+          alert("Login Please");
+          window.location = "index.html";
+      }
+  }else if(qryStrings == ""){
+      console.log("emptyArry");
+      reDirect("error.html");
+  }
+  else{
+      qryStrings.forEach(element => {
+      if(element.startsWith('union_type')){
+          qryUserId = element.split('=')[1];
+          if(isNaN(parseInt(qryUserId))){
+              reDirect("error.html");
+          }else{
+              if(qryUserId == getCookie("userId=")){
+                loadServices('serviespost',qryUserId);
+              }
+              else{
                   loadServices('serviespost',qryUserId);
-                }
-                else{
-                    loadServices('serviespost',qryUserId);
-                }
-            }
-        } 
-        else if(isNaN(parseInt(qryUserId))){
-          reDirect("error.html");
-      }
-    });
-    }
-  }
-
-  function queryHandlerIndex(){
-    var qryUserId = "";
-    var qryStrings = getQueryString();
-    if(qryStrings == "null"){
-
-    }else if(qryStrings == ""){
-        // console.log("emptyArry");
+              }
+          }
+      } 
+      else if(isNaN(parseInt(qryUserId))){
         reDirect("error.html");
     }
-    else{
-        qryStrings.forEach(element => {
-        if(element.startsWith('show_model')){
-            qryUserId = element.split('=')[1];
-            if(qryUserId == "true"){
-              console.log(qryUserId);
-              setTimeout(function () {
-                toggleSignUp('loginBox','all','id01');
-            }, 100);
-            }
-        } 
-        else if(isNaN(parseInt(qryUserId))){
-          reDirect("error.html");
+  });
+  }
+}
+
+function queryHandlerIndex(){
+  var qryUserId = "";
+  var qryStrings = getQueryString();
+  if(qryStrings == "null"){
+
+  }else if(qryStrings == ""){
+      // console.log("emptyArry");
+      reDirect("error.html");
+  }
+  else{
+      qryStrings.forEach(element => {
+      if(element.startsWith('show_model')){
+          qryUserId = element.split('=')[1];
+          if(qryUserId == "true"){
+            console.log(qryUserId);
+            setTimeout(function () {
+              toggleSignUp('loginBox','all','id01');
+          }, 100);
+          }
+      } 
+      else if(isNaN(parseInt(qryUserId))){
+        reDirect("error.html");
+    }
+  });
+  }
+
+}
+
+function premiumSignUpSave(){
+  var name = document.getElementById('inputFirstname').value;
+  var email = document.getElementById('inputEmail').value;
+  var phone = document.getElementById('inputPhone').value;
+  var password1 = document.getElementById('inputPassword').value;
+  var password2 = document.getElementById('inputConfirmPassword').value;
+  var category = document.getElementById('inputCategory').value;
+  var role = document.getElementById('inputRoleInCompany').value;
+  var country = document.getElementById('inputCountry').value;
+  var type = document.getElementById('inputType').value;
+  var address = document.getElementById('inputAddressLine1').value;
+  var state = document.getElementById('inputState').value;
+  var location = document.getElementById('inputLocation').value;
+  var sublocation = document.getElementById('inputSubLocation').value;
+  var pincode = document.getElementById('inputPinCode').value;
+  var union = document.getElementById('inputUnion').value;
+  var whatsapp = document.getElementById('inputWhatsappNumber').value;
+  var website = document.getElementById('inputWebsite').value;
+  var phone2 = document.getElementById('inputSecondaryContact').value;
+  var skills = document.getElementById('inputSkills').value;
+  var userId = currentUid;
+  var employId= 0;
+  var privatetag = 0;
+  var privatetag = 0;
+  if(skills.charAt(0)==","){
+    skills = skills.substr(1,skills.length)
+  }
+  if(phone2.charAt(0)==","){
+    phone2 = phone2.substr(1,phone2.length)
+  }
+  if (document.getElementById("privateTag").checked == 1){
+    privatetag = 1;
+  } else {
+    privatetag = 0;
+  }
+  if (document.getElementById("prospectTag").checked == 1){
+    prospectTag = 1;
+    
+  } else {
+    prospectTag = 0;
+    
+  }
+  if(getCookie("isAdmin=")==1){
+    employId = getCookie("empId=");
+  }
+  
+    document.getElementById('vaildation').style.display = "none";
+  
+  var xhr =  new XMLHttpRequest();
+  this.responseType = 'text';
+  xhr.onreadystatechange  =  function() {
+      
+      var ourData = xhr.response;
+      if (this.readyState == 4 && this.status == 200) {//if result successful
+        // var myObj = JSON.parse(this.responseText);
+        // if(this.responseText == "success "){
+        //   window.location = "package.html"
+        // }
+        alert("Information have been saved to the database.");
+
       }
-    });
+      
+  };
+  var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata+"&phone2="+phone2+"&skills="+skills+"&privatetag="+privatetag+"&employId="+employId+"&userId="+userId+"&prospectTag="+prospectTag;
+  xhr.open("post", "assets/php/saveDataProfile.php", true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.send(params);
+
+  // }
+  // console.log(name+"\n"+email+"\n"+phone+"\n"+password1+"\n"+password2+"\n"+category+"\n"+role+"\n"+country+"\n"+type);
+  return false; 
+}
+
+function getSavedDataProfile(id){
+  currentUid = id;
+  var xhr =  new XMLHttpRequest();
+  this.responseType = 'text';
+  xhr.onreadystatechange  =  function() {
+  if (this.readyState == 4 && this.status == 200) {
+
+    if(this.responseText.split("~")[0]==1){
+      window.location = this.responseText.split("~")[1];
+    }
+    else{
+      var myObj = JSON.parse(this.responseText);
+      // console.log(myObj[1]);
+      var data = myObj[1];
+  		setTimeout(function () {
+        document.getElementById('inputFirstname').value = data["name"];
+        document.getElementById('inputEmail').value = data["email"];
+        document.getElementById('inputPhone').value = data["phone"];
+        document.getElementById('inputPassword').value = data["password"];
+        document.getElementById('inputConfirmPassword').value = data["password"];
+        document.getElementById('inputCategory').value = data["union"];
+        document.getElementById('inputRoleInCompany').value = data["role"];
+        document.getElementById('inputCountry').value = data["country"];
+        document.getElementById('inputType').value = data["type"];
+        var address = data["address"];
+        address = address.replace(/&#32;/g," ");
+        document.getElementById('inputAddressLine1').value = address;
+        document.getElementById('inputState').value = data["state"];
+        document.getElementById('inputLocation').value = data["location"];
+        document.getElementById('inputSubLocation').value = data["sublocation"];
+        document.getElementById('inputPinCode').value = data["pincode"];
+        document.getElementById('inputUnion').value = data["union"];
+        document.getElementById('inputWhatsappNumber').value = data["whatapp"];
+        document.getElementById('inputWebsite').value = data["website"];
+        document.getElementById('inputSecondaryContact').value = data["phone2"];
+        document.getElementById('inputSkills').value = data["skills"];
+        if(data["isProspect"] == 1){
+          document.getElementById('prospectTag').checked = true;
+        }
+        console.log(data["isProspect"]);
+        
+        // console.log(data["type"]);
+        if(document.getElementById("inputSkills").value !=""){
+          spanPopulate1(document.getElementById("inputSkills").value);
+        }
+        if(document.getElementById("inputSecondaryContact").value !=""){
+          spanPopulatePhone1(document.getElementById("inputSecondaryContact").value);
+        }
+        
+  		}, 600);
+    }
+
     }
   }
+  var params = 'id='+id;
+  xhr.open("post", "assets/php/getprofilepre.php", true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.send(params);
+}
+
+function freePackageHnadler(){
+  document.getElementById('successfullMessage').innerHTML = "You are selecting the free package, you will only have access to limited features, are you sure?";
+  document.getElementById('confrim').style.display = "block";
+  document.getElementById('cancel').style.display = "block";
+  document.getElementById('toProfile').style.display = "none";
+  document.getElementById('packageHeader').innerHTML = "Free Package Selected";
+  toggleSignUp1('loginBox1','all','id08');
+}
+
+function cancelpackage(){
+  setTimeout(function(){ 
+    
+    document.getElementById('loginBox1').style.display="none";
+   }, 100);
+}
+
+function freePackageSelect(){
+  var id = getCookie("userId=");
+  var emid = getCookie("emId=");
+  // console.log(id+"\n"+emid)
+  if(emid=="null"){
+    emid = 0;
+  }
+  var xhr =  new XMLHttpRequest();
+  this.responseType = 'text';
+  xhr.onreadystatechange  =  function() {
+    if (this.readyState == 4 && this.status == 200) {
+      window.location = "profile.html?user_id="+this.responseText;
+
+    }
+  }
+
+  var params = 'id='+id+'&emid='+emid;
+  xhr.open("post", "assets/php/postfreeprofile.php", true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.send(params);
+}
+
+function premiumPackageHandler(month){
+  console.log(month);
+  var id = getCookie("userId=");
+  var emid = getCookie("emId=");
+  // console.log(id+"\n"+emid)
+  if(emid=="null"){
+    emid = 0;
+  }
+  var xhr =  new XMLHttpRequest();
+  this.responseType = 'text';
+  xhr.onreadystatechange  =  function() {
+    if (this.readyState == 4 && this.status == 200) {
+    // window.location = "profile.html?user_id="+this.responseText;
+
+    
+    }
+  }               
+
+  var params = 'id='+id+'&emid='+emid+'&month='+month;
+  xhr.open("post", "assets/php/postpackageprofile.php", true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.send(params);
+}

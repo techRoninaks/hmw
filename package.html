@@ -36,21 +36,28 @@
 
 <body>
     <div w3-include-html="header.html" class="header"></div>
+    <div w3-include-html="loginPopUp.html"></div>
+    <div w3-include-html="signUpMain.html"></div>
 
     <div id="loginBox1">
-            <div id="id01" class="w3-modal" style="z-index:999;">
+            <div id="id08" class="w3-modal" style="z-index:999;">
                     <div class="w3-modal-content" style="padding:5px;width:40%;border-radius:5px;">
                       <div class="w3-container" style="padding:2rem;">
-                        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-                        <h5 style="text-align:center;font-family:defaultBarlowBold;">Successful Payment</h5><br>
+                        <span onclick="document.getElementById('id08').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                        <h5 id="packageHeader" style="text-align:center;font-family:defaultBarlowBold;">Successful Payment</h5><br>
                         <div class="actions center">
                             <div id="successfullMessage">Thanks for your transcation. Here is your transaction ID.</div>
-                            <a class="packageButton" href="profile.html">Go to Profile</a>
+                            <a class="packageButton" id="toProfile" href="profile.html">Go to Profile</a>
+                        </div>
+                        <div class="inline">
+                            <button class="confrim" id="confrim" onclick="freePackageSelect();" style="display:none;margin-left: 32%;">Confirm</button>
+                            <button class="cancel" id="cancel" onclick="cancelpackage();" style="display:none;">Cancel</button>
                         </div>
                         </div>
                     </div>
                   </div>
     </div>
+
     
     <!-- <div class="homebanner">
         <div class="title">
@@ -71,7 +78,7 @@
                                         <div class="col-md-12">
                                             <!--PRICE HEADING START-->
                                             <div class="price-heading clearfix">
-                                                <h1>Pricing Table Companey Package</h1>
+                                                <h1>Pricing Table Company Package</h1>
                                             </div>
                                             <!--//PRICE HEADING END-->
                                         </div>
@@ -130,7 +137,7 @@
                                                     
                                                     <!--BUTTON START-->
                                                     <div class="generic_price_btn clearfix">
-                                                        <a class="" href="profile.html">Proceed</a>
+                                                        <a class="" href="javascript: freePackageHnadler();">Proceed</a>
                                                     </div>
                                                     <!--//BUTTON END-->
                                                     
@@ -233,7 +240,8 @@
             "handler": function (response){
                 // alert(response.razorpay_payment_id);
                 document.getElementById('successfullMessage').innerHTML = "Thanks for your Rs 279 transcation. Here is your transaction ID " +response.razorpay_payment_id ;
-                toggleSignUp1('loginBox1','all','id01');
+                premiumPackageHandler(3);
+                toggleSignUp1('loginBox1','all','id08');
             },
             "prefill": {
                 "name": "Gaurav Kumar",
@@ -256,7 +264,8 @@
             "handler": function (response){
                 // alert(response.razorpay_payment_id);
                 document.getElementById('successfullMessage').innerHTML = "Thanks for your Rs 1188 transcation. Here is your transaction ID " +response.razorpay_payment_id ;
-                toggleSignUp1('loginBox1','all','id01');
+                premiumPackageHandler(12);
+                toggleSignUp1('loginBox1','all','id08');
             },
             "prefill": {
                 "name": "Gaurav Kumar",
@@ -279,7 +288,8 @@
             "handler": function (response){
                 // alert(response.razorpay_payment_id);
                 document.getElementById('successfullMessage').innerHTML = "Thanks for your Rs 891 transcation. Here is your transaction ID " +response.razorpay_payment_id ;
-                toggleSignUp1('loginBox1','all','id01');
+                premiumPackageHandler(9);
+                toggleSignUp1('loginBox1','all','id08');
             },
             "prefill": {
                 "name": "Gaurav Kumar",
@@ -301,9 +311,10 @@
             "image": "assets/img/logos/favicon.png",
             "handler": function (response){
                 // alert(response.razorpay_payment_id);
-                console.log(response);
+
                 document.getElementById('successfullMessage').innerHTML = "Thanks for your Rs 594 transcation. Here is your transaction ID " +response.razorpay_payment_id ;
-                toggleSignUp1('loginBox1','all','id01');
+                premiumPackageHandler(6);
+                toggleSignUp1('loginBox1','all','id08');
             },
             "prefill": {
                 "name": "Gaurav Kumar",

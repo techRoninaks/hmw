@@ -11,9 +11,6 @@
             //  echo  nl2br($row[0] .":". $row[1].":".$row[2].":".$row[3].":".$row[4]."\n");//returning results   ,"image_address"=>$row[2],"link"=>$row[3], "frequency"=>$row[4]
             $success = "successful";
             $count = $count + 1;
-            if($count > 18){
-                break;
-            }
             $response[0] = array("response"=>$success);  
             $response[$count] = array("id"=>$row[0],"location"=>$row[1]);
         }

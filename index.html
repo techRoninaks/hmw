@@ -46,9 +46,9 @@
                     <form class="form-inline my-2 my-lg-0" autocomplete="off" id="serachform" onsubmit="return false">
                     <!-- <button class=" homebannerbtn"><i class="image-button"></i>Kochi</button> -->
                     <div class="dropdown1">
-                        <button class="dropbtn1 homebannerbtn" type="button"id="dropdownMenuButton"><i class="image-button"></i>Kochi</button>
+                        <button class="dropbtn1 homebannerbtn" type="button"id="dropdownMenuButton"><i class="image-button"></i>Kaloor</button>
                         <div class="dropdown-content1" id="Slist">
-                          <a href="#" onclick="javascript:replacetext('Kochi');">Kochi</a>
+                          <a href="#" onclick="javascript:replacetext('Kochi');">Kaloor</a>
                         </div>
                       </div> 
                     <input class="homesearch" type="search" id="search" placeholder="Search for services anywhere">
@@ -567,7 +567,8 @@
         
     includeHTML();
     $(window).load(function() {
-     $("#owl-demo").owlCarousel({
+        setTimeout(function () {
+            $("#owl-demo").owlCarousel({
         nav: true,
         loop:true,
         items:3,
@@ -595,7 +596,9 @@
             items:2
         }
     }
-     }).delay(1000);
+     }).delay(100);
+	}, 500);
+    
      document.getElementById('Home').classList.add('active');
    });
 
