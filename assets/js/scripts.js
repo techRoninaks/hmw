@@ -104,6 +104,8 @@ function signUp(selectBox){ //sign up form
                 if(data[0] == '1'){
                     alert("Successful!");
                     setCookie("userName",myObj.newName);
+                    setCookie("isLogged","1");
+                    setCookie("userId",data[1]);
                     window.location = "prepremiumsignup.html?user_id="+data[1];
                 } else {
                     alert("Update Failed! Try again!");
@@ -589,7 +591,7 @@ function templatehomeprofile(data){
   template += "<div class= item2 >"+
   "<a class= porlink  href= "+data["profile_link"]+" >"+
   "<div class='owlelements' style='width:100%' >"+
-      "<img class= profilepic  src= "+data["profile_image"]+" >"+
+      "<img class= profilepic  src= "+data["profile_image"]+" onerror= this.src='assets/img/images/profile.png'  >"+
       "</div>"+
       "<div class='owlelements' style='width:100%'>"+
       "<h7 class= profilename >"+data["name"]+"</h7>"+
@@ -812,6 +814,9 @@ function uprofilecardload(array){
   var data = array[1];
   htmltemp = htmltemp + "<div class= col-sm-4 >"+
   "<img src= "+data["profile_image"]+"  class= idprofile >"+
+  "<a href= "+data["profile_image"]+"  download= "+data["uniqueId"]+".png  target= _blank  >"+
+  "<img src= assets/img/icon/ic_share_white-min.png  class= shareIcon  >"+
+  "</a>"+
   "</div>"+
   "<div class= col-sm-8 >"+
   "<div class= cardwhite >"+
@@ -862,18 +867,25 @@ function uprofilecardload(array){
 //profile post load
 function profilepostload(array){
   var htmltemp ="";
-  for(i = 1; i<15; i++){
+  for(i = 1; i<array.length; i++){
       var data = array[i];
       htmltemp = htmltemp + templateprofilepost(data, array);
   }
   // htmltemp = htmltemp + htmltemp + htmltemp + htmltemp + htmltemp;
-  document.getElementById('postlist').innerHTML = htmltemp; 
+    if(htmltemp == ""){
+    // console.log('hell in servicepostload');
+    document.getElementById('postlist').innerHTML = "<div class='center errormsg' >Oho...! Looks like this services has no posts..:-(<br>Try another service</div>"; 
+  }
+  else{
+    document.getElementById('postlist').innerHTML = htmltemp; 
+  }
 //  console.log(array[16][0][1]["comment"]);
 }
 
 //Profile post template
 function templateprofilepost(data, array){
   var template = "";
+  // console.log(data);
   template += "<div class= postelement >"+
   "<div class= line1 >"+
           ""+data["name"]+" "+
@@ -987,6 +999,7 @@ function postpush(u_id){
   var image = postimage;
   var despost = document.getElementById('despost').value;
   var tag  = document.getElementById('tagpost').value;
+  var uid = getCookie("userId=");
   if(image == null){
       alert("Image field is Empty");
   }
@@ -1014,7 +1027,7 @@ function postpush(u_id){
         window.location = "profile.html";
       }   
     };
-    var params = 'image='+image +"&des="+despost+"&tag="+tag+"&u_id="+u_id;
+    var params = 'image='+image +"&des="+despost+"&tag="+tag+"&u_id="+uid;
     xhr.open("post", "assets/php/postpost.php", true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send(params);
@@ -1077,7 +1090,7 @@ function  templatecategorylist(data){
 }
 
 
-function loadServices(caller, id){
+function loadServices(caller, id, action){
   var xhr =  new XMLHttpRequest();
   this.responseType = 'text';
   xhr.onreadystatechange  =  function() {
@@ -1100,7 +1113,7 @@ function loadServices(caller, id){
 
   switch(caller){
     case "serviespost":
-            var params = 'id='+id;
+            var params = 'id='+id+'&action='+action;
             xhr.open("post", "assets/php/getserviceposts.php", true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.send(params);
@@ -1149,7 +1162,7 @@ function serviceprofilepost(data){
           "</div>"+
           "<div class= layer2 >"+
               "<div class= itemoverlay ><i class= heart ></i>"+data["likes"]+" LIKES</div>"+
-              "<div class= itemoverlay ><i class= commenticon ></i>"+data["comments"]+" COMMENTS</div>"+
+              "<div class= itemoverlay ><i class= commenticon ></i>"+data["commentnumber"]+" COMMENTS</div>"+
               "<div class= itemoverlaylast ><i class= shareicon ></i>SHARE</div>"+
           "</div>"+
       "</div>"+
@@ -1160,12 +1173,11 @@ function serviceprofilepost(data){
       "</div>"+
       "<div class= line5 >"+
           "COMMENTS"+
-          "<p>VIEW MORE</p>"+
+          "<p class= viewmore  onclick= viewMorePost('comments"+data["id"]+"'); >VIEW MORE</p>"+
       "</div>"+
-      "<div class= comments >"+
-          "<div class= firstcomment >NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>"+
-          "<div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>"+
-          "<div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>"+
+      "<div id= comments"+data["id"]+"  class= comments >"+
+      commentLoad(data["comments"],data["id"])+
+      "<div id= hiddenPost"+data["id"]+"  style= display:none >"+getCookie("userName=")+"<span>HiidenPost</span></div>"+
       "</div>"+
       "<input type= text  placeholder= Write a comment  class= commentinput >"+
   "</div>";
@@ -1215,7 +1227,7 @@ function loginManagement(){
         document.getElementById('loginHead').innerHTML = "<a class= nav-link  href= profile.html?user_id="+getCookie("userId=")+" >"+getCookie("userName=")+"</a>";
         document.getElementById('signUpHead').innerHTML = "<a class= nav-link  href= javascript:logOutProcess() >Log Out</a>";
         document.getElementById('MyUnion').style.display = "block";
-	  }, 100);    
+	  }, 1500);    
   }
 }
 
@@ -1229,11 +1241,12 @@ function login(){ //login validation
   var jSONObj = JSON.stringify(myObj);
   
       xhr =  new XMLHttpRequest();
-      this.responseType = 'text';
+      this.responseType = 'json';
       xhr.onreadystatechange  =  function() {
           var ourData = xhr.response;
           if (this.readyState == 4 && this.status == 200) {
               if(xhr.responseText !== '0'){
+                //   console.log(xhr.responseText)
                   var userObj = JSON.parse(xhr.responseText);
                   setCookie("userName",userObj.userName);
                   setCookie("userId",userObj.userId);
@@ -1730,13 +1743,15 @@ function queryHandlerProfile(){
                   loadProfileInfo('profilepost',qryUserId);
                   setTimeout(function () {
                       document.getElementById('editButton').style.display= "none";
+                      document.getElementById('divPostElement').style.display= "none";
                       if(priv == 1){
                         document.getElementById('whatsappnum').style.display= "none";
                         document.getElementById('scnumber').style.display= "none";
                         document.getElementById('addresshide').style.display= "none";
                         document.getElementById('whatsappimg').style.display= "none";
+                        
                       }
-                  }, 100);
+                  }, 1500);
               }
           }
       } 
@@ -1752,7 +1767,7 @@ function queryHandlerService(){
   var qryStrings = getQueryString();
   if(qryStrings == "null"){
       if(getCookie("union_type=")!="null"){
-        loadServices('serviespost',getCookie("userId="));
+        loadServices('serviespost',getCookie("userId="),"userAction");
       }
       else{
           alert("Login Please");
@@ -1770,10 +1785,10 @@ function queryHandlerService(){
               reDirect("error.html");
           }else{
               if(qryUserId == getCookie("userId=")){
-                loadServices('serviespost',qryUserId);
+                loadServices('serviespost',qryUserId,"queryAction");
               }
               else{
-                  loadServices('serviespost',qryUserId);
+                  loadServices('serviespost',qryUserId,"queryAction");
               }
           }
       } 
@@ -1800,7 +1815,7 @@ function queryHandlerIndex(){
           if(qryUserId == "true"){
             console.log(qryUserId);
             setTimeout(function () {
-              toggleSignUp('loginBox','all','id01');
+              toggleSignUp('premiumBox','nonPremiumBox','id03');
           }, 100);
           }
       } 
@@ -2003,6 +2018,22 @@ function premiumPackageHandler(month){
 
   var params = 'id='+id+'&emid='+emid+'&month='+month;
   xhr.open("post", "assets/php/postpackageprofile.php", true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.send(params);
+}
+//Function to download Card 
+function downloadCard(path){
+  console.log(path);
+  var xhr =  new XMLHttpRequest();
+  this.responseType = 'text';
+  xhr.onreadystatechange  =  function() {
+    if (this.readyState == 4 && this.status == 200) {
+    // window.location = "profile.html?user_id="+this.responseText;
+      window.open(this.responseURL, '_blank');
+    }
+  }               
+  var params = 'path='+path;
+  xhr.open("post", "assets/php/exportCard.php", true);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   xhr.send(params);
 }

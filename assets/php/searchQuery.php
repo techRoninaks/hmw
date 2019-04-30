@@ -23,7 +23,7 @@
     $userData[$i++] = array("count"=>mysqli_num_rows($result));
     while($row = mysqli_fetch_array($result)){
         
-        $userData[$i] = array("userName"=>$row["name"],"userRole"=>$row["role"],"userLoc"=>$row["location"],"userSubLoc"=>$row["sublocation"],"userWPhone"=>$row["whatapp"],"userMail"=>$row["email"],"userPhone"=>$row["phone"],"userId"=>$row["id"],"rating"=>$row["rating"],"review"=>$row["review"],"toRating"=>$row["toRating"],"card"=>$row["card"]);
+        $userData[$i] = array("userName"=>$row["name"],"userRole"=>$row["role"],"userLoc"=>$row["location"],"userSubLoc"=>$row["sublocation"],"userWPhone"=>$row["whatapp"],"userMail"=>$row["email"],"userPhone"=>$row["phone"],"userId"=>$row["id"],"rating"=>$row["rating"],"review"=>$row["review"],"toRating"=>$row["totRating"],"card"=>$row["card"]);
         $i+=1;
 
     }

@@ -23,7 +23,7 @@
             $str = str_replace(' ', '&#32;', $str);
             // echo $str;
             $flag = $row["isActive"];
-            $response[$count] = array("profile_id"=>$row[0],"profile_image"=>$row[1],"name"=>$row[2],"role"=>$row[3],"rating"=>$row[4],"profile_link"=>$row[5],"sublocation"=>$row[6],"whatapp"=>$row[7],"location"=>$row[8],"skills"=>$row[9],"union"=>$row[10],"website"=>$row[11],"phone"=>$row[12],"email"=>$row[13],"address"=>$str,"card"=>$row[15],"password"=>$row["password"],"pincode"=>$row["pincode"],"phone2"=>$row["phone2"],"state"=>$row["state"],"country"=>$row["country"],"type"=>$row["type"],"privatetag"=>$row["privatestat"],"isActive"=>$row["isActive"],"isProspect"=>$row["isProspect"]);
+            $response[$count] = array("profile_id"=>$row[0],"profile_image"=>$row[1],"name"=>$row[2],"role"=>$row[3],"rating"=>$row[4],"profile_link"=>$row[5],"sublocation"=>$row[6],"whatapp"=>$row[7],"location"=>$row[8],"skills"=>$row[9],"union"=>$row[10],"website"=>$row[11],"phone"=>$row[12],"email"=>$row[13],"address"=>$str,"card"=>$row[15],"password"=>$row["password"],"pincode"=>$row["pincode"],"phone2"=>$row["phone2"],"state"=>$row["state"],"country"=>$row["country"],"type"=>$row["type"],"privatetag"=>$row["privatestat"],"isActive"=>$row["isActive"],"isProspect"=>$row["isProspect"],"uniqueId"=>$row["uniqueId"]);
         }
         echo json_encode($response);
         // echo $flag;

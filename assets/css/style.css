@@ -1494,3 +1494,22 @@ footer .line{
 .checkBox{
     color: black;
 }
+
+.shareIcon{
+    height: 35px;
+    position: absolute;
+    bottom: 40px;
+    right: 15px;
+    opacity: 1;
+    background: rgba(0,0,0,.5);
+    padding: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.overlayCard{
+    position: relative;
+}
+.overlayCard:hover .shareIcon{
+    opacity: 1;
+}
+

@@ -592,6 +592,9 @@ $("#file-input").change(function() {
                 document.getElementById('prospectdiv').style.display = "block";
 			}, 600);
         }
+        if((document.cookie.match(/^(?:.*;)?\s*emId\s*=\s*([^;]+)(?:.*)?$/)||[,null])[1] == "null"){
+            setCookie("emId",);
+        }
 
     var qryUserId = "";
     var qryStrings = getQueryString();
