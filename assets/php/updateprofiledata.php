@@ -32,7 +32,7 @@
     //     echo $unqId;
     // // echo json_encode(array($row["uniqueId"]));
         if($image == 1){
-            echo "null";
+            // echo "null";
         }else{
             define('UPLOAD_DIR', '../img/profile/userimage/');
             $img =explode(",", $image);

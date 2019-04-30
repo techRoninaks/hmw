@@ -29,7 +29,7 @@
             $result = mysqli_query($con,$sql);
             if($result){
                 $row  = mysqli_fetch_assoc($result);
-                echo "1~".$row["id"];
+                echo "1~".$row["id"]."~";
                 $userid = $row["id"];
                 $sql_query = "SELECT u.userName,u.userId,t.* from users u join tasks t on u.userId = t.USER_ID where WEEK(NOW()) <= WEEK(t.DATE_END) AND t.USER_ID = $emid order by DATE_MODIFIED";
                 $result = mysqli_query($con,$sql_query);
@@ -39,7 +39,7 @@
                 $leads ++;
                 $sql_query = "UPDATE `tasks` as t SET `LEADS_FINAL`= $leads where WEEK(NOW()) <= WEEK(t.DATE_END) AND t.USER_ID = $emid ";
                 $result = mysqli_query($con,$sql_query);
-                $sql_query = "UPDATE `profile_table` SET `employee_id`= $emid WHERE id = $userid  ";
+                $sql_query = "UPDATE `profile_table` SET `employee_id`= $emid,`isLead` = '1' WHERE id = $userid  ";
                 // echo $sql_query;
                 $result = mysqli_query($con,$sql_query);
             }
