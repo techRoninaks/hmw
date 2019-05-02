@@ -5,7 +5,7 @@ $action = $_POST["action"];
         require "init.php";//needed for connection with database
         
        if($action == "queryAction"){
-          $sql_query =  "SELECT posts_table.id,posts_table.postimage,posts_table.des,posts_table.likes,posts_table.comments, posts_table.offer,posts_table.date,posts_table.u_id,profile_table.name,profile_table.location,profile_table.role FROM `posts_table` LEFT JOIN `profile_table` ON posts_table.u_id = profile_table.id WHERE `profile_table`.`id` = (SELECT id FROM profile_table pt WHERE pt.union =(SELECT name FROM unions u WHERE u.id = $id LIMIT 1) LIMIT 1) LIMIT 15 ";//SQL command
+          $sql_query =  "SELECT posts_table.id,posts_table.postimage,posts_table.des,posts_table.likes,posts_table.comments, posts_table.offer,posts_table.date,posts_table.u_id,profile_table.name,profile_table.location,profile_table.role,(SELECT(IF(EXISTS(SELECT '*' FROM LIKES L WHERE posts_table.u_id = L.userid AND posts_table.id = L.postid),'1','0'))) AS isLiked FROM `posts_table` LEFT JOIN `profile_table` ON posts_table.u_id = profile_table.id WHERE `profile_table`.`id` = (SELECT id FROM profile_table pt WHERE pt.union =(SELECT name FROM unions u WHERE u.id = $id LIMIT 1) LIMIT 1) LIMIT 15 ";//SQL command
             $response = array();
             $data = array();
             $success = "unsuccessful";
@@ -23,12 +23,12 @@ $action = $_POST["action"];
                 $response[0] = array("response"=>$success);  
     
                 // echo $str;
-                $response[$count] = array("id"=>$row['id'],"u_id"=>$row['u_id'],"name"=>$row[2],"postimage"=>$row['postimage'],"des"=>$row['des'],"date"=>$row['date'],"sublocation"=>$row[6],"likes"=>$row['likes'],"commentnumber"=>$row['comments'],"offer"=>$row['offer'],"name"=>$row['name'],"location"=>$row['location'],"role"=>$row['role'], "comments"=>$comments);
+                $response[$count] = array("id"=>$row['id'],"u_id"=>$row['u_id'],"name"=>$row[2],"postimage"=>$row['postimage'],"des"=>$row['des'],"date"=>$row['date'],"sublocation"=>$row[6],"likes"=>$row['likes'],"commentnumber"=>$row['comments'],"offer"=>$row['offer'],"name"=>$row['name'],"location"=>$row['location'],"role"=>$row['role'], "comments"=>$comments, "isLiked"=>$row["isLiked"]);
             }
             echo json_encode($response); 
        }
       if($action == "userAction"){
-          $sql_query =  "SELECT posts_table.id,posts_table.postimage,posts_table.des,posts_table.likes,posts_table.comments, posts_table.offer,posts_table.date,posts_table.u_id,profile_table.name,profile_table.location,profile_table.role FROM `posts_table` LEFT JOIN `profile_table` ON posts_table.u_id = profile_table.id WHERE `profile_table`.`id` = (SELECT id FROM profile_table pt WHERE pt.union =(SELECT name FROM unions u WHERE u.id = (SELECT Id from unions u where u.name = (SELECT pt.union from profile_table pt where pt.id = $id)) LIMIT 1) LIMIT 1) LIMIT 15 ";//SQL command
+          $sql_query =  "SELECT posts_table.id,posts_table.postimage,posts_table.des,posts_table.likes,posts_table.comments, posts_table.offer,posts_table.date,posts_table.u_id,profile_table.name,profile_table.location,profile_table.role,(SELECT(IF(EXISTS(SELECT '*' FROM LIKES L WHERE posts_table.u_id = L.userid AND posts_table.id = L.postid),'1','0'))) AS isLiked  FROM `posts_table` LEFT JOIN `profile_table` ON posts_table.u_id = profile_table.id WHERE `profile_table`.`id` = (SELECT id FROM profile_table pt WHERE pt.union =(SELECT name FROM unions u WHERE u.id = (SELECT Id from unions u where u.name = (SELECT pt.union from profile_table pt where pt.id = $id)) LIMIT 1) LIMIT 1) LIMIT 15 ";//SQL command
             $response = array();
             $data = array();
             $success = "unsuccessful";
@@ -46,7 +46,7 @@ $action = $_POST["action"];
                 $response[0] = array("response"=>$success);  
     
                 // echo $str;
-                $response[$count] = array("id"=>$row['id'],"u_id"=>$row['u_id'],"name"=>$row[2],"postimage"=>$row['postimage'],"des"=>$row['des'],"date"=>$row['date'],"sublocation"=>$row[6],"likes"=>$row['likes'],"commentnumber"=>$row['comments'],"offer"=>$row['offer'],"name"=>$row['name'],"location"=>$row['location'],"role"=>$row['role'], "comments"=>$comments);
+                $response[$count] = array("id"=>$row['id'],"u_id"=>$row['u_id'],"name"=>$row[2],"postimage"=>$row['postimage'],"des"=>$row['des'],"date"=>$row['date'],"sublocation"=>$row[6],"likes"=>$row['likes'],"commentnumber"=>$row['comments'],"offer"=>$row['offer'],"name"=>$row['name'],"location"=>$row['location'],"role"=>$row['role'], "comments"=>$comments, "isLiked"=>$row["isLiked"]);
             }
             echo json_encode($response); 
        }

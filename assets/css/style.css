@@ -1177,10 +1177,26 @@ footer .line{
 .itemoverlaylast{
     position: absolute;
     right: 25px;
+    display:none;
 }
 
 .heart{
     background: url(../img/icon/ic_like_white-min.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: auto !important;
+    height: 30px !important;
+    background-size: 100% 100%;
+    padding: 10px;
+    border: none;
+    margin-left: 10px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin: 5px;
+    margin-right: 15px;
+}
+.filledheart{
+    background: url(../img/icon/ic_like_white-fill-min.png);
     background-size: cover;
     background-repeat: no-repeat;
     width: auto !important;

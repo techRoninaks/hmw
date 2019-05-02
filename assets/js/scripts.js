@@ -903,7 +903,7 @@ function templateprofilepost(data, array){
             "<img src= "+data["offer"]+"  class= size >"+
           "</div>"+
           "<div class= layer2 >"+
-              "<div class= itemoverlay ><i class= heart ></i>"+data["likes"]+" LIKES</div>"+
+              likeGetter(data["isLiked"], data)+
               "<div class= itemoverlay ><i class= commenticon ></i>"+data["commentnumber"]+" COMMENTS</div>"+
               "<div class= itemoverlaylast ><i class= shareicon ></i>SHARE</div>"+
           "</div>"+
@@ -1161,7 +1161,7 @@ function serviceprofilepost(data){
             "<img src= "+data["offer"]+"  class= size >"+
           "</div>"+
           "<div class= layer2 >"+
-              "<div class= itemoverlay ><i class= heart ></i>"+data["likes"]+" LIKES</div>"+
+              likeGetter(data["isLiked"], data)+
               "<div class= itemoverlay ><i class= commenticon ></i>"+data["commentnumber"]+" COMMENTS</div>"+
               "<div class= itemoverlaylast ><i class= shareicon ></i>SHARE</div>"+
           "</div>"+
@@ -2036,4 +2036,58 @@ function downloadCard(path){
   xhr.open("post", "assets/php/exportCard.php", true);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   xhr.send(params);
+}
+
+function likePost(postId){
+  var params;
+  var xhr =  new XMLHttpRequest();
+  this.responseType = 'text';
+  xhr.onreadystatechange  =  function() {
+    if (this.readyState == 4 && this.status == 200) {
+    // window.location = "profile.html?user_id="+this.responseText;
+      // window.open(this.responseURL, '_blank');
+    }
+  }
+  if(getCookie("isLogged=")==1){
+    if(document.getElementById(postId+"likefill").style.display == "none"){
+      document.getElementById(postId+"like").style.display = "none";
+      document.getElementById(postId+"likefill").style.display = "block";
+      console.log("Like++");
+      params = "action=add"+"&userid="+getCookie("userId=")+"&postid="+postId;
+      xhr.open("post", "assets/php/updatelike.php", true);
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhr.send(params);
+    }
+    else{
+      document.getElementById(postId+"like").style.display = "block";
+      document.getElementById(postId+"likefill").style.display = "none";
+      console.log("Like--");
+      params = "action=delete"+"&userid="+getCookie("userId=")+"&postid="+postId;
+      xhr.open("post", "assets/php/updatelike.php", true);
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhr.send(params);
+    }
+  }
+  else{
+    toggleSignUp('loginBox','all','id01');
+    // document.getElementById(postId+"like").style.display = "none";
+  }
+}
+
+function likeGetter(value, data){
+  if(value == "1"){
+    var likeTemplate =   "<div class= itemoverlay id="+data["id"]+"like style= display:none  onclick= likePost("+data["id"]+"); ><i class= heart ></i>"+data["likes"]+" LIKES</div>"+
+    "<div class= itemoverlay id="+data["id"]+"likefill    onclick= likePost("+data["id"]+"); ><i class= filledheart ></i>"+data["likes"]+" LIKES</div>";
+    // return likeTemplate;
+  }
+  else if(value == "0"){
+    var likeTemplate =   "<div class= itemoverlay id="+data["id"]+"like  onclick= likePost("+data["id"]+"); ><i class= heart ></i>"+data["likes"]+" LIKES</div>"+
+    "<div class= itemoverlay id="+data["id"]+"likefill  style= display:none  onclick= likePost("+data["id"]+"); ><i class= filledheart ></i>"+data["likes"]+" LIKES</div>";
+  }
+  else{
+    var likeTemplate =   "<div class= itemoverlay id="+data["id"]+"like  onclick= likePost("+data["id"]+"); ><i class= heart ></i>"+data["likes"]+" LIKES</div>"+
+    "<div class= itemoverlay id="+data["id"]+"likefill  style= display:none  onclick= likePost("+data["id"]+"); ><i class= filledheart ></i>"+data["likes"]+" LIKES</div>";
+  }
+  return likeTemplate;
+  
 }
