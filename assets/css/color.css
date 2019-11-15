@@ -10,7 +10,7 @@
 }
 
 .scarletcolor{
-    background: rgba(237,28,36,.3);
+    background: rgba(237,28,36,.5);
 }
 
 .scarletcolora{
@@ -22,7 +22,7 @@
 }
 
 .mintcolor{
-    background: rgba(122,214,188,.3);
+    background: rgba(122,214,188,.5);
 }
 
 .mintcolora{
@@ -33,7 +33,7 @@
 }
 
 .bluecolor{
-    background: rgba(111,197,239,.3);
+    background: rgba(111,197,239,.5);
 }
 
 .bluecolora{
@@ -44,7 +44,7 @@
 }
 
 .leafcolor{
-    background: rgba(34,181,115,.3);
+    background: rgba(34,181,115,.5);
 }
 .leafcolor:hover{
     background: rgba(34,181,115,.8);
@@ -55,7 +55,7 @@
 }
 
 .trumpcolor{
-    background: rgba(241,90,36,.3);
+    background: rgba(241,90,36,.5);
 }
 .trumpcolora{
     background: rgba(241,90,36,1);
@@ -65,7 +65,7 @@
 }
 
 .thanoscolor{
-    background: rgba(147,39,143,.3);
+    background: rgba(147,39,143,.5);
 }
 .thanoscolora{
     background: rgba(147,39,143,1);
@@ -74,9 +74,20 @@
     background: rgba(147,39,143,.8);
 }
 
+.infinitycolor{
+    background: rgba(234, 159, 47,.5);
+}
+.infinitycolora{
+    background: rgba(234, 159, 47,1);
+}
+.infinitycolor:hover{
+    background: rgba(234, 159, 47,.8);
+}
+
 .fontcolorblack{
     color: black;
     opacity: .8;
+	margin-top: 4px;
 }
 
 .fontcolorblack:hover{
@@ -183,7 +194,19 @@ button, a.btn {
 }
 
 .result{
-    background: #000000;
+/* 	background: #000000;
+	position: absolute;
+	bottom: 65px;
+	right: 15px; */
+	
+	height:40px;
+	margin-left: 5px;
+}
+@media only screen and (max-width: 767px) {
+	.result{
+		height:40px;	
+    	margin-top:10px;
+	}
 }
 #msgupload{
     color: #000;
@@ -219,6 +242,7 @@ button, a.btn {
     z-index: 1;
     height: 250px;
     overflow-y: scroll;
+/*     max-width: 160px; */
   }
   
   /* Links inside the dropdown */

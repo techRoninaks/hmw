@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Title -->
-    <title>Search results</title>
+    <title>Search results - HelloMyWork</title>
 
     <!-- Favicon -->
     <link rel="icon" href="assets/img/logos/favicon.png">
@@ -43,31 +43,48 @@
     <div w3-include-html="signUpMain.html"></div>
     
     <div class="container" style="margin-top:110px;padding:10px;">
-        <div class="row">
+        <div class="row centered">
             <form class="form-inline my-2 my-lg-0" style="border:1px solid #9f9f9f;border-radius:5px;" autocomplete="off" id="serachform" onsubmit="return false">
                 <!-- <button class=" homebannerbtn"><i class="image-button"></i>Kochi</button> -->
                 <div class="dropdown1">
-                    <button class="dropbtn1 homebannerbtn" type="button"id="dropdownMenuButton"><i class="image-button"></i>Kaloor</button>
+                    <button class="dropbtn1 homebannerbtn" type="button"id="dropdownMenuButton"><i class="image-button"></i>Select your city</button>
                     <div class="dropdown-content1" id="Slist">
                       <a href="#" onclick="javascript:replacetext('Kochi');">Kaloor</a>
                     </div>
                   </div> 
-                <input class="homesearch" type="search" id="search" placeholder="Search for services anywhere">
+                <input class="homesearch" type="search" id="search" onkeydown="autocompleteGetter();" placeholder="Search for services anywhere">
+            	<button class="mainSearch" type="button" onclick="javascript:btnSearch();"><i class="fa fa-search" style="color:#6c757d;"></i></button>
                 </form>
         </div>
     </div>
     <script>
-        autocomplete(document.getElementById("search"), countries);
+        // autocomplete(document.getElementById("search"), countries);
         loadUnionInfo("searchlist");
     </script> 
     <div class="container" style="margin-top:10px;">
-        <div class="row" id="resultsHere"></div><br>
+        <div class="row" style="margin-left:0px;" id="resultsHere"></div><br>
     </div>
-    <br><br>
+    <br>	
+	<div style="margin: auto;width: max-content;">
+	<nav aria-label="Page navigation example">
+  		<ul class="pagination" id="pagenationHere">
+			<li class="page-item" id="pagePre"><a class="page-link " href="#">Previous</a></li>
+    		<li class="page-item" id="pageFirst"><a class="page-link" href="#">First</a></li>
+    	 	<li class="page-item" id="page-2"><a class="page-link" href="#">1</a></li>
+    		<li class="page-item" id="page-1"><a class="page-link" href="#">2</a></li>
+    	 	<li class="page-item" id="page0"><a class="page-link" href="#">3</a></li>
+    	 	<li class="page-item" id="page1"><a class="page-link" href="#">4</a></li>
+    	 	<li class="page-item" id="page2"><a class="page-link" href="#">5</a></li>
+    	 	<li class="page-item" id="pageLast"><a class="page-link" href="#">Last</a></li>
+    	 	<li class="page-item" id="pageNext"><a class="page-link" href="#">Next</a></li>
+  		</ul>
+    </nav></div>
+<br>
     <div w3-include-html="footer.html" class="footer"></div>
     <script>
         includeHTML();
         loginManagement();
+    	loctionHandler();
 
 // SEARCH QUERY CHECK
     var qryCatType = "";
@@ -75,7 +92,7 @@
     var qryLocType = "";
     // var success= NaN;
     var qryStrings = getQueryString();
-    
+    qryPageNo = 1;
     qryStrings.forEach(element => {
         if(element.startsWith('cat_type')){
             qryCatType = element.split('=')[1];
@@ -90,9 +107,13 @@
                 reDirect("error.html");
             }
         }
+   		  else if(element.startsWith('pg')){
+          		qryPageNo = element.split('=')[1];
+          		// console.log(qryPageNo);
+          }
     
     });
-    searchQuery(qryCatType,qrySrchType,qryLocType);
+    searchQuery(qryCatType,qrySrchType,qryLocType,qryPageNo);
     
     // if(!isNaN(success)){
     //     searchQuery(qryCatType,qrySrchType,qryLocType);
@@ -109,6 +130,15 @@
             document.getElementById(box2).style.display='inline-block';
         }
     }
+$(document).ready(function () {
+    $(document).click(function (event) {
+        var clickover = $(event.target);
+        var _opened = $("button.navbar-toggler").attr('aria-expanded');
+        if (_opened== 'true' && !clickover.hasClass("navbar-toggler")) {
+            $("button.navbar-toggler").click();
+        }
+    });
+});
     // checkCookie("userName");
     </script>
 </body>

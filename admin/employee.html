@@ -180,7 +180,8 @@
                         var tabEmployee = tabHeader;
                         var tabAdmin = tabHeader;
                         response.forEach(element => {
-                            if((element.type).toLowerCase() == "admin"){
+                            var empType = (element.type).toLowerCase();
+                            if((empType).indexOf("admin")!=-1){
                                 tabAdmin = tabAdmin + buildHtml("userTable", element);
                             }else{
                                 tabEmployee = tabEmployee + buildHtml("userTable", element);

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Title -->
-    <title>Hellomywork</title>
+    <title>Edit Profile - Hellomywork</title>
 
     <!-- Favicon -->
     <link rel="icon" href="assets/img/logos/favicon.png">
@@ -59,15 +59,15 @@
 
     <div class="homebanner">
         <div class="title">
-            <p>SIGNUP</p>
+            <p>EDIT PROFILE</p>
         </div>
     </div>
 
-    <div id="loginBox1">
-            <div id="id01" class="w3-modal" style="z-index:999;">
-                    <div class="w3-modal-content" style="padding:5px;width:40%;border-radius:5px;">
+    <div id="loginBox1" class="w3-container" style="display: block; z-index: 999;">
+            <div id="id09" class="w3-modal" style="z-index:999;">
+                    <div class="w3-modal-content" style="top:10%;padding:5px;width:40%;border-radius:5px;">
                       <div class="w3-container" style="padding:2rem;">
-                        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                        <span onclick="document.getElementById('id09').style.display='none'" class="w3-button w3-display-topright">&times;</span>
                         <h5 style="text-align:center;font-family:defaultBarlowBold;">Upload Image</h5><br>
                         <div class="actions">
                             <a class="btn file-btn">
@@ -78,7 +78,7 @@
                                 <a class="btn crop" id="use" >Crop</a>
                                 <button class="upload-result">Result</button>
                                 <img  class="my-image" id="my-image" src="#" />
-                                <img class="result" id="result" src="">
+<!--                                 <img class="result" id="result" src=""> -->
                                 <span id="msgupload" style="display:none;">Upload Complete !</span>
                             </div>
                         </div>
@@ -88,28 +88,28 @@
     <div class="container1">
         <div class="row">
             <div class="container py-5">
-                <div class="row">
+                <div class="row" style="margin-left: 15px;">
                     <div class="col-md-10 mx-auto backgray">
-                        <form >
+                        <form>
                             <div class="form-group row">
                                 <div class="col-sm-6">
-                                    <label for="inputFirstname">NAME/COMPANY NAME</label>
-                                    <input type="text" class="form-control" id="inputFirstname"  placeholder="name/company name" required>
+                                    <label for="inputFirstname">NAME / COMPANY NAME</label>
+                                    <input type="text" class="form-control" id="inputFirstname"  placeholder="name/company name" required />
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="inputAddressLine1">ADDRESS</label>
-                                    <input type="text" class="form-control" id="inputAddressLine1" placeholder="" required>
+                                    <input type="text" class="form-control" id="inputAddressLine1" placeholder="" required />
                                 </div>
 
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <label for="inputLastname">EMAIL</label>
-                                    <input type="text" class="form-control" id="inputEmail"  placeholder="example@mail.com" required>
+                                    <input type="text" class="form-control" id="inputEmail"  placeholder="example@mail.com" required />
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="inputAddressLine2">COUNTRY</label>
-                                    <select name="country" class="form-control border1" title='Country'  data-live-search="true" id="inputCountry" >
+                                    <select name="country" class="form-control border1" title='Country'  data-live-search="true" id="inputCountry" required>
                                             <option value="AF">Afghanistan</option>
                                             <option value="AL">Albania</option>
                                             <option value="DZ">Algeria</option>
@@ -362,7 +362,7 @@
                                 <div class="col-sm-3">
                                         <label for="inputAddressLine2">STATE</label>
                                         <!-- <input type="text" class="form-control" id="inputState" placeholder="state" required> -->
-                                        <select class="form-control" id="inputState" data-live-search="true" title='State'>
+                                        <select class="form-control" id="inputState" data-live-search="true" title='State' required >
                                                 <option value="">Select State</option>
                                                 <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
                                                 <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -405,36 +405,36 @@
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <label for="inputCity">PRIMARY PHONE NUMBER</label>
-                                    <input type="text" class="form-control" id="inputPhone"  placeholder="" required>
+                                    <input type="text" class="form-control" id="inputPhone"  placeholder="" required />
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="inputState">LOCATION</label>
-                                    <input type="text" class="form-control" id="inputLocation" placeholder="location" required>
+                                    <input type="text" class="form-control" id="inputLocation" placeholder="location" required />
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="inputPostalCode">SUB LOCATION</label>
-                                    <input type="text" class="form-control" id="inputSubLocation" placeholder="sub location" required>
+                                    <input type="text" class="form-control" id="inputSubLocation" placeholder="sub location" required />
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <label for="inputContactNumber">PASSWORD</label>
-                                    <input type="password" class="form-control" id="inputPassword"  placeholder="" required>
+                                    <input type="password" class="form-control" id="inputPassword"  placeholder="" required />
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="inputWebsite">PIN CODE</label>
-                                    <input type="text" class="form-control" id="inputPinCode"  placeholder="" required>
+                                    <input type="text" class="form-control" id="inputPinCode"  placeholder="" required />
                                 </div>
                             </div>
                             <div class="form-group row">
                                     <div class="col-sm-6">
                                         <label for="inputContactNumber">CONFIRM PASSWORD</label>
-                                        <input type="password" class="form-control" id="inputConfirmPassword"  placeholder="" required>
+                                        <input type="password" class="form-control" id="inputConfirmPassword"  placeholder="" required />
                                     </div>
                                     <div class="col-sm-3">
                                             <label for="inputState">PRIVATE/GOVT</label>
                                             <!-- <input type="text" class="form-control" id="inputType" placeholder="type" required> -->
-                                            <select class="form-control" id="inputType" title='Type' >
+                                            <select class="form-control" id="inputType" title='Type' required />
                                                     <option data-tokens="...">Type</option>
                                                     <option data-tokens="private">PRIVATE</option>
                                                     <option data-tokens="govt">GOVT</option>
@@ -444,7 +444,7 @@
                                         <div class="col-sm-3">
                                             <label for="inputPostalCode">UNION</label>
                                             <!-- <input type="text" class="form-control" id="inputUnion" placeholder="union" required> -->
-                                            <select class="form-control" data-live-search="true" id="inputUnion" title='Union' name="inputUnion">
+                                            <select class="form-control" data-live-search="true" id="inputUnion" title='Union' name="inputUnion" required disabled />
 
                                             </select>
                                         </div>
@@ -453,7 +453,7 @@
                                     <div class="col-sm-6">
                                         <label for="inputContactNumber">JOB/DIRECTORY</label>
                                         <!-- <input type="text" class="form-control" id="inputCategory" placeholder="" required> -->    
-                                        <select class="form-control" id="inputCategory" data-live-search="true" title='Category'>
+                                        <select class="form-control" id="inputCategory" data-live-search="true" title='Category' required  onchange="unionSelector();"/>
                                                 <option data-tokens="...">Category...</option>
                                         </select>
                                     </div>
@@ -465,7 +465,7 @@
                             <div class="form-group row">
                                     <div class="col-sm-6">
                                         <label for="inputContactNumber">ROLE IN COMPANY</label>
-                                        <input type="text" class="form-control" id="inputRoleInCompany" placeholder="" required>
+                                        <input type="text" class="form-control" id="inputRoleInCompany" placeholder="" required />
                                     </div>
                                     <div class="col-sm-6">
                                         <label for="inputWebsite">WEBSITE(OPTIONAL)</label>
@@ -488,27 +488,41 @@
                                         <div class="form-control height45"  id="spanreplacephone">
                                             <input id="hidephone" type="number" class="hide">
                                         </div>
-                                        <input id="inputSecondaryContact" type="hidden">
-                                        <button type="button" id="myBtn1" class="btn plusform" onclick="javascript:getphonevalue();"><i class="plusicon"></i></button>
+                                        <input id="inputSecondaryContact" type="hidden" >
+                                        <button type="button" id="myBtn1" class="btn plusform"  style="height:52px;width:52px;" onclick="javascript:getphonevalue();"><i class="plusicon"></i></button>
                                     </div>
                             </div>
                             <div class="hidden1" id="vaildation">Error Message</div>
-                            <button class="profileupload" type="button" onclick="toggleSignUp1('loginBox1','all','id01');">UPLOAD IMAGE <i class="uploadicon"></i> </button>
-                            <!-- <input type="file" name="pic" accept="image/*">            -->
-                            <img class="result" id="result" src="">
-                            <input type="checkbox" class="privateTag" id="privateTag" name="private" value="yes">Private this info<br>
-                            <button type="button" class="center1" onclick="premiumSignUpEdit();">SUBMIT</button>
-
-
-                        </form>
+            				<button class="profileupload" type="button" onclick="toggleSignUp1('loginBox1','all','id09');" style="vertical-align:middle;">UPLOAD IMAGE<i class="uploadicon"></i> </button>                            <!-- <input type="file" name="pic" accept="image/*">            -->
+                            <img class="result" id="result" src="" style="vertical-align:middle;margin-top:10px;">
+                            <div class="checkBoxDiv">
+                            	<input type="checkbox" class="privateTag" id="privateTag" name="private" value="yes" style="vertical-align:middle;">Private this info
+            				</div>
+                            <button type="button" class="center1" id="premiuimSubmit"  onclick="premiumSignUpEdit();" style="vertical-align:middle;">SUBMIT</button>
+                            <div id="postBox">
+                                <div id="id16" class="w3-modal" style="z-index: 999; display: none;">
+                                        <div class="w3-modal-content" style="top:15%;padding:5px;width:40%;border-radius:5px;">
+                                          <div class="w3-container" style="padding:2rem;">
+                                            <span onclick="document.getElementById('id16').style.display='none'" class="w3-button w3-display-topright">×</span>
+                                            <h5 id="packageHeader" style="text-align:center;font-family:defaultBarlowBold;">Submitted Successfully !</h5><br>
+                                            <div class="actions center">
+                                              <div id="postModel" style="display:none;"></div>
+                                  <img src="assets/img/images/verify.gif" width="150px">
+                                              <a class="packageButton" id="postModelProfile" onclick="document.getElementById('id16').style.display='none'" style="color: white; cursor: pointer;border-radius: 8px;">Okay</a>
+                                            </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                          </div>
+						 </form>
                     </div>
                 </div>
-            </div>
-          </div>
-    </div>
-
+			</div>
+		</div>
+	</div>
 <script>
     loadsignup('category');  
+	loadsignup('union');
 </script>
 
 
@@ -530,7 +544,11 @@
         //     $('.selectpicker').selectpicker({
         // }).delay(80000);
         // });
-
+		window.onload = function(){
+        	if(getCookie("userId=") == "" || getCookie("userId=") == "null"){
+               // window.location.replace('index.html');
+        	}
+        };
 
 
 
@@ -585,7 +603,7 @@ function readURL(input) {
           // use ajax to send data to php
           
           cropToImage(dataImg);
-        //   $('#result').attr('src', dataImg);
+          $('#result').attr('src', dataImg);
         })
       })
     }
@@ -602,7 +620,15 @@ if(flag==1){
     getPremiumData();
 }
 loginManagement();
-
+$(document).ready(function () {
+    $(document).click(function (event) {
+        var clickover = $(event.target);
+        var _opened = $("button.navbar-toggler").attr('aria-expanded');
+        if (_opened== 'true' && !clickover.hasClass("navbar-toggler")) {
+            $("button.navbar-toggler").click();
+        }
+    });
+});
     </script>
 
 

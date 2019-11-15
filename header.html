@@ -10,22 +10,22 @@
         
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item ml-auto" id="Home">
+            <li class="nav-item ml-auto"  data-toggle="collapse" data-target=".navbar-collapse.show" id="Home">
                 <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item ml-auto " id="Contact">
+<!--             <li class="nav-item ml-auto " id="Contact">
                 <a class="nav-link" href="#">Contact Us</a>
-            </li>
-            <li class="nav-item ml-auto " id="MyUnion" style="display:none">
+            </li> -->
+            <li class="nav-item ml-auto "  data-toggle="collapse" id="MyUnion" style="display:none" data-target=".navbar-collapse.show">
                 <a class="nav-link" href="services.html">My Union</a>
             </li>
-            <li class="nav-item ml-auto " id="loginHead">
+            <li class="nav-item ml-auto "  data-toggle="collapse" id="loginHead" data-target=".navbar-collapse.show">
                 <a class="nav-link" onclick="javascript:toggleSignUp('loginBox','all','id01')" style="cursor:pointer;" id="logInHead">Login</a>
             </li>
-            <li class="nav-item ml-auto ">
+            <li class="nav-item ml-auto "  data-toggle="collapse" data-target=".navbar-collapse.show">
                 <a class="nav-link disabled" id="bar" style="cursor:none;color:gray;" href="#">|</a>
             </li>
-            <li class="nav-item ml-auto " id="signUpHead">
+            <li class="nav-item ml-auto " id="signUpHead"  data-toggle="collapse" data-target=".navbar-collapse.show">
 
                 <a class="nav-link" href="javascript:toggleSignUp('premiumBox','nonPremiumBox','id03')" id="profileName">Sign Up</a>
 

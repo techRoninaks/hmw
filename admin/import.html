@@ -13,6 +13,7 @@
 
     <!-- Bootstrap core CSS     -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="assets/css/searchTab.css" rel="stylesheet" />
 
     <!-- Animation library for notifications   -->
     <link href="assets/css/animate.min.css" rel="stylesheet"/>
@@ -26,8 +27,8 @@
 
 
     <!--     Fonts and icons     -->
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
     <script src="assets/js/scripts.js" type="text/javascript"></script>
     <script src="assets/js/demo.js" type="text/javascript"></script>
@@ -58,7 +59,8 @@
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Import/Export Data</h4>
-                                <p class="category">Import Data in CSV form or Export Data in CSV form</p>
+                                <p class="category" id="paraUser">Import Data in CSV form</p>
+                          		<p class="category" id="paraSuperAdmin" style="display:none;">Import Data in CSV form or Export Data in CSV form</p>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div style="padding-top: 8px;">
@@ -76,6 +78,7 @@
                                             type="file" name="file" id="file" accept=".csv">
                                         <button type="submit" id="submit" name="import"
                                             class="btn btn-info btn-fill" style="margin-top: 15px;">Import</button>
+                                    		<button type="button" class="btn btn-fill" onclick="javascript:toggleTabs('generate');importImageCardGenerator()" id="btnGenerate" style='margin-top: 15px;'>Generate ID Card</button>
                                         <br/>
                                     </div>
                                     <div id="labelError"></div>
@@ -85,13 +88,21 @@
                                 <div class="row">
                                     Select the table to export
                                 </div>
-                                <div class="row">
-                                    <select id="selTable">
-                                        <option value="">--Select--</option>
-                                        <option value="category">Category</option>
-                                        <option value="union">Union</option>
-                                        <option value="customer">Customer</option>
-                                    </select>
+                            	<div class="row" style="padding: 5px;">
+                                	<div class="topnav" style="padding-top: 8px;">
+                            			<div class="search-container" style="float:left;">
+                                        	&emsp;<label>Start date:</label>
+                                        	<input type="date" name="Start" id="startDate">&emsp;
+                                        	<label>End date:</label>
+                                        	<input type="date" name="End" id="endDate">
+                                    		&emsp;<select id="selTable">
+                                        		<option value="">--Select--</option>
+                                        		<option value="category">Category</option>
+                                        		<option value="union">Union</option>
+                                        		<option value="customer">Customer</option>
+                                    		</select>
+                                     	</div>
+                                	</div>
                                 </div>
                                 <div class="input-row">
                                     <button type="submit" id="submitExport" name="export"
@@ -141,6 +152,7 @@
             qryStatus = element.split('=')[1];
                 if(qryStatus == "success"){
                     demo.showNotification('top','center', 'Upload successful', 2);
+                	$('#btnGenerate').show();
                 }else{
                     demo.showNotification('top','center', 'Upload failed', 4);
                 }
@@ -154,6 +166,11 @@
             userId = getCookie("empId");
             if(!checkCookie("dataManage")){
                 window.location.replace("dashboard.html");
+            }
+        	if(getCookie("role").toLowerCase() == "super admin"){
+            	$('#paraSuperAdmin').show();
+            	$('#paraUser').hide();
+            	$('#btnExport').show();
             }
 
     	});
@@ -173,8 +190,8 @@
                 if (!regex.test($("#file").val().toLowerCase())) {
                     demo.showNotification('top','center', 'Invalid file upload', 4);
                     return false;
-                }
-                return true;
+                }      	
+            return true;
             });
         });
         function toggleTabs(tab){
@@ -191,9 +208,18 @@
                 $('#dvImport').show();
                 $('#dvExport').hide();
                 break;
+            	case 'generate':
+            	$('#btnExport').removeClass().addClass('btn btn-fill');
+                $('#btnImport').removeClass().addClass('btn btn-info btn-fill');
+            	$('#btnGenerate').removeClass().addClass('btn btn-info btn-fill');
+            	$('#submit').removeClass().addClass('btn btn-fill');
+                $('#dvImport').show();
+                $('#dvExport').hide();
             }
         }
         function exportData(){
+        	var startDate = $('#startDate').val();
+        	var endDate = $('#endDate').val();
             var selTable = $('#selTable').val().toLowerCase();
             if(selTable == ""){
                 demo.showNotification('top','center', 'Please select a value', 4);
@@ -210,7 +236,7 @@
                 //     demo.showNotification('top','center', 'Something went wrong' + errorThrown, 4);
                 // }
                 // });
-                window.open('assets/php/export.php?table='+selTable, '_blank');
+                window.open('assets/php/export.php?table='+selTable+'&start='+startDate+'&end='+endDate, '_blank');
             }
         }
 

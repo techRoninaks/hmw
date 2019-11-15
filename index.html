@@ -37,6 +37,7 @@
 </head>
 
 <body>
+	
     <div w3-include-html="header.html" class="header"></div>
     <div w3-include-html="loginPopUp.html"></div>
     <div w3-include-html="signUpMain.html"></div>
@@ -46,25 +47,27 @@
                     <form class="form-inline my-2 my-lg-0" autocomplete="off" id="serachform" onsubmit="return false">
                     <!-- <button class=" homebannerbtn"><i class="image-button"></i>Kochi</button> -->
                     <div class="dropdown1">
-                        <button class="dropbtn1 homebannerbtn" type="button"id="dropdownMenuButton"><i class="image-button"></i>Kaloor</button>
+                        <button class="dropbtn1 homebannerbtn" type="button"id="dropdownMenuButton"><i class="image-button"></i>Select your city</button>
                         <div class="dropdown-content1" id="Slist">
                           <a href="#" onclick="javascript:replacetext('Kochi');">Kaloor</a>
                         </div>
                       </div> 
-                    <input class="homesearch" type="search" id="search" placeholder="Search for services anywhere">
+                    <input class="homesearch" type="search" id="search" onkeydown="autocompleteGetter();" placeholder="Search for services anywhere">
+<!--                     <i class="fa fa-search iconsearchIndex" onclick="document.getElementById('search').focus();" aria-hidden="true"></i> -->
+                    <button class="mainSearch" type="button" onclick="javascript:btnSearch();"><i class="fa fa-search" style="color:#6c757d;"></i></button>
                     </form>
             </div>
     </div>
     <script>
-        autocomplete(document.getElementById("search"), countries);
+        // autocomplete(document.getElementById("search"), countries);
         </script> 
     <div class="container1">
         <div class="row">
             <div class="col-sm-auto col1">
                 <div class="searchbar-col-1">
                     <p>
-                       <input id="myInput" class="offer" onkeyup="searchlist()" type="search" placeholder="UNIONS">
-                        <i class="fa fa-search " aria-hidden="true"></i>
+                       <input id="myInput" class="offer" onkeyup="searchlist()" type="search" placeholder="UNIONS & ASSOCIATIONS">
+                        <i class="fa fa-search iconsearchIndex" onclick="document.getElementById('myInput').focus();" aria-hidden="true"></i>
                     </p>
 
                     <!-- <input type="text" id="myInput" onkeyup="searchlist()" placeholder="Search for names.."> -->
@@ -407,8 +410,8 @@
                         <img class="d-block slider" src="assets/img/images/pexels-photo-1571174.jpg" alt="First slide">
                         <div class="carousel-caption d-none d-md-block item3">
                                 <h5 class="font25">Up to <b class="font30">50</b>% off on Home Renovations</h5>
-                                <a href="#">
-                                    <button class="carouselButton"> View Offer</button>
+                                <a href=" ">
+                                    <button class="carouselButton" disabled> View Offer</button>
                                 </a>
                             </div>
                         </div>
@@ -417,8 +420,8 @@
                         <img class="d-block  slider" src="assets/img/images/carpentry-min.png" alt="Second slide">
                         <div class="carousel-caption d-none d-md-block">
                                 <h5 class="font25">Up to <b class="font30">50</b>% off on Home Renovations</h5>
-                                <a href="#">
-                                    <button class="carouselButton"> View Offer</button>
+                                <a href=" ">
+                                    <button class="carouselButton" disabled> View Offer</button>
                                 </a>
                         </div>
                         </div>
@@ -426,8 +429,8 @@
                         <img class="d-block  slider" src="assets/img/images/weston-boucher.jpg" alt="Third slide">
                         <div class="carousel-caption d-none d-md-block">
                                 <h5 class="font25">Up to <b class="font30">50</b>% off on Home Renovations</h5>
-                                <a href="#">
-                                    <button class="carouselButton"> View Offer</button>
+                                <a href=" ">
+                                    <button class="carouselButton" disabled> View Offer</button>
                                 </a>
                         </div>
                         </div>
@@ -435,8 +438,8 @@
                             <img class="d-block  slider" src="assets/img/images/weston-boucher.jpg" alt="Third slide">
                             <div class="carousel-caption d-none d-md-block">
                                     <h5 class="font25">Up to <b class="font30">50</b>% off on Home Renovations</h5>
-                                    <a href="#">
-                                        <button class="carouselButton"> View Offer</button>
+                                    <a href=" ">
+                                        <button class="carouselButton" disabled> View Offer</button>
                                     </a>
                             </div>
                         </div>
@@ -589,15 +592,25 @@
             1000:{
             items:4
         },
+        1200:{
+            items:4,
+        	margin:10
+        },
         900:{
             items:3
         },
         600:{
             items:2
+        },
+         375:{
+            items:1
+        },
+        275:{
+            items:1
         }
     }
-     }).delay(100);
-	}, 500);
+     });
+	}, 1000);
     
      document.getElementById('Home').classList.add('active');
    });
@@ -608,15 +621,26 @@
     e.preventDefault();
 });
 
-document.getElementById('search').onkeypress = function(e) {
-    if(e.keyCode == 13) {
-        alert('You pressed enter!');
-    }
-}
+// document.getElementById('search').onkeypress = function(e) {
+//     if(e.keyCode == 13) {
+//         alert('You pressed enter!');
+//     }
+// }
 loginManagement();
+loctionHandler();
 window.onload = function(){
     queryHandlerIndex();
 }
+$(document).ready(function () {
+    $(document).click(function (event) {
+        var clickover = $(event.target);
+        var _opened = $("button.navbar-toggler").attr('aria-expanded');
+        if (_opened== 'true' && !clickover.hasClass("navbar-toggler")) {
+            $("button.navbar-toggler").click();
+        }
+    });
+});
+    
 </script>
 
 

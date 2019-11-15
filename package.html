@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Title -->
-    <title>Hellomywork</title>
+    <title>Package Select - Hellomywork</title>
 
     <!-- Favicon -->
     <link rel="icon" href="assets/img/logos/favicon.png">
@@ -40,10 +40,10 @@
     <div w3-include-html="signUpMain.html"></div>
 
     <div id="loginBox1">
-            <div id="id08" class="w3-modal" style="z-index:999;">
-                    <div class="w3-modal-content" style="padding:5px;width:40%;border-radius:5px;">
+            <div id="id09" class="w3-modal" style="z-index:999;">
+                    <div class="w3-modal-content" style="top:10%;padding:5px;width:40%;border-radius:5px;">
                       <div class="w3-container" style="padding:2rem;">
-                        <span onclick="document.getElementById('id08').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                        <span onclick="document.getElementById('id09').style.display='none'" class="w3-button w3-display-topright">&times;</span>
                         <h5 id="packageHeader" style="text-align:center;font-family:defaultBarlowBold;">Successful Payment</h5><br>
                         <div class="actions center">
                             <div id="successfullMessage">Thanks for your transcation. Here is your transaction ID.</div>
@@ -88,10 +88,10 @@
                                     
                                     <!--BLOCK ROW START-->
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                     
                                                 <!--PRICE CONTENT START-->
-                                                <div class="generic_content clearfix">
+                                                <div class="generic_content clearfix"  style="height:676px;">
                                                     
                                                     <!--HEAD PRICE DETAIL START-->
                                                     <div class="generic_head_price clearfix">
@@ -130,7 +130,7 @@
                                                             <li><span></span>Limited accesss</li>
                                                             <li><span></span>Basic Account</li>
                                                             <li><span></span>No Access to Service</li>
-                                                            <li><span>9</span> Months Validity</li>
+<!--                                                             <li><span>9</span> Months Validity</li> -->
                                                         </ul>
                                                     </div>
                                                     <!--//FEATURE LIST END-->
@@ -145,7 +145,7 @@
                                                 <!--//PRICE CONTENT END-->
                                                     
                                             </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                         
                                             <!--PRICE CONTENT START-->
                                             <div class="generic_content clearfix">
@@ -159,7 +159,7 @@
                                                         <!--HEAD START-->
                                                         <div class="head_bg"></div>
                                                         <div class="head">
-                                                            <span>PREMIUM</span>
+                                                            <span>PREMIUM(USER)</span>
                                                         </div>
                                                         <!--//HEAD END-->
                                                         
@@ -170,9 +170,92 @@
                                                     <div class="generic_price_tag clearfix">    
                                                         <span class="price">
                                                             <span class="sign"><span>&#8377;</span> </span>
-                                                            <span class="currency" id="currency">297</span>
+                                                            <span class="currency" style="text-decoration: line-through; text-decoration-color: red;" id="currency1">147</span>
+                                                            <span class="cent">.00</span>
+                                                            <span class="month" id="month1">/3 MON</span>
+                                                        </span>
+                                                        <span class="price" style="font-size:22px">
+                                                            <span class="" style="color:#ff4141;"><span>Limited offer</span> </span>
+                                                            <span class="" id="currency1">&#8377; 99</span>
+                                                            <span class="">.00</span>
+                                                            <span class="" id="month1">For Life</span>
+                                                        </span>
+                                                    </div>
+                                                    <!--//PRICE END-->
+                                                    
+                                                </div>                            
+                                                <!--//HEAD PRICE DETAIL END-->
+                                                
+                                                <!--FEATURE LIST START-->
+                                                <div class="generic_feature_list">
+                                                    <ul>
+                                                        <!-- <li><span>3</span> Months Validity</li> -->
+                                                        <li>
+                                                            <div class="dropdown">
+                                                                <button class="packageDrop" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <span>3</span>    Months Validity
+                                                                </button>
+                                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                    <a class="dropdown-item" href="javascript:packageReplace('31');">3 Months</a>
+                                                                    <a class="dropdown-item" href="javascript:packageReplace('61');">6 Months</a>
+                                                                    <a class="dropdown-item" href="javascript:packageReplace('91');">9 Months</a>
+                                                                    <a class="dropdown-item" href="javascript:packageReplace('121');">12 Months</a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li><span>&#8377; 49</span> Per Month</li>
+                                                        <li><span></span> Full accesss</li>
+                                                        <li><span></span>Premium Account</li>
+                                                        <li><span></span>Access to Service</li>
+                                                        <!-- <li><span>3</span> Months Validity</li> -->
+                                                    </ul>
+                                                </div>
+                                                <!--//FEATURE LIST END-->
+                                                
+                                                <!--BUTTON START-->
+                                                <div class="generic_price_btn clearfix">
+                                                    <a class="" href="" id="rzp-button11">Pay Rs 99</a>
+                                                </div>
+                                                <!--//BUTTON END-->
+                                                
+                                            </div>
+                                            <!--//PRICE CONTENT END-->
+                                                
+                                        </div>
+                                        <div class="col-md-4">
+                                        
+                                            <!--PRICE CONTENT START-->
+                                            <div class="generic_content clearfix">
+                                                
+                                                <!--HEAD PRICE DETAIL START-->
+                                                <div class="generic_head_price clearfix">
+                                                
+                                                    <!--HEAD CONTENT START-->
+                                                    <div class="generic_head_content clearfix">
+                                                    
+                                                        <!--HEAD START-->
+                                                        <div class="head_bg"></div>
+                                                        <div class="head">
+                                                            <span>PREMIUM(COMPANY)</span>
+                                                        </div>
+                                                        <!--//HEAD END-->
+                                                        
+                                                    </div>
+                                                    <!--//HEAD CONTENT END-->
+                                                    
+                                                    <!--PRICE START-->
+                                                    <div class="generic_price_tag clearfix">    
+                                                        <span class="price">
+                                                            <span class="sign"><span>&#8377;</span> </span>
+                                                            <span class="currency" style="text-decoration: line-through; text-decoration-color: red;" id="currency">297</span>
                                                             <span class="cent">.00</span>
                                                             <span class="month" id="month">/3 MON</span>
+                                                        </span>
+                                                        <span class="price" style="font-size:22px">
+                                                            <span class="" style="color:#ff4141;"><span>Limited offer</span> </span>
+                                                            <span class="" id="currency1">&#8377; 199</span>
+                                                            <span class="">.00</span>
+                                                            <span class="" id="month1">For Life</span>
                                                         </span>
                                                     </div>
                                                     <!--//PRICE END-->
@@ -208,7 +291,7 @@
                                                 
                                                 <!--BUTTON START-->
                                                 <div class="generic_price_btn clearfix">
-                                                    <a class="" href="" id="rzp-button1">Pay 297</a>
+                                                    <a class="" href="" id="rzp-button1">Pay Rs 199</a>
                                                 </div>
                                                 <!--//BUTTON END-->
                                                 
@@ -229,9 +312,10 @@
         <!-- <button id="rzp-button2">Pay</button> -->
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
         <script>
-            var flag = 3;
+            var flag1 = 99;
+            var flag = 11;
             var options279 ={
-            "key": "rzp_test_a7HDAXq4ZyXWwj",
+            "key": "rzp_live_egEMTUcfewOIFU",
             "amount": "27900", /// The amount is shown in currency subunits. Actual amount is ₹599.
             "name": "HelloMyWork.com", // Pass the order ID if you are using Razorpay Orders.
             "currency": "INR", // Optional. Same as the Order currency
@@ -240,8 +324,8 @@
             "handler": function (response){
                 // alert(response.razorpay_payment_id);
                 document.getElementById('successfullMessage').innerHTML = "Thanks for your Rs 279 transcation. Here is your transaction ID " +response.razorpay_payment_id ;
-                premiumPackageHandler(3);
-                toggleSignUp1('loginBox1','all','id08');
+                premiumPackageHandler(3, "personel");
+                toggleSignUp1('loginBox1','all','id09');
             },
             "prefill": {
                 "name": "Gaurav Kumar",
@@ -255,7 +339,7 @@
             }
         }; 
         var options1188 = {
-            "key": "rzp_test_a7HDAXq4ZyXWwj",
+            "key": "rzp_live_egEMTUcfewOIFU",
             "amount": "118800", /// The amount is shown in currency subunits. Actual amount is ₹599.
             "name": "HelloMyWork.com", // Pass the order ID if you are using Razorpay Orders.
             "currency": "INR", // Optional. Same as the Order currency
@@ -264,8 +348,8 @@
             "handler": function (response){
                 // alert(response.razorpay_payment_id);
                 document.getElementById('successfullMessage').innerHTML = "Thanks for your Rs 1188 transcation. Here is your transaction ID " +response.razorpay_payment_id ;
-                premiumPackageHandler(12);
-                toggleSignUp1('loginBox1','all','id08');
+                premiumPackageHandler(12, "personel");
+                toggleSignUp1('loginBox1','all','id09');
             },
             "prefill": {
                 "name": "Gaurav Kumar",
@@ -279,7 +363,7 @@
             }
         };
         var options891 = {
-            "key": "rzp_test_a7HDAXq4ZyXWwj",
+            "key": "rzp_live_egEMTUcfewOIFU",
             "amount": "89100", /// The amount is shown in currency subunits. Actual amount is ₹599.
             "name": "HelloMyWork.com", // Pass the order ID if you are using Razorpay Orders.
             "currency": "INR", // Optional. Same as the Order currency
@@ -288,8 +372,8 @@
             "handler": function (response){
                 // alert(response.razorpay_payment_id);
                 document.getElementById('successfullMessage').innerHTML = "Thanks for your Rs 891 transcation. Here is your transaction ID " +response.razorpay_payment_id ;
-                premiumPackageHandler(9);
-                toggleSignUp1('loginBox1','all','id08');
+                premiumPackageHandler(9, "personel");
+                toggleSignUp1('loginBox1','all','id09');
             },
             "prefill": {
                 "name": "Gaurav Kumar",
@@ -303,7 +387,7 @@
             }
         };
         var options594 = {
-            "key": "rzp_test_a7HDAXq4ZyXWwj",
+            "key": "rzp_live_egEMTUcfewOIFU",
             "amount": "59400", /// The amount is shown in currency subunits. Actual amount is ₹599.
             "name": "HelloMyWork.com", // Pass the order ID if you are using Razorpay Orders.
             "currency": "INR", // Optional. Same as the Order currency
@@ -313,8 +397,108 @@
                 // alert(response.razorpay_payment_id);
 
                 document.getElementById('successfullMessage').innerHTML = "Thanks for your Rs 594 transcation. Here is your transaction ID " +response.razorpay_payment_id ;
-                premiumPackageHandler(6);
-                toggleSignUp1('loginBox1','all','id08');
+                premiumPackageHandler(6, "personel");
+                toggleSignUp1('loginBox1','all','id09');
+            },
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "test@test.com"
+            },
+            "notes": {
+                "address": "Hello World"
+            },
+            "theme": {
+                "color": "#4FC3F8"
+            }
+        };
+        var options147 = {
+            "key": "rzp_live_egEMTUcfewOIFU",
+            "amount": "14700", /// The amount is shown in currency subunits. Actual amount is ₹599.
+            "name": "HelloMyWork.com", // Pass the order ID if you are using Razorpay Orders.
+            "currency": "INR", // Optional. Same as the Order currency
+            "description": "Access for 3 months",
+            "image": "assets/img/logos/favicon.png",
+            "handler": function (response){
+                // alert(response.razorpay_payment_id);
+
+                document.getElementById('successfullMessage').innerHTML = "Thanks for your Rs 147 transcation. Here is your transaction ID " +response.razorpay_payment_id ;
+                premiumPackageHandler(3, "company");
+                toggleSignUp1('loginBox1','all','id09');
+            },
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "test@test.com"
+            },
+            "notes": {
+                "address": "Hello World"
+            },
+            "theme": {
+                "color": "#4FC3F8"
+            }
+        };
+        var options294 = {
+            "key": "rzp_live_egEMTUcfewOIFU",
+            "amount": "29400", /// The amount is shown in currency subunits. Actual amount is ₹599.
+            "name": "HelloMyWork.com", // Pass the order ID if you are using Razorpay Orders.
+            "currency": "INR", // Optional. Same as the Order currency
+            "description": "Access for 6 months",
+            "image": "assets/img/logos/favicon.png",
+            "handler": function (response){
+                // alert(response.razorpay_payment_id);
+
+                document.getElementById('successfullMessage').innerHTML = "Thanks for your Rs 294 transcation. Here is your transaction ID " +response.razorpay_payment_id ;
+                premiumPackageHandler(6, "company");
+                toggleSignUp1('loginBox1','all','id09');
+            },
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "test@test.com"
+            },
+            "notes": {
+                "address": "Hello World"
+            },
+            "theme": {
+                "color": "#4FC3F8"
+            }
+        };
+        var options441 = {
+            "key": "rzp_live_egEMTUcfewOIFU",
+            "amount": "44100", /// The amount is shown in currency subunits. Actual amount is ₹599.
+            "name": "HelloMyWork.com", // Pass the order ID if you are using Razorpay Orders.
+            "currency": "INR", // Optional. Same as the Order currency
+            "description": "Access for 9 months",
+            "image": "assets/img/logos/favicon.png",
+            "handler": function (response){
+                // alert(response.razorpay_payment_id);
+
+                document.getElementById('successfullMessage').innerHTML = "Thanks for your Rs 441 transcation. Here is your transaction ID " +response.razorpay_payment_id ;
+                premiumPackageHandler(9, "company");
+                toggleSignUp1('loginBox1','all','id09');
+            },
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "test@test.com"
+            },
+            "notes": {
+                "address": "Hello World"
+            },
+            "theme": {
+                "color": "#4FC3F8"
+            }
+        };
+        var options588 = {
+            "key": "rzp_live_egEMTUcfewOIFU",
+            "amount": "58800", /// The amount is shown in currency subunits. Actual amount is ₹599.
+            "name": "HelloMyWork.com", // Pass the order ID if you are using Razorpay Orders.
+            "currency": "INR", // Optional. Same as the Order currency
+            "description": "Access for 12 months",
+            "image": "assets/img/logos/favicon.png",
+            "handler": function (response){
+                // alert(response.razorpay_payment_id);
+
+                document.getElementById('successfullMessage').innerHTML = "Thanks for your Rs 588 transcation. Here is your transaction ID " +response.razorpay_payment_id ;
+                premiumPackageHandler(12, "company");
+                toggleSignUp1('loginBox1','all','id09');
             },
             "prefill": {
                 "name": "Gaurav Kumar",
@@ -328,6 +512,58 @@
             }
         };
         
+         var options99 = {
+            "key": "rzp_test_t15MEg3Npdifm5",
+            "amount": "9900", /// The amount is shown in currency subunits. Actual amount is ₹599.
+            "name": "HelloMyWork.com", // Pass the order ID if you are using Razorpay Orders.
+            "currency": "INR", // Optional. Same as the Order currency
+            "description": "Life Time Validity",
+            "image": "assets/img/logos/favicon.png",
+            "handler": function (response){
+                // alert(response.razorpay_payment_id);
+
+                document.getElementById('successfullMessage').innerHTML = "Thanks for your Rs 99 transcation. Here is your transaction ID " +response.razorpay_payment_id ;
+                premiumPackageHandler(0, "personel");
+                toggleSignUp1('loginBox1','all','id09');
+            },
+            "prefill": {
+                "name": "",
+                "email": ""
+            },
+            "notes": {
+                "address": "99 Rupee Transaction"
+            },
+            "theme": {
+                "color": "#4FC3F8"
+            }
+        };
+                 // "key": "rzp_test_t15MEg3Npdifm5",   
+        var options199 = {
+        	"key": "rzp_test_t15MEg3Npdifm5",
+            "amount": "19900", /// The amount is shown in currency subunits. Actual amount is ₹599.
+            "name": "HelloMyWork.com", // Pass the order ID if you are using Razorpay Orders.
+            "currency": "INR", // Optional. Same as the Order currency
+            "description": "Life Time Validity",
+            "image": "assets/img/logos/favicon.png",
+            "handler": function (response){
+                // alert(response.razorpay_payment_id);
+
+                document.getElementById('successfullMessage').innerHTML = "Thanks for your Rs 199 transcation. Here is your transaction ID " +response.razorpay_payment_id ;
+                premiumPackageHandler(0, "company");
+                toggleSignUp1('loginBox1','all','id09');
+            },
+            "prefill": {
+                "name": "",
+                "email": ""
+            },
+            "notes": {
+                "address": "199 Rupee Transaction"
+            },
+            "theme": {
+                "color": "#4FC3F8"
+            }
+        };
+        
 
         function packageReplace(month){
   switch(month){
@@ -335,29 +571,57 @@
       document.getElementById('dropdownMenuButton').innerHTML = "<span>"+month+"</span>    Months Validity";
       document.getElementById('currency').innerHTML = "297";
       document.getElementById('month').innerHTML = "/"+month+" MON";
-      document.getElementById('rzp-button1').innerHTML = "PAY 297";
-      flag = 3;
+      // document.getElementById('rzp-button1').innerHTML = "PAY Rs 297";
+      // flag = 3;
         break;
     case "6" :
       document.getElementById('dropdownMenuButton').innerHTML = "<span>"+month+"</span>    Months Validity";
       document.getElementById('currency').innerHTML = "594";
       document.getElementById('month').innerHTML = "/"+month+" MON";
-      document.getElementById('rzp-button1').innerHTML = "PAY 594";
-      flag = 6;
+      // document.getElementById('rzp-button1').innerHTML = "PAY Rs 594";
+      // flag = 6;
       break;
     case "9" :
       document.getElementById('dropdownMenuButton').innerHTML = "<span>"+month+"</span>    Months Validity";
       document.getElementById('currency').innerHTML = "891";
       document.getElementById('month').innerHTML = "/"+month+" MON";
-      document.getElementById('rzp-button1').innerHTML = "PAY 891";
-      flag= 9;
+      // document.getElementById('rzp-button1').innerHTML = "PAY Rs 891";
+      // flag= 9;
       break;
     case "12" :
       document.getElementById('dropdownMenuButton').innerHTML = "<span>"+month+"</span>    Months Validity";
       document.getElementById('currency').innerHTML = "1188";
       document.getElementById('month').innerHTML = "/"+month+" MON";
-      document.getElementById('rzp-button1').innerHTML = "PAY 1188";
-      flag= 12;
+      // document.getElementById('rzp-button1').innerHTML = "PAY Rs 1188";
+      // flag= 12;
+      break;
+    case "31" :
+      document.getElementById('dropdownMenuButton1').innerHTML = "<span>3"+"</span>    Months Validity";
+      document.getElementById('currency1').innerHTML = "147";
+      document.getElementById('month1').innerHTML = "/3 MON";
+      // document.getElementById('rzp-button11').innerHTML = "PAY Rs 147";
+      // flag1 = 31;
+        break;
+    case "61" :
+      document.getElementById('dropdownMenuButton1').innerHTML = "<span>6"+"</span>    Months Validity";
+      document.getElementById('currency1').innerHTML = "294";
+      document.getElementById('month1').innerHTML = "/6 MON";
+      // document.getElementById('rzp-button11').innerHTML = "PAY Rs 294";
+      // flag1 = 61;
+      break;
+    case "91" :
+      document.getElementById('dropdownMenuButton1').innerHTML = "<span>9"+"</span>    Months Validity";
+      document.getElementById('currency1').innerHTML = "441";
+      document.getElementById('month1').innerHTML = "/9 MON";
+      // document.getElementById('rzp-button11').innerHTML = "PAY Rs 441";
+      // flag1= 91;
+      break;
+    case "121" :
+      document.getElementById('dropdownMenuButton1').innerHTML = "<span>12"+"</span>    Months Validity";
+      document.getElementById('currency1').innerHTML = "588";
+      document.getElementById('month1').innerHTML = "/12 MON";
+      // document.getElementById('rzp-button11').innerHTML = "PAY Rs 588";
+      // flag1= 121;
       break;
     default: 
       console.log("default");
@@ -387,6 +651,36 @@
                 var rzp1 = new Razorpay(options1188);
                 rzp1.open();
             }
+            if(flag==11){
+                var rzp1 = new Razorpay(options199);
+                rzp1.open();
+            }
+        }
+        document.getElementById('rzp-button11').onclick = function(e){
+            // var rzp1 = new Razorpay(options1188);
+            // rzp1.open();
+            e.preventDefault();
+            // console.log(flag);
+            if(flag1==31){
+                var rzp1 = new Razorpay(options147);
+                rzp1.open();
+            }
+            if(flag1==61){
+                var rzp1 = new Razorpay(options294);
+                rzp1.open();
+            }
+            if(flag1==91){
+                var rzp1 = new Razorpay(options441);
+                rzp1.open();
+            }
+            if(flag1==121){
+                var rzp1 = new Razorpay(options588);
+                rzp1.open();
+            }
+            if(flag1==99){
+                var rzp1 = new Razorpay(options99);
+                rzp1.open();
+            }
         }
         </script>
 
@@ -397,6 +691,15 @@
       <script>
           includeHTML();
           loginManagement();
+$(document).ready(function () {
+    $(document).click(function (event) {
+        var clickover = $(event.target);
+        var _opened = $("button.navbar-toggler").attr('aria-expanded');
+        if (_opened== 'true' && !clickover.hasClass("navbar-toggler")) {
+            $("button.navbar-toggler").click();
+        }
+    });
+});
       </script>
         
         

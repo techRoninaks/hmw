@@ -1,7 +1,7 @@
 <?php
         require "init.php";//needed for connection with database
         
-        $sql_query =  "SELECT * FROM `location`  ";//SQL command
+        $sql_query =  "SELECT * FROM `location` ORDER BY `location`.`name` ASC ";//SQL command
         $response = array();
         $data = array();
         $success = "unsuccessful";

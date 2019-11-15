@@ -12,7 +12,7 @@
             $success = "successful";
             $count = $count + 1;
             $response[0] = array("response"=>$success);  
-            $response[$count] = array("union_id"=>$row[0],"name"=>$row[1],"image"=>$row[2],"link"=>$row[3],"freq"=>$row[4],"color"=>$row[5],"tag"=>$row[6]);
+            $response[$count] = array("union_id"=>$row[0],"name"=>$row[1],"image"=>$row[2],"link"=>$row[3],"freq"=>$row[4],"color"=>$row[5],"tag"=>strtoupper($row[6]),"unionName"=>$row["union_name"]);
         }
         echo json_encode($response);
 ?> 

@@ -61,6 +61,7 @@ body {
 } */
 .nav-link{
     margin: 10px;
+	text-transform: uppercase;
 }
 #bar{
     color: black;
@@ -86,8 +87,9 @@ body {
     position: relative;
     top: 39%;   
     left: 25%;   
-    width: 800px;    
+/*     width: 800px;     */
     z-index: 111;
+	display: inline-block !important;
     /* transform: translate(-50%, -50%); */
 }
 .homebannerbtn{
@@ -95,21 +97,28 @@ body {
     text-align: center;
     color: rgba(0,0,0,0.9) !important;
     height: 45px;
-    /* width: 130px; */
+    width: inherit;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     outline:0;
     border: 0;
+	min-width: 160px;
 }
+/* #serachform{
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translate(-38%,-50%);
+} */
 
 .image-button{
     background: url('../img/icon/LOCATION-icon.png') no-repeat;
     background-size: auto;
-    padding-left: 15px;
-    height: 16px;
+    padding-left: 18px;
+/*     height: 16px;
     width: 30px !important;
-    height: 30px !important;
-    background-size: 100% 100%;
+    height: 30px !important; */
+    background-size: cover;
     border: none;   
     margin-right: 5px;
     /* margin-left: -25px; */
@@ -122,7 +131,7 @@ body {
     height: 16px;
     width: 30px !important;
     height: 30px !important;
-    background-size: 100% 100%;
+    background-size: contain;
     border: none;   
 
 }
@@ -135,38 +144,76 @@ body {
     border-bottom-right-radius: 3px;
     outline:0;
     border: 0;
+	padding: 15px;
 }
 
-.homesearch::-webkit-input-placeholder {
+    @media only screen and (max-width:600px) {
+  		.homesearch::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  		white-space:pre-line;  
+  		position:relative;
+  		top:-10px;
+        font-size:12px;
+        vertical-align:middle;
+		}
+		.homesearch::-moz-placeholder { /* Firefox 19+ */
+     	white-space:pre-line;  
+  		position:relative;
+  		top:-10px;
+		}
+		.homesearch:-ms-input-placeholder { /* IE 10+ */
+    	white-space:pre-line;  
+  		position:relative;
+  		top:-10px;
+		}
+		.homesearch:-moz-placeholder { /* Firefox 18- */
+     	white-space:pre-line;  
+  		position:relative;
+  		top:-10px;
+		}
+    	.centered{
+    		left:20%;	
+/*         	margin-left:auto;
+        	margin-right:auto; */
+    	}
+	}
+
+/* .homesearch::-webkit-input-placeholder {
     text-align: center;
  }
  
  .homesearch:-moz-placeholder { /* Firefox 18- */
-    text-align: center;  
+/*     text-align: center;  
  }
- 
- .homesearch::-moz-placeholder {  /* Firefox 19+ */
-    text-align: center;  
- }
+  */
+/*  .homesearch::-moz-placeholder {  /* Firefox 19+ */
+/*     text-align: center;   */
+/*  } 
  
  .homesearch:-ms-input-placeholder {  
     text-align: center; 
- }
+ }  */
 
-.report{
-    color: #f66;
-    position: absolute;
-    right: 0px;
-    display: inline;
-    font-size: 10px;
-    margin-top: 3px;
-    cursor: pointer;
+.reportRed{
+	display: inline;
+	float: right;
+	color: #ff3535;
+	font-weight: initial;
+	font-family: defaultBarlow !important;
+	cursor: pointer;
 }
 .searchbar-col-1{
     background: black;
     height: 45px;
     color: rgb(236, 236, 236);
     padding: 10px;
+}
+
+.profileListPosition{
+	background: white;
+	top: -7px;
+	position: relative;
+	border-bottom-left-radius: 25px;
+	border-bottom-right-radius: 25px;
 }
 
 .searchbar-col-1 p{
@@ -181,24 +228,48 @@ body {
     border: none;
     outline: none;
     color:  rgb(192, 192, 192);
-    margin-left: 5px;
-    width: 140px;
+    margin-left: -30px;
+/*     width: 140px; */
 }
 
 .offer::-webkit-input-placeholder {
     color: white;
+	opacity:1;
  }
  
  .offer:-moz-placeholder { /* Firefox 18- */
     color: white;
+ 	opacity:1;
  }
  
  .offer::-moz-placeholder {  /* Firefox 19+ */
     color: white;  
+ 	opacity:1;
  }
  
  .offer:-ms-input-placeholder {  
     color: white; 
+ 	opacity:1;
+ }
+
+.offer:focus::-webkit-input-placeholder {
+    color: white;
+	opacity:.5;
+ }
+ 
+ .offer:focus:-moz-placeholder { /* Firefox 18- */
+    color: white;
+ 	opacity:.5;
+ }
+ 
+ .offer:focus::-moz-placeholder {  /* Firefox 19+ */
+    color: white;  
+ 	opacity:.5;
+ }
+ 
+ .offer:focus:-ms-input-placeholder {  
+    color: white; 
+ 	opacity:.5;
  }
 
 .left{
@@ -210,10 +281,51 @@ body {
     background:  rgb(236, 236, 236);
     font-family: defaultBarlowBold !important;
     align-items: center;
+	margin-left: -30px;
+    text-transform: capitalize;
+    overflow: auto;
+	height: 675px;
 }
 .item{
     height: 45px;
     padding: 10px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 300px;
+}
+.item .tooltiptext {
+  visibility: hidden;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+  border-radius: 4px;
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 111;
+  left: 330px;
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+/* Tooltip arrow */
+.item .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 45%;
+  left: 0%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.item:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }
 
 .tcenter{
@@ -225,7 +337,7 @@ body {
 
 .hr {
     width: 90%;
-    margin-left: -15px;
+/*     margin-left: -15px; */
     margin-right: auto;
     margin-top: .5rem;
 }
@@ -244,11 +356,15 @@ body {
 }
 #menu{
     margin-left: -35px;
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE 10+ */
 }
 
 .fontbold{
     font-size: 15px;
     font-family: defaultBarlowBoldX;
+	transform: translate(0px,26px);
 }
 
 .profilename{
@@ -268,11 +384,15 @@ color: black;
 
 ul#menu .active {
     color: black;
+	font-weight: bold;
+	font-size: 13px;
+	font-family: defaultBarlowBoldX;
     }
 
 .item1{
     margin-right: 15px;
     font-size: 12px;
+	cursor: pointer;
 }
 
 .item1:hover{
@@ -337,13 +457,13 @@ ul#menu .active {
 .autocomplete-items{
     background: white;
     position: absolute;
-    left: 130px;
+    right: 0px;
     top: 45px;
     width: 500px;
     z-index: 111;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
-    max-width: 200px;
+/*     max-width: 200px; */
     overflow-y: scroll;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none;  /* IE 10+ */
@@ -513,7 +633,7 @@ left: 80px;
 }
 .carouselButton{
     background: rgb(216, 216, 216);
-    color: black;
+    color: black !important;
     height: 45px;
     width: 150px;
     outline: 0;
@@ -523,6 +643,7 @@ left: 80px;
     -webkit-box-shadow: 0px 0px 15px -3px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 15px -3px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 15px -3px rgba(0,0,0,0.75);
+	display: none;
 }
 .carouselButton:hover{
     -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.78);
@@ -547,6 +668,10 @@ left: 80px;
     text-shadow: 0px 4px 6px rgba(0,0,0,0.75);
 }
 
+.iconsearchIndex{
+	float: right;
+	margin-top: 5px;
+}
 
 .item3{
     display: block;
@@ -605,8 +730,8 @@ left: 80px;
     margin-bottom: 15px;
     border-style: solid;
     border-width: .25px; 
-    padding: 5px;  
-    border-color: rgb(170, 170, 170);
+    padding: 8px;  
+    border-color: rgba(170, 170, 170, 0.38);
     color: #000000;
 }
 
@@ -700,8 +825,9 @@ left: 80px;
 .ratingicon{
     background-size: cover;
     height: 25px;
-    width: 25px !important;
+    width: 16px !important;
     object-fit: contain;
+	margin-top: -5px;
 }
 .temp{
     height: 35px;
@@ -724,23 +850,47 @@ left: 80px;
 .iconfb{
     width: 23px;
     margin: 15px;
+	cursor: pointer;
+	opacity:.5;
 }
 
 .icontwi{
     height: 20px;
     margin: 15px;
     margin-top: 16px;
+	cursor: pointer;
+	opacity:.5;
 }
 
 .iconinst{
     width: 25px;
     margin: 15px;
+	cursor: pointer;
+	opacity:.5;
 }
 
 .iconyou{
     width: 25px;
     margin: 15px;
     margin-top: 19px;
+	cursor: pointer;
+	opacity:.5;
+}
+
+.iconfb:hover{
+	opacity:1;
+}
+
+.icontwi:hover{
+	opacity:1;
+}
+
+.iconinst:hover{
+    opacity:1;
+}
+
+.iconyou:hover{
+    opacity:1;
 }
 
 .footerlinks{
@@ -756,12 +906,13 @@ left: 80px;
 
 .itemsfooter a:hover{
     text-decoration: none;
-    color:  rgb(170, 170, 170);
+    color:  white;
+	opacity: 1;
 }
 
 .footerlogo
 {
-    height: 34px;
+    height: 43px;
     widows: auto; 
     margin-top: 15px;  
 }
@@ -776,6 +927,7 @@ footer .line{
     color: white;
     border-top: 1px solid rgba(255, 255, 255, 0.3);
     width: 95%;
+	margin: auto;
 }
 
 .footer-copyright a{
@@ -864,6 +1016,34 @@ footer .line{
     margin-top: 50px;
     /* transform: translate(-50%,-50%); */
 }
+.checkBoxDiv {
+	display: inline-block;
+	width:60%;
+	padding: 10px;
+	opacity:0.7;
+	vertical-align: center;
+}
+@media only screen and (max-width: 600px) {
+	.center1{
+    	font-size:12px;
+    	padding-left:40px;
+    	padding-right:40px;
+	}
+	.checkBoxDiv{
+    	width:100%;
+		font-size:12px;
+	}
+	.tagInForm{
+    	margin-top:3px;
+    	margin-bottom:3px;
+    	padding:2px;
+    	font-size:12px;
+	}
+	.closeicon{
+    	background-size:80% 85%;
+	}
+}
+
 .center2{
     background: #000000;
     color: white;
@@ -883,18 +1063,22 @@ footer .line{
 .title{
     color: white;
     position: relative;
-    left: 46%;
+/*     left: 46%; */
     top: 45%;
     font-size: 18pt;
     font-family: defaultBarlowBoldX;
+/* 	display: inline-block; */
+	text-align: center;
 }
 .title1{
     color: white;
     position: relative;
-    left: 46%;
+/*     left: 46%; */
     top: 45%;
     font-size: 18pt;
     font-family: defaultBarlowBoldX;
+/*     display: inline-block; */
+	text-align: center;
 }
 .col-sm-6 label{
     font-family: defaultBarlowBoldX;
@@ -963,7 +1147,7 @@ footer .line{
     list-style: none;
     margin-left: -30px;
     color: #000000;
-    margin-top: 15px;
+    /* margin-top: 15px; */
 }
 
 .profilelist ul li{
@@ -1028,7 +1212,7 @@ footer .line{
 .backgray1 div span{
     position: absolute;
     right: 30px;
-    margin-top: -4px;
+    margin-top: -25px;
 }
 
 .backgray1 div span button{
@@ -1054,19 +1238,18 @@ footer .line{
 
 .profileupload{
     background: rgba(148, 148, 148, 0.9);
-    margin-top: 25px;
+    margin-top: 10px;
     border: none;
     padding: 10px;
-    padding-left: 30px;
+/*     padding-left: 30px; */
     border-radius: 4px;
     color: white;
     font-family: 13px;
 }
 
 .profilebuttonzone .profilepost{
-    position: absolute;
     right: 35px;
-    margin-top: 25px;
+    margin-top: 10px;
 }
 
 .profilepost{
@@ -1077,7 +1260,8 @@ footer .line{
     padding-right: 45px;
     border: none;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 1rem;
+	float:right;
 }
 
 .uploadicon{
@@ -1104,7 +1288,7 @@ footer .line{
 }
 
 .line1{
-    font-size: 13px;
+/*     font-size: 13px; */
     font-family: defaultBarlowBoldX;
     margin-top: 25px;
 }
@@ -1144,6 +1328,7 @@ footer .line{
     object-fit: contain;
     background: url(../img/icon/ic_image_upload-min.png) no-repeat scroll 0 0;
     background-position: center;
+	background-color: #333;
 }
 
 .overlay{
@@ -1169,7 +1354,11 @@ footer .line{
     width: 100%;
     display: inline-flex;
 }
-
+@media only screen and (max-width: 600px) {
+	.layer2{
+    	padding:10px !important;
+	}
+}
 .itemoverlay{
     margin-right: 90px;
 }
@@ -1282,7 +1471,7 @@ footer .line{
     border: none;
     border-radius: 5px;
     width: 100%;
-    background: rgba(148, 148, 148, 0.3);
+    background: #f2f2f2;
     height: 55px;
     font-family: defaultBarlow;
     margin-top: 15px;
@@ -1350,7 +1539,7 @@ footer .line{
   
   /*SIGN UP DROPDOWN ENDS*/
   .packageDrop{
-    background: #f660;
+    background: #fff;
     color: black !important;
     border: 2px solid #E1E1E1;
   }
@@ -1370,69 +1559,88 @@ footer .line{
 
 }
 
+#resultsHere .col-md-3{
+    margin-top: 25px
+  }
+  
+  .searchPadding{
+    z-index:1;
+    width:100%;
+    height:10px;
+    position:absolute;
+    top:41%;
+    background-color:#ffffff;
+  }
+  
+  .searchPadding1{
+    z-index:1;
+    width:100%;
+    height:12px;
+    position:absolute;
+    top:41%;
+    background-color:#ffffff;
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@media only screen and (max-width: 1028px) {
-    .cardwhite {
-        height: 185px;
-        font-size: 12px;
-    }
-
-    .profilelist ul li {
-        display: contents;
-    }
-
-    .profileicons {
-        height: 35px;
-        margin: 2px;
-        margin-left: 30px;
-    }
-
-    .profileedit {
-        padding: 5px;
-        padding-left: 15px;
-        padding-right: 15px;
-        margin-left: 0px;
-        margin: 0px;
-    }
-    .idprofile {
-        height: 185px;
-        widows: auto;
-    }
-
-    .centered{
-        transform: translate(-10%, 0%);
-    }
+.upgradeBTN {
+    border: none;
+    outline: none;
+    background: #000000;
+    color: white;
+    padding: 15px !important;
+    margin-top: 10px !important;
+    margin-left: 40px;
+    transform: translate(15px,17px);
+    width: max-content;
+    cursor: pointer;
+	border-radius: 5px;
+}
+.overlaytextPosts{
+	display:inline;
+}
+.mainSearch{
+	background:white;
+	height:45px;
+	margin-left:-20px;
+	z-index:111;
+	border-top-right-radius:3px;
+	border-bottom-right-radius:3px;
 }
 
-@media only screen and (max-width: 1058px) {
-    .cardwhite {
-        font-size: 11px !important;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media only screen and (min-width: 1440px) {
+    /* styles for browsers larger than 1440px; */
+    .centered{
+        left: 30%;
+    }
+
+    .profilelist ul li{
+        padding: 17px;
+    }
+
+    .cardwhite{
+        height: 371px;
     }
 }
 
@@ -1447,6 +1655,81 @@ footer .line{
     }
 }
 
+@media only screen and (max-width: 1200px) {
+    .col-lg-2{
+        min-width: 23% ;
+    }
+/* 	.circBtn {
+    	top: 23.5% !important;
+	} */
+}
+
+@media only screen and (max-width: 1058px) {
+    .cardwhite {
+        font-size: 11px !important;
+    }
+}
+
+
+@media only screen and (max-width: 1028px) {
+    .cardwhite {
+        height: 185px;
+        font-size: 12px;
+        margin-bottom: 25px;
+    }
+
+    .profilelist ul li {
+        font-size: 9px;
+        padding: 3px;
+    }
+    .backprofile .col-sm-4{
+        width: 400px;
+    }
+
+    .profileicons {
+        height: 35px;
+        margin: 2px;
+        margin-left: 10px;
+    }
+
+    .profileedit {
+        padding: 5px;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-left: 0px;
+        margin: 0px;
+        transform: translate(0px,0px);
+    }
+	.upgradeBTN {
+		padding: 5px !important;
+		padding-left: 15px;
+		padding-right: 15px;
+		margin-left: 0px;
+		margin: 0px;
+    	margin-top: 0px;
+		transform: translate(0px,22px);
+	}
+    .idprofile {
+        height: 185px;
+        widows: auto;
+    }
+
+    .centered{
+        transform: translate(-10%, 0%);
+    }
+}
+
+
+@media only screen and (max-width: 1024px) {
+    .idprofile {
+        height: 187px;
+    }
+    .col-lg-2{
+        max-width: 23% ;
+    }
+}
+
+
 
 @media only screen and (max-width: 996px) {
     .cardwhite {
@@ -1454,49 +1737,216 @@ footer .line{
         font-size: 11px;
     }
     .col-lg-2{
-        max-width: 33% !important;
+        max-width: 33% ;
     }
+    .buttonprofile {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .profilelist ul {
+        margin-top: -10px;  
+    }
+    .profilelist ul li {
+        padding: 3px;
+    	font-size: 10px;
+    }
+/* 	.circBtn {
+    	top: 15.5% !important;
+	} */
 }
 
-@media only screen and (max-width: 1024px) {
-    .idprofile {
-        height: 187px;
-    }
-}
 
 @media only screen and (max-width: 770px) {
     .item a {
         font-size: 12px;
     }
     .col-lg-2{
-        max-width: 50% !important;
+        max-width: 50% ;
     }
-    /* .idprofile{
-        width: 95% !important;
-        height: auto !important;
-    } */
+    .backprofile .col-sm-4{
+        width: 80vh;
+    }
+	.homesearch{
+    	width: 237px;
+	}
+
     .buttonprofile {
-        padding-left: 0px;
-        padding-right: 0px;
+        padding-left: 3px;
+        padding-right: 3px;
     }
+    .backgray1 div span {
+        margin-left: 170px;
+        margin-top: -25px;
+    }
+	.card-box {
+    	height: auto !important;
+	}
+	.autocomplete-items {
+   		max-width: 200px !important;
+	}
 }
 
+@media only screen and (max-width: 767px) {
 
-
-@media only screen and (min-width: 1440px) {
-    /* styles for browsers larger than 1440px; */
-    .centered{
-        left: 33%;
+    .idprofile {
+        height: auto;
+        width: 80vw;
+        margin-left: 25px;
     }
-
-    .profilelist ul li{
-        padding: 17px;
+    
+    .profilelist ul li {
+        font-size: 15px;
+        padding: 3px;
+    	word-wrap: break-word;
     }
-
-    .cardwhite{
-        height: 371px;
-    }
+	.cardwhite {
+		height: auto;
+	}
+	.shareIcon {
+		right: -170% !important;
+	}
+.searchPadding {
+    z-index: 1;
+    width: 100%;
+    height: 16px;
+    position: absolute;
+    top: 58%;
+    background-color: #ffffff;
 }
+}
+
+@media only screen and (max-width: 687px) {
+
+    .inputfield {
+        margin-top: 53px;
+    }
+	.profileListPosition{
+		background: white;
+		top: -14px;
+		position: relative;
+	}
+}
+
+@media only screen and (max-width: 576px) {
+    .backgray1 div span  button{
+        font-size: 10px;
+    }
+	.overlaytextPosts{
+		display:none;
+	}
+	.shareIcon {
+		right: 10% !important;
+	}
+	.searchbar-col-1 {
+    	text-align: center;
+	}
+    .profilebuttonzone .profilepost {
+		font-size:12px;
+    	padding-left:0;
+    	padding-right:0;
+    	width:37%;
+    	float:none;
+    }
+	.profilelist{
+    	margin-top:15px
+	}
+    .list1{
+        display: none;
+    }
+    .colmargin{
+        margin-left: 25px;
+    }
+    .searchbar-col-1{
+        width: 100vw;
+    }
+    .homesearch{
+        width: 237px;
+    }
+    .homebannerbtn{
+        min-width: max-content;
+    }
+    .idprofile {
+        margin-left: 0px;
+    }
+    .cardwhite {
+        height: auto;
+    }
+    .inputfield {
+        margin-top: 63px;
+    }
+
+    
+	#saveinfo{
+    	position:relative;
+    	left: 0px;
+	}
+	#premiuimSubmit{
+		position: relative;
+		left: 0px;
+		top: -45px;
+	}
+	.overlay div .size {
+    	height: 45px;
+	}
+
+	.upgradeBTN {
+    	transform: translate(0px,0px);
+	}
+	.iconsearchIndex{
+		float: none;
+		margin-top: 0px;
+	}
+}
+
+@media only screen and (max-width: 450px) {
+    .profileupload {
+        float: left;
+    	font-size:12px;
+    	width:60%;
+    	margin-right:5px;
+    }
+	.backgray1 div span {
+    	margin-left: 15px;
+    	margin-top: 0px;
+	}
+	.backgray1 {
+    	padding-bottom:60px;
+    	padding-top:25px;
+	}
+}
+
+@media only screen and (max-width: 450px) {
+    .profileupload {
+        float: left;
+    }
+	.backgray1 div span {
+    	margin-left: 15px;
+    	margin-top: 0px;
+	}
+	.homesearch{
+        width: 135px;
+    }
+.searchPadding {
+    z-index: 1;
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    top: 50%;
+    background-color: #ffffff;
+}
+}
+
+@media only screen and (max-width: 380px) {
+	.idprofile {
+    	margin-left: -10px;
+	}
+	.profilelist ul li {
+    	padding: 3px;
+    	
+    	font-size: 14px;
+	}
+}
+
 
 .privateTag{
     color: red;
@@ -1528,4 +1978,31 @@ footer .line{
 .overlayCard:hover .shareIcon{
     opacity: 1;
 }
+
+.autocomplete-itemspro{
+    background: white;
+    position: absolute;
+    left: 470px;
+    top: 168px;
+    width: 500px;
+    z-index: 111;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE 10+ */
+}
+
+.autocomplete-itemspro div{
+    color: #000000;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.autocomplete-itemspro div:hover{
+    background: #c9c9c9e6;
+}
+
+
+
 

@@ -8,6 +8,8 @@
     
     $sql = "SELECT * FROM `profile_table` WHERE (`password`= '$data->userPassword') AND (`phone` ='$data->userPhone')";
     $result = mysqli_query($con,$sql);
+    // echo($sql);
+    // var_dump( $result);
     // echo "\n".$sql."\n";
     // if (!$check1_res) {
     // printf("Error: %s\n", mysqli_error($con));
@@ -15,7 +17,7 @@
     // }
     $row = mysqli_fetch_array($result);
 	if($row){
-        $userName = array("userName"=>$row["name"],"userId"=>$row["id"]);
+        $userName = array("userName"=>$row["name"],"userId"=>$row["id"],"isActive"=>$row["isActive"]);
         $jsonData = json_encode($userName);
         echo $jsonData;
 	} else {

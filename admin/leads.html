@@ -139,23 +139,28 @@
         var response = {};
         var response2 = {};
         $(document).ready(function(){
-            if(!checkCookie("empId")){
-                cancelFunc(-1);
-            }
-            var qryStrings = getQueryString();
-            qryStrings.forEach(element => {
-                if(element.startsWith('empId')){
-                    var qryEmp = element.split('=')[1];
-                    if(!isNaN(parseInt(qryEmp))){
-                        userId = parseInt(qryEmp);
-                    }
-                }
-            });
-        showData(userId);
+           
+            
     	});
         includeHTML();
         window.onload = function(){
-          
+            setTimeout(function(){
+                if(!checkCookie("empId")){
+                    cancelFunc(-1);
+                }
+                    var qryStrings = getQueryString();
+                    qryStrings.forEach(element => {
+                    if(element.startsWith('empId')){
+                        var qryEmp = element.split('=')[1];
+                        if(!isNaN(parseInt(qryEmp))){
+                            userId = parseInt(qryEmp);
+                        }
+                    } else {
+                        
+                    }
+                });
+            showData(userId);
+            },10);
            setTimeout(function(){
                loadProfile();
            }, 100);
@@ -167,7 +172,7 @@
         function toggleTabs(type){
             switch(type){
                 case "addLeads":
-                    window.location.href='../index.html?show_model=true';
+                    window.open('../index.html?show_model=true');
                 break;
             }
         }
@@ -248,18 +253,24 @@
         function buildHtml(template, data){
             var htmlString = "";
             var pageName = "'leads'";
-            
+            var prosImg="";
             switch(template){
                 
                 case "leadsTable":
-                    if(data.isProspect == '1' && data.isActive == '1'){
-                        prosImg = "<img src='assets/img/convert-green.png'>";
-                    } else if(data.isProspect == '1' && data.isActive == null){
-                        prosImg = "<img src='assets/img/convert-red.png' onclick="+"setCookie('userId',"+data.id+");window.location.href='../premiumsignup.html?user_id="+data.id+"';"+">";
-                    } else {
-                        prosImg = "<img src='assets/img/convert-blue.png' onclick="+"setCookie('userId',"+data.id+");window.location.href='../premiumsignup.html?user_id="+data.id+"';"+">";
+            		
+                    if(data.isActive == '1'){
+                    	if(data.premium == '1'){    
+                        	prosImg = "<img src='assets/img/convert-green.png'>";
+                        } else {
+                        	prosImg = "<img src='assets/img/convert-red.png' onclick="+"setCookie('userId',"+data.id+");window.open('../package.html');"+">";
+                        }
+                    } else if(data.isProspect == '1'){
+                        prosImg = "<img src='assets/img/convert-red.png' onclick="+"setCookie('userId',"+data.id+");window.open('../premiumsignup.html?user_id="+data.id+"');"+">";
+                    } else if(data.isLead == '1' && data.isActive == '0'){
+                        prosImg = "<img src='assets/img/convert-blue.png' onclick="+"setCookie('userId',"+data.id+");window.open('../premiumsignup.html?user_id="+data.id+"');"+">";
                     }
-                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td>" + data.skills +"</td><td>" + data.contact + "</td><td>" + data.email +"</td><td>"+prosImg+"&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"></td></tr>";
+            		// "&emsp;<img src='assets/img/delete-button.png' onclick="+"deleteData("+data.id+','+pageName+")"+"> DELETION CODE SNIPPET - ADD THIS AFTER prosImg
+                    htmlString = "<tr><td>" + data.id + "</td><td>" + data.name + "</td><td>" + data.skills +"</td><td>" + data.contact + "</td><td>" + data.email +"</td><td>&emsp;"+prosImg+"</td></tr>";
                 break;
                 case "catName":
                     htmlString = "<option>" + data.name + "</option>";

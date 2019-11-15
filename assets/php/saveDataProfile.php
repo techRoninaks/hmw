@@ -35,7 +35,7 @@
         }
         else{
             echo $userId;
-            $sql_query =  "SELECT * FROM `profile_table` WHERE id = $userID";//SQL command
+            $sql_query =  "SELECT * FROM `profile_table` WHERE id = $userId";//SQL command
             $response = array();
             $data = array();
             $success = "unsuccessful";
@@ -84,7 +84,7 @@
             $sql_query = "SELECT id FROM profile_table WHERE id = $userId";
             $result = mysqli_query($con,$sql_query);
             $row=mysqli_fetch_array($result);
-            echo $row["id"];
+            // echo $row["id"];
             if($row["id"]!=""){
                 $sql_query =  "UPDATE `profile_table` SET `name`='$name',`profile_image`='assets/img/images/card/$uniqeCode.png',`link`='profile.html?user_id=$userId',`role`='$role',`sublocation`='$sublocation',`whatapp`='$whatsapp',`location`='$location',`skils`='$skills',`union`='$unionlist',`website`='$website',`phone`='$phone',`email`='$email',`address`='$address',`password`='$password',`category`='$category',`country`='$country',`state`='$state',`pincode`='$pincode',`type`='$type',`phone2`='$phone2',`isProspect`='$prospectTag',`privatestat`='$privatetag',`uniqueId`='$uniqeCode'  WHERE `id` = $userId;";//SQL command
                 $result = mysqli_query($con,$sql_query);

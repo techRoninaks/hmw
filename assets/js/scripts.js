@@ -1,16 +1,17 @@
-
 var globeCopy = {}; //required global variable
 var OTPcount = 3;
 var OTP = "";
 var OTPsuccess = "error";
 var countkeypress = 0;
-var filterdata ;
-var countries = ["Afghanistan~1","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland~2","India~3","Indonesia~4","Iran~5","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
-var imagedata ;
-var postimage ;
+var filterdata  = "";
+var countries = ["****"];
+var imagedata  = 0;
+var postimage  = 0;
 var local =1;
 var priv = "",currentUid = 1;
-
+var arrayCatList = ["ALL"];
+var cancelFlag = true;
+var categoryArray = ["ALL"];
 //For fetching common elements
 function includeHTML() {
     var z, i, elmnt, file, xhttp;
@@ -40,10 +41,30 @@ function includeHTML() {
     }
 }
 
+function customAlert(message,msgType){
+	$.notify(message, {
+		animate: {
+        	enter: 'animated fadeInRight',
+        	exit: 'animated fadeOutRight'
+		}, type: msgType
+	});
+	setTimeout(function() {
+		$.notifyClose('top-right');
+	}, 3000);
+}
+
 function reDirect(loc){ //redirect to any page without storing as cache.. mainly used when logged in
 
     var page = window.location.protocol+"//"+window.location.hostname+"/helloMyWork/"+loc;
     window.location.replace(page);
+}
+
+function loctionHandler(){
+	var locationCurrent = getCookie("location=");
+	if(locationCurrent != ""){
+    	locationCurrent = locationCurrent.split("~");
+    	replacetext(locationCurrent[0],locationCurrent[1]);
+    }
 }
 
 function dropHeader(headId) { //create dropdown
@@ -71,7 +92,7 @@ function signUp(selectBox){ //sign up form
     var data = [];
     var myObj = {};
     
-    if(confirm("Confirm Sign Up?")){
+   // if(confirm("Confirm Sign Up?")){
         if(selectBox == 'premium'){
             data[0] =  document.getElementById("premiumName").value;
             data[1] =  document.getElementById("premiumPhone").value;
@@ -94,28 +115,30 @@ function signUp(selectBox){ //sign up form
             }
         }
            
-        var jSONObj = JSON.stringify(myObj);
-        console.log("-> "+jSONObj);
-        xhr =  new XMLHttpRequest();
-        this.responseType = 'text';
-           xhr.onreadystatechange  =  function() {
-            if (this.readyState == 4 && this.status == 200) {
-              var data = xhr.responseText.split("~");
-                if(data[0] == '1'){
-                    alert("Successful!");
-                    setCookie("userName",myObj.newName);
-                    setCookie("isLogged","1");
-                    setCookie("userId",data[1]);
-                    window.location = "prepremiumsignup.html?user_id="+data[1];
-                } else {
-                    alert("Update Failed! Try again!");
-                }
-            }
-        };
-        xhr.open("POST", "assets/php/signUp.php", true);
-        xhr.setRequestHeader("Content-type", "application/json");
-        xhr.send("jsonObj="+jSONObj);
-    }
+        // var jSONObj = JSON.stringify(myObj);
+        // console.log("-> "+jSONObj);
+        // xhr =  new XMLHttpRequest();
+        // this.responseType = 'text';
+        //    xhr.onreadystatechange  =  function() {
+        //     if (this.readyState == 4 && this.status == 200) {
+        //       var data = xhr.responseText.split("~");
+        //         if(data[0] == '1'){
+        //             alert("Successful!");
+        //             setCookie("userName",myObj.newName);
+        //             setCookie("isLogged","1");
+        //             setCookie("userId",data[1]);
+        //         	setCookie("isActive",0);
+        //             console.log(xhr.responseText);
+        //             window.location = "prepremiumsignup.html?user_id="+data[1];
+        //         } else {
+        //             alert("Update Failed! Try again!");
+        //         }
+        //     }
+        // };
+        // xhr.open("POST", "assets/php/signUp.php", true);
+        // xhr.setRequestHeader("Content-type", "application/json");
+        // xhr.send("jsonObj="+jSONObj);
+    //}
 }
 
 function generateOTP() { 
@@ -129,6 +152,7 @@ function generateOTP() {
 
 function sendOTP(){
     OTP = generateOTP();
+	
     myObj = globeCopy;
     if(OTPcount>0){
         var message = "Your OTP is "+ OTP;
@@ -141,9 +165,21 @@ function sendOTP(){
             if (this.readyState == 4 && this.status == 200) {
                 if(xhr.responseText !== '0'){
                     var OTPObj = JSON.parse(xhr.responseText);
-                    alert("OTP send!");
+                	if(OTPObj.type == "success"){
+                    //alert("OTP send!");
                     OTPsuccess = OTPObj.type;
-                    OTPcount += -1;
+                    OTPcount += -1;}
+                	else if(OTPObj.number != 0){
+                    	if(OTPObj.isActive == 1){
+                        	document.getElementById('otpForm').innerHTML = '<div class= center > This Number Already exits, Please Login<a href= index.html?show_model=true  style="float:right;color:white;background:#333333;margin-top:15px;text-decoration:none;padding:10px;border-radius:5px;" >Login</a></div>';
+                        }
+                    console.log(OTPObj.number);
+                        if(OTPObj.isActive == 0){
+                        	document.getElementById('otpForm').innerHTML = '<div class= center > This Number Already exits, Please Login<a href= premiumsignup.html?user_id='+OTPObj.userId+' style="float:right;color:white;background:#333333;margin-top:15px;text-decoration:none;padding:10px;border-radius:5px;" >Goto SignUp</a></div>';
+                        	setCookie("userId",OTPObj.userId);
+                        	setCookie("isActive",0);
+                        }
+                    }
                 } else {
                     alert("Verification Failed! Try again!");
                 }
@@ -167,7 +203,7 @@ function otpVerify(){ //otp verification
         var data = document.getElementById("otp").value;
         if((OTP == data) && OTPsuccess == "success"){
             var jSONObj = JSON.stringify(myObj);
-            console.log("-> "+jSONObj);
+            // console.log("-> "+jSONObj);
             xhr =  new XMLHttpRequest();
             this.responseType = 'text';
               xhr.onreadystatechange  =  function() {
@@ -175,10 +211,19 @@ function otpVerify(){ //otp verification
                 if (this.readyState == 4 && this.status == 200) {
                     var data = xhr.responseText.split("~");
                     if(data[0] == '1'){
-                        alert("OTP Verified!");
+                        //alert("OTP Verified!");
                         setCookie("userName",myObj.newName);
                         OTPcount = 3;
-                        window.location = "premiumsignup.html?user_id="+data[1];
+                        setCookie("userName",myObj.newName);
+                        setCookie("isLogged","1");
+                        setCookie("userId",data[1]);
+                    	document.getElementById('otpBox').style.display = "none";
+                    	toggleSignUp("otp_confirm","all","idOTPConfirm");
+                    	// document.getElementById('otp_confirm').style.display = "block";
+                    	// document.getElementById('idOTPConfirm').style.display = "block";
+                    	setTimeout(function(){ 
+                        	window.location = "premiumsignup.html?user_id="+data[1];
+                        }, 3000);
                         // reDirect("premiumsignup.html?user_id="+data[1]);
                     } else {
                         alert("Verification Failed! Try again!");
@@ -195,14 +240,23 @@ function otpVerify(){ //otp verification
 }
 
 
-function myFunction(popName) { //To create pop up bubble in buttons
+function myFunction(popName, userId = "") { //To create pop up bubble in buttons
     if(getCookie("userName=")=="null"){
         toggleSignUp('loginBox','all','id01');
-    } else {
-        document.getElementById(popName).style.display = 'block';
-        var popup = document.getElementById(popName);
-        popup.classList.toggle("show");
+    } 
+	else if(getCookie("userName=")==""){
+        toggleSignUp('loginBox','all','id01');
     }
+	else {
+    	if(popName == "cardClick"){
+        	window.location='profile.html?user_id=' + userId;
+        }else{
+        	document.getElementById(popName).style.display = 'block';
+        	var popup = document.getElementById(popName);
+        	popup.classList.toggle("show");
+        }
+    }
+	event.stopPropagation();
 }
 
 //La cookie section
@@ -263,6 +317,7 @@ function checkCookie(cookieName,signVar = null) {
 //for location button in homepage, replacing current text
 function replacetext(location, id){
   document.getElementById('dropdownMenuButton').innerHTML = " <i class= image-button ></i>"+location;
+  setCookie("location",location+"~"+id);
   local = id;
   return false;
 }
@@ -318,10 +373,10 @@ function premiumSignUp(){
   var phone2 = document.getElementById('inputSecondaryContact').value;
   var skills = document.getElementById('inputSkills').value;
   var employId= 0;
-
+  console.log(phone2);
   var privatetag = 0,prospectTag=0;
   var id = currentUid;
-
+  cancelFlag =true;
   if(skills.charAt(0)==","){
     skills = skills.substr(1,skills.length)
   }
@@ -348,21 +403,23 @@ function premiumSignUp(){
   {
     document.getElementById('vaildation').innerHTML= "Please fill all fields.";
     document.getElementById('vaildation').style.display = "block";
-    // console.log('if');
+    // console.log('if');	
+    cancelFlag = false;
     
   }
-  else if(password1 != password2){
+  if(password1 != password2){
     document.getElementById('vaildation').innerHTML= "Password don't match!";
     document.getElementById('vaildation').style.display = "block";
+  	cancelFlag = false;
   }
-  else if(imagedata == null ){
-    document.getElementById('vaildation').innerHTML= "Image is empty";
-    document.getElementById('vaildation').style.display = "block";
+  if(imagedata == 0 ){
+	imagedata = 1;
   }
-  else{
+  if (cancelFlag){
     document.getElementById('vaildation').style.display = "none";
     // console.log(name+"\n"+email+"\n"+phone+"\n"+password1+"\n"+password2+"\n category="+category+"\n"+role+"\n"+country+"\n type="+type+"\n"+address+"\n"+state+"\n"+location+"\n"+sublocation+"\n"+pincode+"\n union="+union+"\n"+whatsapp+"\n"+website+"\n"+phone2);
-  
+  	  document.getElementById('premiuimSubmit').innerText = "Submitting...";
+  	  document.getElementById('premiuimSubmit').style.cursor = "no-drop";
   
   var xhr =  new XMLHttpRequest();
   this.responseType = 'text';
@@ -378,6 +435,7 @@ function premiumSignUp(){
       }
       
   };
+  // console.log(imagedata);
 
   var params = 'name='+name+"&email="+email+"&phone="+phone+"&password="+password1+"&category="+category+"&role="+role+"&country="+country+"&type="+type+"&address="+address+"&state="+state+"&location="+location+"&sublocation="+sublocation+"&pincode="+pincode+"&union="+union+"&whatsapp="+whatsapp+"&website="+website+"&image="+imagedata+"&phone2="+phone2+"&skills="+skills+"&privatetag="+privatetag+"&employId="+employId+"&id="+id+"&prospectTag="+prospectTag;
   xhr.open("post", "assets/php/postprofiledata.php", true);
@@ -405,7 +463,7 @@ function loadUnionInfo(caller){
         
         switch (caller){
           case "unionlist":
-              unionlistload(myObj);
+              unionlistloadHome(myObj);
               break;
           case "adver":
               homeAdload(myObj);
@@ -494,19 +552,14 @@ function homeAdload(array){
 }
 
 //load union list
-function unionlistload(array){
+function unionlistloadHome(array){
   var htmltemp ="";
   var template = "";
   for(i = 1; i<array.length; i++){
     var data = array[i];
-    if(i < 15){
-      htmltemp = htmltemp + templateunionlist(data, "<hr class= hr >");
+    if(i < array.length){
+      htmltemp = htmltemp + templateunionlistHome(data, "<hr class= hr >");
       template = template + "<li><a href= "+data["link"]+" >"+data["name"]+"</a></li>";
-    }
-    else{
-      htmltemp = htmltemp + templateunionlist(data, "");
-      template = template + "<li><a href= "+data["link"]+" >"+data["name"]+"</a></li>";
-      break;
     }
   }
   // console.log(htmltemp+"listunion");
@@ -528,7 +581,7 @@ function homeprofileload(array){
 function homeUnionload(array){
   var htmltemp = "";
   
-  var template = "<li class= item1&#32;active  onclick= filterunion('ALL') >ALL</li>";
+  var template = "<li class= 'item1 active'  id= ALL  onclick= filterunion('ALL') >ALL</li>";
   var arraya = [array[1]["tag"]] ;
   var count = 1;
   for(i=1; i<array.length-1;i++){
@@ -546,7 +599,8 @@ function homeUnionload(array){
     } 
   }
   for(i=0;i<arraya.length;i++){
-    template = template + "<li class= item1  onclick= filterunion('"+arraya[i]+"')   >"+arraya[i]+"</li>";
+  	arrayCatList[i+1] = arraya[i];
+    template = template + "<li class= item1  id= "+arraya[i]+"  onclick= filterunion('"+arraya[i]+"')   >"+arraya[i]+"</li>";
   }
   filterdata = array;
   for(i = 1; i<array.length; i++){
@@ -560,12 +614,14 @@ function homeUnionload(array){
   // console.log(filterdata); 
 }
 //template union list
-function templateunionlist(data, extra){
+function templateunionlistHome(data, extra){
   var template = "";
   template += "<li class= item >"+
   "<a href= "+data["link"]+" >"
   +data['name']+
-  " union</a>"+extra+"</li>";
+  "<span class='tooltiptext'>"+data['name']+"</span>"+
+  "</a>"+
+  extra+"</li>";
   // console.log(data['name']);
     return template;
     
@@ -579,7 +635,7 @@ function templatehomead(data, extra){
   "<div class= carousel-caption&#32;d-none&#32;d-md-block&#32;item3 >"+
           "<h5 class= font25 >Up to <b class= font30 >"+data["ad_discount"]+"</b>"+data["ad_data"]+"</h5>"+
           "<a href= "+data["ad_link"]+" >"+
-              "<button class= carouselButton > View Offer</button>"+
+              "<button class= carouselButton  disabled> View Offer</button>"+
           "</a>"+
       "</div>"+
   "</div>";
@@ -627,6 +683,7 @@ function templatehomeunion(data){
 //Filter on category
 function filterunion(tag){
   // filterdata = array;
+  // console.log(tag);
   var htmltemp ="";
   var flag = 0;
   for(i = 1; i<filterdata.length; i++){
@@ -641,17 +698,30 @@ function filterunion(tag){
     //   flag = 1;
     // }
   }
+  for(i=0;i<arrayCatList.length;i++){
+    if(tag == arrayCatList[i]){
+      document.getElementById(arrayCatList[i]).classList.add("active");
+    }
+    else{
+      document.getElementById(arrayCatList[i]).classList.remove("active");
+    }
+  }
   // htmltemp = htmltemp + htmltemp + htmltemp + htmltemp + htmltemp;
   document.getElementById('union').innerHTML = htmltemp; 
   // console.log(filterdata); 
 }
 
+function btnSearch(){
+	autocomplete(document.getElementById("search"),countries,1);
+	
+}
 //To show suggestions in main search box
-function autocomplete(inp, arr) {
+function autocomplete(inp, arr,btn=0) {
+// console.log("test"+countries);
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
   var currentFocus;
-  var str = "";
+  var str = "",cat = "";
   /*execute a function when someone writes in the text field:*/
   inp.addEventListener("input", function(e) {
     var a, b, i, val = this.value;
@@ -680,16 +750,15 @@ function autocomplete(inp, arr) {
         var temp1 = str.split('~');
         b.innerHTML += temp1[0].substr(val.length);
         /*insert a input field that will hold the current array item's value:*/
-        b.innerHTML += "<input type='hidden' value='" + temp1[0] + "'>";
+        b.innerHTML += "<input type='hidden' value='" + temp1[0]+"~" + temp1[1] + "'>";
         // console.log(temp1[0]);
         /*execute a function when someone clicks on the item value (DIV element):*/
         b.addEventListener("click", function(e) {
         /*insert the value for the autocomplete text field:*/
-        inp.value = this.getElementsByTagName("input")[0].value;
-        
-        
-        window.location = "profileList.html?cat_type="+temp1[1]+"&srch_key="+str+"&loc="+local;
-        // console.log("in click "+str);
+        str = str.split(' [')[0];
+        inp.value = str;
+        window.location = "profileList.html?cat_type="+temp1[1]+"&srch_key="+str+"&loc="+temp1[2];
+        // console.log(cat+"in click "+str);
         /*close the list of autocompleted values,
         (or any other open lists of autocompleted values:*/
         closeAllLists();
@@ -699,6 +768,9 @@ function autocomplete(inp, arr) {
     }
   });
   /*execute a function presses a key on the keyboard:*/
+  if(btn == 1){
+  	window.location = "profileList.html?srch_key="+inp.value+"&loc="+local;
+  }
   inp.addEventListener("keydown", function(e) {
       var x = document.getElementById(this.id + "autocomplete-list");
       if (x) x = x.getElementsByTagName("div");
@@ -732,12 +804,17 @@ function autocomplete(inp, arr) {
     if (!x) return false;
     /*start by removing the "active" class on all items:*/
     removeActive(x);
+    console.log(currentFocus);
     if (currentFocus >= x.length) currentFocus = 0;
     if (currentFocus < 0) currentFocus = (x.length - 1);
     /*add class "autocomplete-active":*/
     x[currentFocus].classList.add("autocomplete-active");
-    str = (x[currentFocus].childNodes[2].value);
-    console.log(x[currentFocus].childNodes[2].value);
+    var str1 = x[currentFocus].childNodes[2].value;
+    str1 = str1.split("~");
+    str = str1[0];
+    cat = str1[1];
+    // console.log(x[currentFocus].childNodes[2].value);
+    document.getElementById('search').value = str;
   }
   function removeActive(x) {
     /*a function to remove the "active" class from all autocomplete items:*/
@@ -754,13 +831,13 @@ function autocomplete(inp, arr) {
       x[i].parentNode.removeChild(x[i]);
       }
     }
+    // document.getElementById('search').value = str;
   }
   /*execute a function when someone clicks in the document:*/
   document.addEventListener("click", function (e) {
       closeAllLists(e.target);
   });
 } 
-
 
 //Toload all profile page elements
 function loadProfileInfo(caller, id){
@@ -812,13 +889,19 @@ function loadProfileInfo(caller, id){
 function uprofilecardload(array){
   var htmltemp ="";
   var data = array[1];
+  // var date = new Date();
+  // // console.log(date.toString().replace(/ /g, "-"));
+  // date = date.toString().replace(/ /g, "-");
+  if(data["premium"] == 1){
+       document.getElementById('upgradeIdBtn').style.display= "none";
+     }
   htmltemp = htmltemp + "<div class= col-sm-4 >"+
-  "<img src= "+data["profile_image"]+"  class= idprofile >"+
-  "<a href= "+data["profile_image"]+"  download= "+data["uniqueId"]+".png  target= _blank  >"+
-  "<img src= assets/img/icon/ic_share_white-min.png  class= shareIcon  >"+
-  "</a>"+
+  "<img src= "+data["card"]+" class= idprofile >"+
+  // "<a href= "+data["card"]+"  download= "+data["uniqueId"]+".png  target= _blank  >"+
+  "<img src= assets/img/icon/ic_share_white-min.png  id='sharebutton' onclick='func1();' class= shareIcon  >"+
+  // "</a>"+
   "</div>"+
-  "<div class= col-sm-8 >"+
+  "<div class= col-md-8 >"+
   "<div class= cardwhite >"+
   "<div class= 'row padding' >"+
     "<div class= col-sm-5&#32;profilelist >"+
@@ -835,9 +918,10 @@ function uprofilecardload(array){
         "<ul>"+
             "<li><b>UNION:</b>"+data["union"]+"</li>"+
             "<li><b>WEBSITE:</b>"+data["website"]+"</li>"+
-            "<li id= scnumber ><b>SECONDARY CONTACT</b>"+data["phone2"]+"</li>"+
+            "<li id= scnumber ><b>SECONDARY CONTACT:</b>"+data["phone2"]+"</li>"+
             "<li><b>EMAIL:</b>"+data["email"]+"</li>"+
             "<li id= addresshide ><b>ADDRESS:</b>"+data["address"]+"</li>"+
+  			"<li class= upgradeBTN  id= upgradeIdBtn style= display:none; onclick= javascript:window.location='package.html'; >Upgrade</li>"+
         "</ul>"+
   "</div>"+
   "<div class= col-sm-2 >"+
@@ -860,10 +944,39 @@ function uprofilecardload(array){
 
   priv =data["privatetag"];
   // console.log(priv+"in templ")
+  var shareHtml = "<div id='myModal' class='modal'>"+
+ "<div class='modal-content'>"+
+  " <span class='close'>&times;</span>"+
+   "<p>Share your profile</p>"+
+   "<meta name='viewport' content='width=device-width, initial-scale=1'>"+
+        "<a class='share-btn' href='https://www.facebook.com/sharer/sharer.php?app_id=389198185309782&sdk=joey&u=www.hellomywork.com/"+data["card"]+"&display=popup&ref=plugin&src=share_button' onclick='return !window.open(this.href,'Facebook','width=640,height=580')' style='text-decoration: none;padding: 7px;background: #3b5998;width: max-content;color: white;border-radius: 5px;'>facebook</a>"+
+         "<iframe src='https://www.facebook.com/plugins/share_button.php?href=www.hellomywork.com/"+data["card"]+"&layout=button_count&size=large&appId=389198185309782&width=84&height=28' width='84' height='28' style='border:none;overflow:hidden' scrolling='no' frameborder='0' allowTransparency='true' allow='encrypted-media'></iframe>"+
+       "<script src='https://platform.linkedin.com/in.js' type='text/javascript'>lang: en_US</script>"+
+       "<script type='IN/Share' data-url='"+data["card"]+"'></script>"+
+   "</div>"+
+"</div>";
 
+
+
+  document.getElementById('sharemodelcontainer').innerHTML = shareHtml; 
   document.getElementById('profilecard').innerHTML = htmltemp; 
 }
-
+function func1() {
+  	var modal = document.getElementById('myModal');
+	var btn = document.getElementById('sharebutton');
+	var span = document.getElementsByClassName('close')[0];
+	btn.onclick = function() {
+	modal.style.display = 'block';
+	}
+	span.onclick = function() {
+	 modal.style.display = 'none';
+	}
+	window.onclick = function(event) {
+ 	if (event.target == modal) {
+  	 modal.style.display = 'none';
+ 	}
+	}
+}
 //profile post load
 function profilepostload(array){
   var htmltemp ="";
@@ -881,11 +994,21 @@ function profilepostload(array){
   }
 //  console.log(array[16][0][1]["comment"]);
 }
-
+function formatDate(dateStr)
+{
+   	var dateOrg = new Date(dateStr);
+	// .toLocaleString("en-US", {timeZone: "America/New_York"});
+	// console.log(dateOrg);
+	var dateOnly = dateOrg.toLocaleDateString();
+	var timeOnly = dateOrg.toLocaleTimeString();
+	return dateOnly+"  |  "+timeOnly;
+	
+}
 //Profile post template
 function templateprofilepost(data, array){
   var template = "";
-  // console.log(data);
+  data["date"] = formatDate(data["date"]);
+  
   template += "<div class= postelement >"+
   "<div class= line1 >"+
           ""+data["name"]+" "+
@@ -904,7 +1027,7 @@ function templateprofilepost(data, array){
           "</div>"+
           "<div class= layer2 >"+
               likeGetter(data["isLiked"], data)+
-              "<div class= itemoverlay ><i class= commenticon ></i>"+data["commentnumber"]+" COMMENTS</div>"+
+              "<div class= itemoverlay ><i class= commenticon ></i>"+data["commentnumber"]+"<p class='overlaytextPosts'> COMMENTS</p></div>"+
               "<div class= itemoverlaylast ><i class= shareicon ></i>SHARE</div>"+
           "</div>"+
       "</div>"+
@@ -974,7 +1097,7 @@ function readFile() {
       
       FR.addEventListener("load", function(e) {
       document.getElementById("img").src       = e.target.result;
-      // document.getElementById("b64").innerHTML = e.target.result;
+      document.getElementById("result").src = e.target.result;
       postimage = e.target.result;
       // console.log(postimage); 
       }); 
@@ -987,11 +1110,20 @@ function readFile() {
 }
 //To insert into tag
 function insertvalue(str, colorclass){
-  document.getElementById('tagpost').value = str;
-  var myButtonClasses = document.getElementById(colorclass).classList;
-  myButtonClasses.remove(colorclass);
-  myButtonClasses.add(colorclass+"a");
-  // console.log(document.getElementById('tagpost').value);
+  var colorArray = ["scarletcolor","mintcolor","bluecolor","leafcolor","trumpcolor","thanoscolor"];
+	document.getElementById('tagpost').value = str;
+	for(i = 0; i<colorArray.length; i++){
+    	if(colorArray[i]==colorclass){
+        	var myButtonClasses = document.getElementById(colorclass).classList;
+        	myButtonClasses.remove(colorclass);
+        	myButtonClasses.add(colorclass+"a");
+    	}
+    	else{
+        	var myButtonClasses = document.getElementById(colorArray[i]).classList;
+        	myButtonClasses.remove(colorArray[i]+"a");
+        	myButtonClasses.add(colorArray[i]);
+    	}
+	}
 }
 
 // to Push post to the database
@@ -1000,16 +1132,18 @@ function postpush(u_id){
   var despost = document.getElementById('despost').value;
   var tag  = document.getElementById('tagpost').value;
   var uid = getCookie("userId=");
-  if(image == null){
-      alert("Image field is Empty");
+  if(image == 0){
+      document.getElementById('id19').style.display = "block";
   }
   else if(despost == ""){
-    alert("Comment field is Empty");
+    document.getElementById('id20').style.display = "block";
   }
   else if(tag == null){
-    alert("Tag field is Empty");
+    document.getElementById('id21').style.display = "block";
   }
   else{
+    document.getElementById('buttonPostPush').innerText = "Posting...";
+  	document.getElementById('buttonPostPush').style.cursor = "no-drop";
     var xhr =  new XMLHttpRequest();
     this.responseType = 'text';
     xhr.onreadystatechange  =  function() {
@@ -1018,13 +1152,21 @@ function postpush(u_id){
       if (this.readyState == 4 && this.status == 200) {//if result successful
         // var myObj = JSON.parse(this.responseText);
         console.log('hell');
+      if(this.responseText == "successful "){
         image = "";
         despost = "";
         tag  = "";
         document.getElementById('despost').value = "";
         document.getElementById('tagpost').value = "";
-        alert("Posted Successfully!");
-        window.location = "profile.html";
+      	document.getElementById('id15').style.display='block'
+        // alert("Posted Successfully!","success");
+        // window.location = "profile.html";
+      }
+      else{
+      		alert("Oho! Server issue, please try later.");
+      		document.getElementById('buttonPostPush').innerText = "Post";
+  			document.getElementById('buttonPostPush').style.cursor = "pointer";
+      }
       }   
     };
     var params = 'image='+image +"&des="+despost+"&tag="+tag+"&u_id="+uid;
@@ -1047,6 +1189,9 @@ function loadsignup(caller){
         case "category":
             categorylistload(myObj);
             break;
+        case "union":
+            unionlistload(myObj);
+            break;
 
         default:
           // homeload(myObj);
@@ -1058,6 +1203,11 @@ function loadsignup(caller){
 
   switch(caller){
     case "category":
+            xhr.open("GET", "assets/php/getunion.php", true);
+            xhr.setRequestHeader("Content-type", "text/plain");
+            xhr.send();
+            break;
+     case "union":
             xhr.open("GET", "assets/php/getunionlist.php", true);
             xhr.setRequestHeader("Content-type", "text/plain");
             xhr.send();
@@ -1077,16 +1227,53 @@ function categorylistload(array){
     htmltemp = htmltemp + templatecategorylist(data);
 
   }
-  // console.log(htmltemp);
+  categoryArray = array;
   document.getElementById('inputCategory').innerHTML = htmltemp; 
-  document.getElementById('inputUnion').innerHTML = htmltemp; 
+  // document.getElementById('inputUnion').innerHTML = htmltemp; 
 }
 //Ctegory template
 function  templatecategorylist(data){
   var template = "";
-  template += "<option data-tokens= private >"+data["name"]+"</option>";
+  template += "<option data-tokens= private   value='"+data["name"]+"'>"+data["name"]+"</option>";
 
   return template;
+}
+
+function unionlistload(array){
+  var htmltemp ="";
+  var templatea = "";
+  for(i = 1; i<array.length; i++){
+    var data = array[i];
+    htmltemp = htmltemp + templateunionlist(data);
+	// templatea = templatea + templateunionlist1(data);
+  }
+  document.getElementById('inputUnion').innerHTML = htmltemp; 
+  // document.getElementById('unionlist').innerHTML = templatea;
+// console.log("asas");
+}
+//Ctegory template
+function  templateunionlist(data){
+  var template = "";
+  template += "<option data-tokens= private value='"+data["name"]+"'>"+data["name"]+"</option>";
+
+  return template;
+}
+
+function  templateunionlist1(data){
+  var template = "";
+  template += '<li class="item"><a href="'+data["link"]+'"></a>'+data["name"]+'<hr class="hr"></li>';
+ // console.log(template);
+  return template;
+}
+
+function unionSelector(){
+	// document.getElementById('inputUnion').value = document.getElementById('inputCategory').value;
+	 for(i = 1; i<categoryArray.length; i++){
+    	var data = categoryArray[i];
+     	if(data["name"] == document.getElementById('inputCategory').value){
+        	document.getElementById('inputUnion').value = data["unionName"];
+        }
+     }
 }
 
 
@@ -1102,6 +1289,8 @@ function loadServices(caller, id, action){
         switch (caller){
           case "serviespost":
               servicepostload(myObj);
+        	  // console.log(myObj[0]["unionName"]);
+        	  document.getElementById('serviceUnion').innerHTML = myObj[0]["unionName"]; 
               break;
           default:
             // homeload(myObj);
@@ -1162,7 +1351,7 @@ function serviceprofilepost(data){
           "</div>"+
           "<div class= layer2 >"+
               likeGetter(data["isLiked"], data)+
-              "<div class= itemoverlay ><i class= commenticon ></i>"+data["commentnumber"]+" COMMENTS</div>"+
+              "<div class= itemoverlay ><i class= commenticon ></i>"+data["commentnumber"]+"<p class='overlaytextPosts' > COMMENTS</p></div>"+
               "<div class= itemoverlaylast ><i class= shareicon ></i>SHARE</div>"+
           "</div>"+
       "</div>"+
@@ -1179,13 +1368,13 @@ function serviceprofilepost(data){
       commentLoad(data["comments"],data["id"])+
       "<div id= hiddenPost"+data["id"]+"  style= display:none >"+getCookie("userName=")+"<span>HiidenPost</span></div>"+
       "</div>"+
-      "<input type= text  placeholder= Write a comment  class= commentinput >"+
+      "<input type= text  placeholder= 'Write a comment'  id= 'post"+data["id"]+"'   class= commentinput   onkeypress= postComment(&quot;"+data["id"]+"&quot;); >"+
   "</div>";
 
   return template;
 }
 
-function filterservicepage(tag, tag1){
+function filterservicepage(tag, tag1, colorclass){
   // filterdata = array;
   var htmltemp ="";
   var flag = 0;
@@ -1199,8 +1388,7 @@ function filterservicepage(tag, tag1){
       htmltemp = htmltemp + serviceprofilepost(data);
 
     }  
-
-
+   
   }
   if(htmltemp == ""){
     document.getElementById('servicepostlist').innerHTML = "<div class='center errormsg' >Oho...! Looks like this services has no "+tag1+" posts..:-(<br>Try another service</div>"; 
@@ -1208,7 +1396,19 @@ function filterservicepage(tag, tag1){
   else{
     document.getElementById('servicepostlist').innerHTML = htmltemp; 
   }
-  
+	 var colorArray = ["scarletcolor","mintcolor","bluecolor","leafcolor","trumpcolor","thanoscolor","infinitycolor"];
+	for(i = 0; i<colorArray.length; i++){
+    	if(colorArray[i]==colorclass){
+        	var myButtonClasses = document.getElementById(colorclass).classList;
+        	myButtonClasses.remove(colorclass);
+        	myButtonClasses.add(colorclass+"a");
+    	}
+    	else{
+        	var myButtonClasses = document.getElementById(colorArray[i]).classList;
+        	myButtonClasses.remove(colorArray[i]+"a");
+        	myButtonClasses.add(colorArray[i]);
+    	}
+	}  
  
 }
 //Ashish Changes Starts Here
@@ -1217,17 +1417,20 @@ function logOutProcess(){
   setCookie("userId",);
   setCookie("isLogged",);
   setCookie("isEdit",);
+  setCookie("isActive",);
   window.location.reload();
 }
 
 function loginManagement(){
   if(parseInt(getCookie("isLogged="))==1){
     // console.log("logged");
+    if(parseInt(getCookie("isActive="))==1){
     setTimeout(function () {
         document.getElementById('loginHead').innerHTML = "<a class= nav-link  href= profile.html?user_id="+getCookie("userId=")+" >"+getCookie("userName=")+"</a>";
         document.getElementById('signUpHead').innerHTML = "<a class= nav-link  href= javascript:logOutProcess() >Log Out</a>";
         document.getElementById('MyUnion').style.display = "block";
 	  }, 1500);    
+    }
   }
 }
 
@@ -1246,12 +1449,22 @@ function login(){ //login validation
           var ourData = xhr.response;
           if (this.readyState == 4 && this.status == 200) {
               if(xhr.responseText !== '0'){
-                //   console.log(xhr.responseText)
+                  // console.log(xhr.responseText)
                   var userObj = JSON.parse(xhr.responseText);
+              if(userObj.isActive ==1){
                   setCookie("userName",userObj.userName);
                   setCookie("userId",userObj.userId);
                   setCookie("isLogged",1);
+              	  setCookie("isActive",1);
                   window.location.reload();
+                  }else{
+                  		alert('User not Registered');
+                  		document.getElementById("id01").style.display= "none";
+                        setCookie("userName",);
+                  		setCookie("userId",);
+                  		setCookie("isLogged",);
+                  }
+              
               } else {
                   document.getElementById("errorNote").style.display= "inline";
               }
@@ -1283,6 +1496,7 @@ function premiumSignUpEdit(){
   var phone2 = document.getElementById('inputSecondaryContact').value;
   var skills = document.getElementById('inputSkills').value;
   var privatetag = 0;
+  cancelFlag =true;
   if(skills.charAt(0)==","){
     skills = skills.substr(1,skills.length)
   }
@@ -1305,17 +1519,20 @@ function premiumSignUpEdit(){
   {
     document.getElementById('vaildation').innerHTML= "Please fill all fields.";
     document.getElementById('vaildation').style.display = "block";
+  	cancelFlag = false;
     // console.log('if');
     
   }
   else if(password1 != password2){
     document.getElementById('vaildation').innerHTML= "Password don't match!";
     document.getElementById('vaildation').style.display = "block";
+  	cancelFlag = false;
   }
-  else{
+  if(cancelFlag){
     document.getElementById('vaildation').style.display = "none";
     // console.log(name+"\n"+email+"\n"+phone+"\n"+password1+"\n"+password2+"\n category="+category+"\n"+role+"\n"+country+"\n type="+type+"\n"+address+"\n"+state+"\n"+location+"\n"+sublocation+"\n"+pincode+"\n union="+union+"\n"+whatsapp+"\n"+website+"\n"+phone2);
-  
+   	document.getElementById('premiuimSubmit').innerText = "Submitting...";
+  	document.getElementById('premiuimSubmit').style.cursor = "no-drop";
   
   var xhr =  new XMLHttpRequest();
   this.responseType = 'text';
@@ -1325,6 +1542,7 @@ function premiumSignUpEdit(){
       if (this.readyState == 4 && this.status == 200) {//if result successful
         // var myObj = JSON.parse(this.responseText);
         if(this.responseText == "success "){
+          document.getElementById('id16').style.display = "block";
           window.location = "profile.html"
         }
 
@@ -1357,9 +1575,10 @@ function getPremiumData(){
         document.getElementById('inputPhone').value = data["phone"];
         document.getElementById('inputPassword').value = data["password"];
         document.getElementById('inputConfirmPassword').value = data["password"];
-        document.getElementById('inputCategory').value = data["union"];
+        document.getElementById('inputCategory').value = data["category"];
         document.getElementById('inputRoleInCompany').value = data["role"];
-        document.getElementById('inputCountry').value = data["country"];
+        document.getElementById('inputCountry').value = data["country"].toUpperCase();
+        // console.log(data["country"].toUpperCase());
         document.getElementById('inputType').value = data["type"];
         var address = data["address"];
         address = address.replace(/&#32;/g," ");
@@ -1437,7 +1656,12 @@ function postComment(p_id){
     var params = 'p_id='+p_id +"&comment="+comment+"&u_id="+u_id;
     xhr.open("post", "assets/php/postcomment.php", true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send(params);
+  	if(getCookie("isActive=")==1){
+    	xhr.send(params);
+    }
+  	else{
+    	toggleSignUp('loginBox','all','id01');
+    }
   }
 }
 
@@ -1519,7 +1743,7 @@ function viewMorePost(commentEle){
         var myObj = JSON.parse(this.responseText);
         var htmltemp = "";
         for(i = 0; i<myObj.length; i++){
-          htmltemp = htmltemp + "<div id= "+myObj[i]["id"]+" >"+myObj[i]["name"]+" <span>"+myObj[i]["comment"]+" </span><div class= report onclick= reportPost(&quot;"+myObj[i]["id"]+"&quot;); >Report?</div></div>"
+          htmltemp = htmltemp + "<div id= "+myObj[i]["id"]+" >"+myObj[i]["name"]+" <span>"+myObj[i]["comment"]+" </span><div class= reportRed onclick= reportPost(&quot;"+myObj[i]["id"]+"&quot;); >Report?</div></div>"
         }
         // console.log(htmltemp);
         document.getElementById(commentEle).innerHTML = htmltemp;
@@ -1565,20 +1789,20 @@ function commentLoad(comments,post_id){
     // console.log(parseInt(comments.length));
     if(parseInt(comments.length)== 1){
       // console.log("hell1\n");
-      var htmltemp = "<div id= "+comments[0]["id"]+" >"+comments[0]["name"]+" <span>"+comments[0]["comment"]+" </span><div class= report onclick= reportPost(&quot;"+comments[0]["id"]+"&quot;); >Report?</div></div>";
+      var htmltemp = "<div id= "+comments[0]["id"]+" >"+comments[0]["name"]+" <span>"+comments[0]["comment"]+" </span><div class= reportRed onclick= reportPost(&quot;"+comments[0]["id"]+"&quot;); >Report?</div></div>";
       // console.log(htmltemp);
       return htmltemp;
     }
     else if(parseInt(comments.length)== 2){
-      var htmltemp = "<div id= "+comments[0]["id"]+" >"+comments[0]["name"]+" <span>"+comments[0]["comment"]+" </span><div class= report onclick= reportPost(&quot;"+comments[0]["id"]+"&quot;); >Report?</div></div>"+
-      "<div id= "+comments[1]["id"]+" >"+comments[1]["name"]+" <span>"+comments[1]["comment"]+" </span><div class= report onclick= reportPost(&quot;"+comments[1]["id"]+"&quot;); >Report?</div></div>";
+      var htmltemp = "<div id= "+comments[0]["id"]+" >"+comments[0]["name"]+" <span>"+comments[0]["comment"]+" </span><div class= reportRed onclick= reportPost(&quot;"+comments[0]["id"]+"&quot;); >Report?</div></div>"+
+      "<div id= "+comments[1]["id"]+" >"+comments[1]["name"]+" <span>"+comments[1]["comment"]+" </span><div class= reportRed onclick= reportPost(&quot;"+comments[1]["id"]+"&quot;); >Report?</div></div>";
       // console.log("hell2\n");
       return htmltemp;
     }
     else if(parseInt(comments.length)== 3){
-      var htmltemp = "<div id= "+comments[0]["id"]+" >"+comments[0]["name"]+" <span>"+comments[0]["comment"]+" </span><div class= report onclick= reportPost(&quot;"+comments[0]["id"]+"&quot;); >Report?</div></div>"+
-      "<div id= "+comments[1]["id"]+" >"+comments[1]["name"]+" <span>"+comments[1]["comment"]+" </span><div class= report onclick= reportPost(&quot;"+comments[1]["id"]+"&quot;); >Report?</div></div>"+
-      "<div id= "+comments[2]["id"]+" >"+comments[2]["name"]+" <span>"+comments[2]["comment"]+" </span><div class= report onclick= reportPost(&quot;"+comments[2]["id"]+"&quot;); >Report?</div></div>";
+      var htmltemp = "<div id= "+comments[0]["id"]+" >"+comments[0]["name"]+" <span>"+comments[0]["comment"]+" </span><div class= reportRed onclick= reportPost(&quot;"+comments[0]["id"]+"&quot;); >Report?</div></div>"+
+      "<div id= "+comments[1]["id"]+" >"+comments[1]["name"]+" <span>"+comments[1]["comment"]+" </span><div class= reportRed onclick= reportPost(&quot;"+comments[1]["id"]+"&quot;); >Report?</div></div>"+
+      "<div id= "+comments[2]["id"]+" >"+comments[2]["name"]+" <span>"+comments[2]["comment"]+" </span><div class= reportRed onclick= reportPost(&quot;"+comments[2]["id"]+"&quot;); >Report?</div></div>";
       // console.log("hell3\n");
       return htmltemp;
     }
@@ -1596,6 +1820,7 @@ function confrimupload(){
   setTimeout(function(){ 
     
     document.getElementById('loginBox1').style.display="none";
+  	document.getElementById('result').style.display="initial";
    }, 1000);
 }
 
@@ -1743,6 +1968,7 @@ function queryHandlerProfile(){
                   loadProfileInfo('profilepost',qryUserId);
                   setTimeout(function () {
                       document.getElementById('editButton').style.display= "none";
+                  	  document.getElementById('upgradeIdBtn').style.display= "none";
                       document.getElementById('divPostElement').style.display= "none";
                       if(priv == 1){
                         document.getElementById('whatsappnum').style.display= "none";
@@ -1816,7 +2042,7 @@ function queryHandlerIndex(){
             console.log(qryUserId);
             setTimeout(function () {
               toggleSignUp('premiumBox','nonPremiumBox','id03');
-          }, 100);
+          }, 1000);
           }
       } 
       else if(isNaN(parseInt(qryUserId))){
@@ -1920,14 +2146,14 @@ function getSavedDataProfile(id){
         document.getElementById('inputPhone').value = data["phone"];
         document.getElementById('inputPassword').value = data["password"];
         document.getElementById('inputConfirmPassword').value = data["password"];
-        document.getElementById('inputCategory').value = data["union"];
+        document.getElementById('inputCategory').value = data["category"];
         document.getElementById('inputRoleInCompany').value = data["role"];
-        document.getElementById('inputCountry').value = data["country"];
+        document.getElementById('inputCountry').value = data["country"] == null || data["country"] == "" || data["country"].toLowerCase() == "null"? "IN" : data["country"];
         document.getElementById('inputType').value = data["type"];
         var address = data["address"];
         address = address.replace(/&#32;/g," ");
         document.getElementById('inputAddressLine1').value = address;
-        document.getElementById('inputState').value = data["state"];
+        document.getElementById('inputState').value =  data["state"] == null || data["state"] == "" || data["state"].toLowerCase() == "null"? "Kerala" : data["state"];
         document.getElementById('inputLocation').value = data["location"];
         document.getElementById('inputSubLocation').value = data["sublocation"];
         document.getElementById('inputPinCode').value = data["pincode"];
@@ -1939,7 +2165,7 @@ function getSavedDataProfile(id){
         if(data["isProspect"] == 1){
           document.getElementById('prospectTag').checked = true;
         }
-        console.log(data["isProspect"]);
+        // console.log(data["isProspect"]);
         
         // console.log(data["type"]);
         if(document.getElementById("inputSkills").value !=""){
@@ -1966,7 +2192,7 @@ function freePackageHnadler(){
   document.getElementById('cancel').style.display = "block";
   document.getElementById('toProfile').style.display = "none";
   document.getElementById('packageHeader').innerHTML = "Free Package Selected";
-  toggleSignUp1('loginBox1','all','id08');
+  toggleSignUp1('loginBox1','all','id09');
 }
 
 function cancelpackage(){
@@ -1987,6 +2213,8 @@ function freePackageSelect(){
   this.responseType = 'text';
   xhr.onreadystatechange  =  function() {
     if (this.readyState == 4 && this.status == 200) {
+      setCookie("isActive","1");
+      setCookie("isLogged","1");
       window.location = "profile.html?user_id="+this.responseText;
 
     }
@@ -1998,11 +2226,9 @@ function freePackageSelect(){
   xhr.send(params);
 }
 
-function premiumPackageHandler(month){
-  console.log(month);
+function premiumPackageHandler(month, callAction){
   var id = getCookie("userId=");
   var emid = getCookie("emId=");
-  // console.log(id+"\n"+emid)
   if(emid=="null"){
     emid = 0;
   }
@@ -2010,13 +2236,15 @@ function premiumPackageHandler(month){
   this.responseType = 'text';
   xhr.onreadystatechange  =  function() {
     if (this.readyState == 4 && this.status == 200) {
+    setCookie("isActive","1");
+    setCookie("isLogged","1");
     // window.location = "profile.html?user_id="+this.responseText;
 
     
     }
   }               
 
-  var params = 'id='+id+'&emid='+emid+'&month='+month;
+  var params = 'id='+id+'&emid='+emid+'&month='+month+'&callAction='+callAction;
   xhr.open("post", "assets/php/postpackageprofile.php", true);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   xhr.send(params);
@@ -2044,15 +2272,26 @@ function likePost(postId){
   this.responseType = 'text';
   xhr.onreadystatechange  =  function() {
     if (this.readyState == 4 && this.status == 200) {
-    // window.location = "profile.html?user_id="+this.responseText;
-      // window.open(this.responseURL, '_blank');
+	  	// if(xhr.responseText == 2){
+	  	// var like = document.getElementById(postId+'like').innerText;
+	  	// like = like.split(' ');
+	  	// var i = parseInt(like[0]);
+	  	// console.log(i+"\n");
+	  	// i++;
+	  	// document.getElementById(postId+'likefill').innerHTML = "<i class= filledheart ></i>"+i+" LIKES";
+	  	// }
     }
   }
   if(getCookie("isLogged=")==1){
     if(document.getElementById(postId+"likefill").style.display == "none"){
       document.getElementById(postId+"like").style.display = "none";
       document.getElementById(postId+"likefill").style.display = "block";
-      console.log("Like++");
+      var like = document.getElementById(postId+'like').innerText;
+      like = like.split(' ');
+      var i = parseInt(like[0]);
+      // console.log(i+"\n");
+      i++;
+	  document.getElementById(postId+'likefill').innerHTML = "<i class= filledheart ></i>"+i+" LIKES";
       params = "action=add"+"&userid="+getCookie("userId=")+"&postid="+postId;
       xhr.open("post", "assets/php/updatelike.php", true);
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -2061,7 +2300,7 @@ function likePost(postId){
     else{
       document.getElementById(postId+"like").style.display = "block";
       document.getElementById(postId+"likefill").style.display = "none";
-      console.log("Like--");
+      // console.log("Like--");
       params = "action=delete"+"&userid="+getCookie("userId=")+"&postid="+postId;
       xhr.open("post", "assets/php/updatelike.php", true);
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -2076,18 +2315,264 @@ function likePost(postId){
 
 function likeGetter(value, data){
   if(value == "1"){
-    var likeTemplate =   "<div class= itemoverlay id="+data["id"]+"like style= display:none  onclick= likePost("+data["id"]+"); ><i class= heart ></i>"+data["likes"]+" LIKES</div>"+
-    "<div class= itemoverlay id="+data["id"]+"likefill    onclick= likePost("+data["id"]+"); ><i class= filledheart ></i>"+data["likes"]+" LIKES</div>";
+    var likeTemplate =   "<div class= itemoverlay id="+data["id"]+"like style= display:none  onclick= likePost("+data["id"]+"); ><i class= heart ></i>"+data["likes"]+"<p class='overlaytextPosts' > LIKES</p></div>"+
+    "<div class= itemoverlay id="+data["id"]+"likefill    onclick= likePost("+data["id"]+"); ><i class= filledheart ></i>"+data["likes"]+"<p class='overlaytextPosts' > LIKES</p></div>";
     // return likeTemplate;
   }
   else if(value == "0"){
-    var likeTemplate =   "<div class= itemoverlay id="+data["id"]+"like  onclick= likePost("+data["id"]+"); ><i class= heart ></i>"+data["likes"]+" LIKES</div>"+
-    "<div class= itemoverlay id="+data["id"]+"likefill  style= display:none  onclick= likePost("+data["id"]+"); ><i class= filledheart ></i>"+data["likes"]+" LIKES</div>";
+    var likeTemplate =   "<div class= itemoverlay id="+data["id"]+"like  onclick= likePost("+data["id"]+"); ><i class= heart ></i>"+data["likes"]+"<p class='overlaytextPosts' > LIKES</p></div>"+
+    "<div class= itemoverlay id="+data["id"]+"likefill  style= display:none  onclick= likePost("+data["id"]+"); ><i class= filledheart ></i>"+data["likes"]+"<p class='overlaytextPosts' > LIKES</p></div>";
   }
   else{
-    var likeTemplate =   "<div class= itemoverlay id="+data["id"]+"like  onclick= likePost("+data["id"]+"); ><i class= heart ></i>"+data["likes"]+" LIKES</div>"+
-    "<div class= itemoverlay id="+data["id"]+"likefill  style= display:none  onclick= likePost("+data["id"]+"); ><i class= filledheart ></i>"+data["likes"]+" LIKES</div>";
+    var likeTemplate =   "<div class= itemoverlay id="+data["id"]+"like  onclick= likePost("+data["id"]+"); ><i class= heart ></i>"+data["likes"]+"<p class='overlaytextPosts' > LIKES</p></div>"+
+    "<div class= itemoverlay id="+data["id"]+"likefill  style= display:none  onclick= likePost("+data["id"]+"); ><i class= filledheart ></i>"+data["likes"]+"<p class='overlaytextPosts' > LIKES</p></div>";
   }
   return likeTemplate;
   
 }
+
+//To handle forgot password condition
+function forgotPassword(){
+  var data = [];
+  data[0] =  document.getElementById("forgotContact").value;//get value from input box
+  data[1] = getCookie("emId=");//get emId
+  myObj = {"phone":data[0],"emId":data[1]};
+  globeCopy = myObj;//Store value in gobal variable ! important for latter function verfiyForgotOTPPassword()
+  sendOTPForgot();//send OTP 
+}
+
+//To handle sending of OTP
+function sendOTPForgot(){
+  OTP = generateOTP();
+  myObj = globeCopy;
+  if(OTPcount>0){
+      var message = "Your OTP is "+ OTP;//message send through SMS
+      var number = myObj.phone;
+      var params = "number="+number+"&message="+message+"&OTP="+OTP;//parameter to pass to php
+      //send otp to mobile
+      xhr =  new XMLHttpRequest();
+      this.responseType = 'text';
+      xhr.onreadystatechange  =  function() {
+          if (this.readyState == 4 && this.status == 200) {
+              if(xhr.responseText != '0'){
+              	  toggleSignUp("otpBoxForgot","all","id07");//open OTP box
+                  var OTPObj = JSON.parse(xhr.responseText);
+                  alert("OTP send!");
+                  OTPsuccess = OTPObj.type;
+                  OTPcount += -1;
+              }
+          else if(xhr.responseText == '0'){
+				 alert('Sorry this phone number is not registerd in our Database.');
+          		 // document.getElementById('id07').style.display='none';
+          }
+          else {
+                  alert("Verification Failed! Try again!");
+              }
+          }
+      };
+      xhr.open("POST", "assets/php/test1.php", true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.send(params);
+  } else {
+      document.getElementById("otpBoxForgot").style.display = "none";//Close Model box when OTP send limit is reached;
+      alert('OTP send Limit has been reached. Please Try again Later');
+      // document.getElementById("limitDisplay").style.display = "block";
+  }
+}
+
+//To verify OTP
+function verfiyForgotOTP(){
+  var OTPNew =  document.getElementById('otpForgot').value;
+  if(OTPNew == OTP){//Checking given OTP to Generated OTP
+    document.getElementById('id07').style.display='none';
+    toggleSignUp("forgotPasswordBox","all","id08");//Open Password change box
+    OTPcount = 3;
+  }
+  else{
+    alert("OTP Don't Match");
+  }
+}
+
+//To match password and update database
+function verfiyForgotOTPPassword(){
+  if(document.getElementById('forgotNewPassword').value == document.getElementById('forgotNewPassword1').value){//checking if password match
+     var params = "number="+globeCopy.phone+"&password="+document.getElementById('forgotNewPassword').value;//get phone number from global to get via php
+     xhr =  new XMLHttpRequest();
+     this.responseType = 'text';
+     xhr.onreadystatechange  =  function() {
+         if (this.readyState == 4 && this.status == 200) {
+             if(xhr.responseText == '1'){
+                alert("Password Updated. Please Login!");
+                document.getElementById('id08').style.display='none';
+                toggleSignUp('loginBox','all','id01');
+             } else {
+                 alert("Oho! Server Issue Try again later.");
+             }
+         }
+     };
+     xhr.open("POST", "assets/php/changePword.php", true);
+     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+     xhr.send(params);
+  }
+  else{
+      alert("Passwords Don't Match");
+  }
+}
+
+//To get autocomplete data from Elastic
+function autocompleteGetter(){
+  var searchWord = document.getElementById('search').value;
+  var params = "search="+searchWord;//get phone number from global to get via php
+  xhr =  new XMLHttpRequest();
+  this.responseType = 'array';
+  xhr.onreadystatechange  =  function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var data = JSON.parse(xhr.responseText);
+        countries = data;
+        autocomplete(document.getElementById("search"), countries);
+      }
+  };
+  xhr.open("POST", "assets/php/searchAuto.php", true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send(params);
+}
+
+
+function autocompleteGetterPro(){
+  var searchWord = document.getElementById('search').value;
+  var params = "search="+searchWord;//get phone number from global to get via php
+  xhr =  new XMLHttpRequest();
+  this.responseType = 'array';
+  xhr.onreadystatechange  =  function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var data = JSON.parse(xhr.responseText);
+        // console.log(data);
+        countries = data;
+        autocompletePro(document.getElementById("search"), countries);
+      }
+  };
+  xhr.open("POST", "assets/php/searchAuto.php", true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send(params);
+}
+
+
+function autocompletePro(inp, arr) {
+  /*the autocomplete function takes two arguments,
+  the text field element and an array of possible autocompleted values:*/
+  var currentFocus;
+  var str = "",cat = "";
+  /*execute a function when someone writes in the text field:*/
+  inp.addEventListener("input", function(e) {
+    var a, b, i, val = this.value;
+    /*close any already open lists of autocompleted values*/
+    closeAllLists();
+    if (!val) { return false;}
+    currentFocus = -1;
+    /*create a DIV element that will contain the items (values):*/
+    a = document.createElement("DIV");
+    a.setAttribute("id", this.id + "autocomplete-list");
+    a.setAttribute("class", "autocomplete-itemspro");
+    /*append the DIV element as a child of the autocomplete container:*/
+    this.parentNode.appendChild(a);
+    /*for each item in the array...*/
+    for (i = 0; i < arr.length; i++) {
+      /*check if the item starts with the same letters as the text field value:*/
+      if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+        /*create a DIV element for each matching element:*/
+        b = document.createElement("DIV");
+        /*make the matching letters bold:*/
+        // var datase = arr[i].substr(0, val.length)
+        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+        str = arr[i].substr(0, val.length);
+        // b.innerHTML += arr[i].substr(val.length);
+        str += arr[i].substr(val.length);
+        var temp1 = str.split('~');
+        b.innerHTML += temp1[0].substr(val.length);
+        /*insert a input field that will hold the current array item's value:*/
+        b.innerHTML += "<input type='hidden' value='" + temp1[0]+"~" + temp1[1] + "'>";
+        // console.log(temp1[0]);
+        /*execute a function when someone clicks on the item value (DIV element):*/
+        b.addEventListener("click", function(e) {
+        /*insert the value for the autocomplete text field:*/
+        str = str.split('[')[0];
+        inp.value = str;
+        // console.log(str);
+        window.location = "profileList.html?cat_type="+cat+"&srch_key="+str+"&loc="+local;
+        // console.log(cat+"in click "+str);
+        /*close the list of autocompleted values,
+        (or any other open lists of autocompleted values:*/
+        closeAllLists();
+        });
+        a.appendChild(b);
+      }
+    }
+  });
+  /*execute a function presses a key on the keyboard:*/
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+        else{
+          window.location = "profileList.html?srch_key="+inp.value+"&loc="+local;
+        }
+
+      }
+  });
+  function addActive(x) {
+    /*a function to classify an item as "active":*/
+    if (!x) return false;
+    /*start by removing the "active" class on all items:*/
+    removeActive(x);
+    // console.log(currentFocus);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    /*add class "autocomplete-active":*/
+    x[currentFocus].classList.add("autocomplete-active");
+    var str1 = x[currentFocus].childNodes[2].value;
+    str1 = str1.split("~");
+    str = str1[0];
+    cat = str1[1];
+    // console.log(x[currentFocus].childNodes[2].value);
+    document.getElementById('search').value = str;
+  }
+  function removeActive(x) {
+    /*a function to remove the "active" class from all autocomplete items:*/
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+  function closeAllLists(elmnt) {
+    /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+    var x = document.getElementsByClassName("autocomplete-itemspro");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+      x[i].parentNode.removeChild(x[i]);
+      }
+    }
+    // document.getElementById('search').value = str;
+  }
+  /*execute a function when someone clicks in the document:*/
+  document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+  });
+} 

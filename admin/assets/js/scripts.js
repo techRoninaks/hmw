@@ -1,4 +1,5 @@
 var postimage = "";
+var bannerimage = "";
 function includeHTML() {
     var z, i, elmnt, file, xhttp;
     /* Loop through a collection of all HTML elements: */
@@ -29,11 +30,10 @@ function includeHTML() {
 
 function getQueryString(){
   var queryString = document.URL.split('?');
-  var queryStrings = [];
   if(queryString.length > 1){
     queryStrings = queryString[1].split('&');
   }
-  return queryStrings;
+  return queryString;
 }
 
 function reDirect(loc){ //redirect to any page without storing as cache.. mainly used when logged in
@@ -553,11 +553,74 @@ function deleteData(id,pageName){
     }
 }
 
-function getQueryString(){		
-     if(document.URL.includes("?")){		
-         return document.URL.split('?')[1].split('&');		
-     }		
-     else{		
-         return "null";		
-     }  		
+function importImageCardGenerator(){
+  xhr =  new XMLHttpRequest();
+  this.responseType = 'text';
+  demo.showNotification('top','center', 'ID Generation will take some time, please check in later!', 1);
+  document.getElementById("btnGenerate").disabled = true;
+  xhr.onreadystatechange  =  function() {
+      if (this.readyState == 4 && this.status == 200) {
+        if(xhr.responseText == -1){
+          // alert('Image Creation Error, Please try again latter.')
+          demo.showNotification('top','center', 'Image Creation Error, Please try again latter.', 4);
+        }
+      	else{
+        	document.getElementById("btnGenerate").disabled = false;
+        	demo.showNotification('top','center', 'Image Creation a Success!', 2);
+        }
+      }
+  };
+  xhr.open("GET", "../assets/php/bulkimagecreate.php", true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send();
 }
+function importAd(){
+    var link = document.getElementById('A-li').value;
+    var disc = document.getElementById('A-di').value;
+    var adcon = document.getElementById('A-co').value;
+    var img = bannerimage;
+    var datas='link='+link+'&disc='+disc+'&adcon='+adcon+'&img='+img;
+    if(img == ""){
+        alert("Upload Image");
+        return;
+      }
+      $.ajax({
+        type:"POST",
+        data:datas,
+        url:"assets/php/uploadAd.php",
+        success: function (responseData) {
+            window.location.reload();
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            // demo.showNotification('top','center', 'Something went wrong', 4);
+            // window.location = window.location.origin;
+        }
+    });
+    }
+    function updateAd(){
+        var link = document.getElementById('A_link').value;
+        var disc = document.getElementById('A_disc').value;
+        var adcon = document.getElementById('A_content').value;
+        var id = document.getElementById('A_id').value;
+        var img = bannerimage;
+    var data='link='+link+'&disc='+disc+'&adcon='+adcon+'&img='+img+'&id='+id;
+    $.ajax({
+        url:"assets/php/Addupdate.php",
+        type:"POST",
+        data:data,
+      success: function(responseData){
+          window.location.reload();
+        }
+    });
+    }
+
+    function readFileBanner() {
+        if (this.files && this.files[0]) {
+            var FR= new FileReader();
+            FR.addEventListener("load", function(e) {
+                bannerimage = e.target.result;
+                console.log("banner : "+bannerimage)
+            });
+            FR.readAsDataURL( this.files[0] );
+         }
+       }

@@ -42,7 +42,8 @@ function includeHTML() {
 }
 function reDirect(loc){ //redirect to any page without storing as cache.. mainly used when logged in
 
-    var page = window.location.protocol+"//"+window.location.hostname+"/helloMyWork/admin/"+loc;
+    // var page = window.location.protocol+"//"+window.location.hostname+"admin/"+loc;
+    var page = "../"+loc;
     window.location.replace(page);
 }
 
