@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Title -->
-    <title>Hellomywork</title>
+    <title>Profile - Hellomywork</title>
 
     <!-- Favicon -->
     <link rel="icon" href="assets/img/logos/favicon.png">
@@ -22,6 +22,7 @@
     <script src="js/basics.js"></script>
     <script src="assets/js/scripts.js"></script>
     <script src="assets/js/categoryScripts.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
  <!-- Latest compiled and minified CSS -->
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -50,19 +51,16 @@
             <p>PROFILE</p>
         </div>
     </div>
-    <!-- <div class="profiletitle">
-        <hr>
-        <p>PROFILE</p>
-    </div> -->
+
     <div class="container1">
         <div class="row backprofile" id="profilecard">
                 <div class="col-md-4">
                     <div class="overlayCard">
-                        <img src="assets/img/images/hello-my-work-id-card-new-blue.png" class="idprofile">
+                        <img src="" class="idprofile">
                         <div>
-                            <a href="assets/img/icon/ic_share_white-min.png" download="ic_share_white-min.png" target="_blank" >  
+                            <!-- <a href="assets/img/icon/ic_share_white-min.png" download="ic_share_white-min.png" target="_blank" >   -->
                             <!-- <a href="assets/php/exportCard.php?path=assets/img/icon/ic_share_white-min.png"  >   -->
-                            <img src="assets/img/icon/ic_share_white-min.png" class="shareIcon" >
+                            <img src="assets/img/icon/ic_share_white-min.png"  class="shareIcon" >
                             </a>
                         </div>
                     </div>
@@ -74,21 +72,21 @@
                         <div class="row padding" >
                             <div class="col-sm-5 profilelist">
                                 <ul>
-                                    <li><b>PERSON / COMPANY NAME:</b> NOUFAL</li>
-                                    <li><b>JOB TITLE/ JOB ROLE:</b>AD PROMOTER</li>
-                                    <li><b>LOCATION:</b>GURUVAYUR, THIRSSUR</li>
-                                    <li><b>WHATSAPP NUMBER:</b>773658248, 985424758</li>
-                                    <li><b>LOCATION:</b>THIRSSUR</li>
-                                    <li><b>SKILLS:</b> WOODART,CARPENTRY, FURNITURE</li>
+                                    <li><b>PERSON / COMPANY NAME:</b></li>
+                                    <li><b>JOB TITLE/ JOB ROLE:</b></li>
+                                    <li><b>LOCATION:</b></li>
+                                    <li><b>WHATSAPP NUMBER:</b></li>
+                                    <li><b>LOCATION:</b></li>
+                                    <li><b>SKILLS:</b></li>
                                 </ul>
                             </div>
                             <div class="col-sm-5 profilelist">
                                     <ul>
-                                        <li><b>UNION:</b> CARPENTER</li>
-                                        <li><b>WEBSITE:</b>website.com</li>
-                                        <li><b>CONTACT NUMBER:</b>773658248, 985424758</li>
-                                        <li><b>EMAIL:</b>noufal@mail.com</li>
-                                        <li><b>ADDRESS:</b>NO 20 HILLS HOUSE, TEMPLE ROAD, GURUVAYUR, THISSUR</li>
+                                        <li><b>UNION:</b></li>
+                                        <li><b>WEBSITE:</b>we</li>
+                                        <li><b>CONTACT NUMBER:</b></li>
+                                        <li><b>EMAIL:</b></li>
+                                        <li><b>ADDRESS:</b></li>
                                     </ul>
                             </div>
                             <div class="col-sm-2 ">
@@ -102,7 +100,6 @@
                                     <a href="#">
                                         <img src="assets/img/icon/ic_email_profile_page-min.png" class="profileicons">
                                     </a>
-
                                     <button class="profileedit" >EDIT</button>
                                 </div>
                             </div>
@@ -111,11 +108,11 @@
                 </div>
         </div>
     </div>
-    <div id="loginBox1">
-            <div id="id08" class="w3-modal" style="z-index:999;">
-                    <div class="w3-modal-content" style="padding:5px;width:40%;border-radius:5px;">
+    <div id="loginBox1" class="w3-container" style="display: block; z-index: 999;">
+            <div id="id09" class="w3-modal" style="z-index:999;">
+                    <div class="w3-modal-content" style="top:10%;padding:5px;width:40%;border-radius:5px;">
                       <div class="w3-container" style="padding:2rem;">
-                        <span onclick="document.getElementById('id08').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                        <span onclick="document.getElementById('id09').style.display='none'" class="w3-button w3-display-topright">&times;</span>
                         <h5 style="text-align:center;font-family:defaultBarlowBold;">Upload Image</h5><br>
                         <div class="actions">
                             <a class="btn file-btn">
@@ -166,7 +163,9 @@
             <div class="col-sm-12">
                 <div class="backgray1" id="divPostElement">
                     <div>
+                        <div>
                         CREATE NEW POST 
+                        </div>
                         <span>
                                 <button id="scarletcolor" class="buttonprofile scarletcolor fontcolorblack" onclick="insertvalue('assets/img/icon/ic_for_sale-min.png','scarletcolor');">FOR SALE</button>
                                 <button id="mintcolor" class="buttonprofile mintcolor fontcolorblack" onclick="insertvalue('assets/img/icon/ic_required-min.png','mintcolor');">REQUIRED</button>
@@ -175,13 +174,59 @@
                                 <button id="trumpcolor" class="buttonprofile trumpcolor fontcolorblack" onclick="insertvalue('assets/img/icon/ic_achievement-min.png','trumpcolor');">ACHIEVEMENT</button>
                                 <button id="thanoscolor" class="buttonprofile thanoscolor fontcolorblack" onclick="insertvalue('assets/img/icon/ic_random.png','thanoscolor');">RANDOM</button>
                         </span>
+                        <div id="postBox">
+                            <div id="id19" class="w3-modal" style="z-index: 999; display: none;">
+                                    <div class="w3-modal-content" style="top:15%;padding:5px;width:40%;border-radius:5px;">
+                                      <div class="w3-container" style="padding:2rem;">
+                                        <span onclick="document.getElementById('id19').style.display='none'" class="w3-button w3-display-topright">×</span>
+                                        <h5 id="packageHeader" style="text-align:center;font-family:defaultBarlowBold;">Oops... Image Field Is Empty !</h5><br>
+                                        <div class="actions center">
+                                          <div id="postModel" style="display:none;"></div>
+                              <!-- <img src="assets/img/images/verify.gif" width="150px"> -->
+                                          <a class="packageButton" id="postModelProfile" onclick="document.getElementById('id19').style.display='none'" style="color: white; cursor: pointer;border-radius: 8px;">Okay</a>
+                                        </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                      </div>
+                      <div id="postBox">
+                        <div id="id20" class="w3-modal" style="z-index: 999; display: none;">
+                                <div class="w3-modal-content" style="top:15%;padding:5px;width:40%;border-radius:5px;">
+                                  <div class="w3-container" style="padding:2rem;">
+                                    <span onclick="document.getElementById('id20').style.display='none'" class="w3-button w3-display-topright">×</span>
+                                    <h5 id="packageHeader" style="text-align:center;font-family:defaultBarlowBold;">Oops... Comment Field Is Empty !</h5><br>
+                                    <div class="actions center">
+                                      <div id="postModel" style="display:none;"></div>
+                          <!-- <img src="assets/img/images/verify.gif" width="150px"> -->
+                                      <a class="packageButton" id="postModelProfile" onclick="document.getElementById('id20').style.display='none'" style="color: white; cursor: pointer;border-radius: 8px;">Okay</a>
+                                    </div>
+                                    </div>
+                                </div>
+                              </div>
+                  </div>
+                  <div id="postBox">
+                    <div id="id21" class="w3-modal" style="z-index: 999; display: none;">
+                            <div class="w3-modal-content" style="top:15%;padding:5px;width:40%;border-radius:5px;">
+                              <div class="w3-container" style="padding:2rem;">
+                                <span onclick="document.getElementById('id21').style.display='none'" class="w3-button w3-display-topright">×</span>
+                                <h5 id="packageHeader" style="text-align:center;font-family:defaultBarlowBold;">Oops... Tag Field Is Empty !</h5><br>
+                                <div class="actions center">
+                                  <div id="postModel" style="display:none;"></div>
+                      <!-- <img src="assets/img/images/verify.gif" width="150px"> -->
+                                  <a class="packageButton" id="postModelProfile" onclick="document.getElementById('id21').style.display='none'" style="color: white; cursor: pointer;border-radius: 8px;">Okay</a>
+                                </div>
+                                </div>
+                            </div>
+                          </div>
+              </div>
                     </div>
                     <input type="text" placeholder="assets/img/icon/ic_random.png" style="display:none" id="tagpost">
                     <input type="text" placeholder="" id="despost"  class="inputfield">
                     <div class="profilebuttonzone">
-                        <button class="profileupload" onclick="toggleSignUp1('loginBox1','all','id08');">UPLOAD IMAGE <i class="uploadicon"></i> </button>
-                        <input type="file" class="custom-file-input">
-                        <button class="profilepost" onclick="postpush('1');">POST</button>
+                        <button class="profileupload" onclick="toggleSignUp1('loginBox1','all','id09');">UPLOAD IMAGE<i class="uploadicon"></i> </button>
+                    	<img class="result" style="display:none;" id="result" src="">
+<!--                         <input type="file" class="custom-file-input"> -->
+                        <button class="profilepost" id="buttonPostPush" onclick="postpush('1');">POST</button>
                     </div>
                 </div>
                 
@@ -193,7 +238,8 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="whiteback ">
-                    <div>Activity feed</div>
+                    <div style="font-size:25px;">Activity Feed</div>
+                	<hr>
                     <div class="postcontainer" id="postlist">
                         <div class="center" style="padding:100px">
                                 Oops! Nothing to see here.
@@ -253,6 +299,16 @@
 //         readURL(this);
 //         });
 
+    
+
+    $(document).click(function (event) {
+        var clickover = $(event.target);
+        var _opened = $("button.navbar-toggler").attr('aria-expanded');
+        if (_opened== 'true' && !clickover.hasClass("navbar-toggler")) {
+            $("button.navbar-toggler").click();
+        }
+    });
+
     </script>
 
 
@@ -262,3 +318,100 @@
 
 
 </html> 
+
+<!-- shareing in social media -->
+<html>
+<head>
+<!-- <div class="sharethis-sticky-share-buttons"></div>
+<script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=5d8463936b3e5d0012703a14&product=image-share-buttons' async='async'>
+</script> -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+/* The Modal (background) */
+.modal {
+ display: none; /* Hidden by default */
+ position: fixed; /* Stay in place */
+ z-index: 1; /* Sit on top */
+ padding-top: 100px; /* Location of the box */
+ left: 0;
+ top: 0;
+ width: 100%; /* Full width */
+ height: 100%; /* Full height */
+ overflow: auto; /* Enable scroll if needed */
+ background-color: rgb(0,0,0); /* Fallback color */
+ background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+/* Modal Content */
+.modal-content {
+ background-color: #fefefe;
+ margin: auto;
+ padding: 20px;
+ border: 1px solid #888;
+ width: 18%;
+}
+.close:hover,
+.close:focus {
+ color: #000;
+ text-decoration: none;
+ cursor: pointer;
+}
+</style>
+</head>
+<body>
+<!-- Trigger/Open The Modal -->
+<!-- <button >Share</button> -->
+<!-- The Modal -->
+<div id='sharemodelcontainer'>
+<div id="myModal" class="modal">
+ <!-- Modal content -->
+ <div class="modal-content">
+   <span class="close">&times;</span>
+   <p>Share your profile</p>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+       <!-- share social media -->
+       <!-- facebook -->
+       <!-- <div>
+        <a class="share-btn" href="https://www.facebook.com/sharer/sharer.php?app_id=389198185309782&sdk=joey&u=https://images.pexels.com/photos/1250426/pexels-photo-1250426.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500&display=popup&ref=plugin&src=share_button" onclick="return !window.open(this.href, 'Facebook', 'width=640,height=580')">faceboobk</a>
+            facebook
+       </div> -->
+<!--        <iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fimages.app.goo.gl%2F1qXERMCK7wBzbD2w7&layout=button_count&size=large&appId=389198185309782&width=84&height=28" width="84" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe> -->
+         <iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fimages.app.goo.gl%2F1qXERMCK7wBzbD2w7&layout=button_count&size=large&appId=389198185309782&width=84&height=28" width="84" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+ 		<!-- linkedin -->
+       <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+       <script type="IN/Share" data-url="https://images.app.goo.gl/jGmRBMmUGhSW6djk7"></script>
+   </div>
+</div>
+<script>
+// Get the modal
+function func1() {
+  var modal = document.getElementById("myModal");
+// Get the button that opens the modal
+var btn = document.getElementById("sharebutton");
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+// When the user clicks the button, open the modal
+btn.onclick = function() {
+ modal.style.display = "block";
+}
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+ modal.style.display = "none";
+}
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+ if (event.target == modal) {
+   modal.style.display = "none";
+ }
+}
+}
+window.onload=func1;
+
+</script>
+</div>
+
+ <script>
+
+</script>";
+</body>
+</html>

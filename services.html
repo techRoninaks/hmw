@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Title -->
-    <title>Hellomywork</title>
+    <title>Unions - Hellomywork</title>
 
     <!-- Favicon -->
     <link rel="icon" href="assets/img/logos/favicon.png">
@@ -43,7 +43,7 @@
     
     <div class="homebanner">
         <div class="title1">
-            <p>UNION</p>
+            <p id="serviceUnion">UNION</p>
         </div>
     </div>
     <!-- <div class="profiletitle">
@@ -150,12 +150,13 @@
 
     <div class="center" style="margin-top:30px;">
         <span>
-            <button class="buttonprofile scarletcolora fontcolorblack " onclick="filterservicepage('assets/img/icon/ic_for_sale-min.png','Forsale');">FOR SALE</button>
-            <button class="buttonprofile mintcolora fontcolorblack " onclick="filterservicepage('assets/img/icon/ic_required-min.png','REQUIRED');">REQUIRED</button>
-            <button class="buttonprofile bluecolora fontcolorblack " onclick="filterservicepage('assets/img/icon/ic_offers-min.png','OFFERS');">OFFERS</button>
-            <button class="buttonprofile leafcolora fontcolorblack " onclick="filterservicepage('assets/img/icon/ic_appreciation-min.png','APPRECIATION');">APPRECIATION</button>
-            <button class="buttonprofile trumpcolora fontcolorblack " onclick="filterservicepage('assets/img/icon/ic_achievement-min.png','ACHIEVEMENT');">ACHIEVEMENT</button>
-            <button class="buttonprofile thanoscolora fontcolorblack " onclick="filterservicepage('','');">RANDOM</button>
+            <button class="buttonprofile scarletcolor fontcolorblack " id="scarletcolor" onclick="filterservicepage('assets/img/icon/ic_for_sale-min.png','Forsale','scarletcolor');">FOR SALE</button>
+            <button class="buttonprofile mintcolor fontcolorblack " id="mintcolor" onclick="filterservicepage('assets/img/icon/ic_required-min.png','REQUIRED','mintcolor');">REQUIRED</button>
+            <button class="buttonprofile bluecolor fontcolorblack " id="bluecolor" onclick="filterservicepage('assets/img/icon/ic_offers-min.png','OFFERS','bluecolor');">OFFERS</button>
+            <button class="buttonprofile leafcolor fontcolorblack " id="leafcolor" onclick="filterservicepage('assets/img/icon/ic_appreciation-min.png','APPRECIATION','leafcolor');">APPRECIATION</button>
+            <button class="buttonprofile trumpcolor fontcolorblack " id="trumpcolor" onclick="filterservicepage('assets/img/icon/ic_achievement-min.png','ACHIEVEMENT','trumpcolor');">ACHIEVEMENT</button>
+            <button class="buttonprofile thanoscolor fontcolorblack " id="thanoscolor" onclick="filterservicepage('assets/img/icon/ic_random.png','RANDOM','thanoscolor');">RANDOM</button>
+        	<button class="buttonprofile infinitycolor fontcolorblack " id="infinitycolor" onclick="filterservicepage('','','infinitycolor');">ALL</button>
         </span>
     </div>
 
@@ -163,9 +164,11 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="whiteback ">
-                    <div>Activity feed</div>
+                    <div style="font-size:25px;">Activity feed</div>
+                	<hr>
                     <div class="postcontainer" id="servicepostlist">
-                        <div class="postelement">
+                    <div class='center errormsg' >Oops... Looks like this Union has no posts!<br>Try another Union</div>
+<!--                    <div class="postelement">
                             <div class="line1">
                                     ARJUN
                                     <p>LOCATION</p>
@@ -364,7 +367,7 @@
                                         <div>NAME<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span></div>
                                     </div>
                                     <input type="text" placeholder="Write a comment" class="commentinput" >
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -389,6 +392,15 @@
     <script>
         includeHTML();
         // document.getElementById("inp").addEventListener("change", readFile);
+$(document).ready(function () {
+    $(document).click(function (event) {
+        var clickover = $(event.target);
+        var _opened = $("button.navbar-toggler").attr('aria-expanded');
+        if (_opened== 'true' && !clickover.hasClass("navbar-toggler")) {
+            $("button.navbar-toggler").click();
+        }
+    });
+});
     </script>
 
 

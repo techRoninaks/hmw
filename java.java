@@ -40,26 +40,38 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.geom.*;
+import java.nio.file.*; 
 
 
 
 public class java {
    public static String uniqCode1 = "hell";
     public static void main(String[] args) throws Exception {
-      
-    //   String uId = getUniqeId(args[0]);
     uniqCode1 = args[1];
     imageRounder(uniqCode1);
-    Qrcode("http://localhost/hmw3/profile.html?user_id="+args[2],uniqCode1);
+    Qrcode("http://HelloMyWork.com/profile.html?user_id="+args[2],uniqCode1);
+    String pathImage = "";
+    if(args[4].equals("type1")){
+        pathImage = "/var/www/html/assets/img/images/id_card_basic.png";
+    }
+    else if(args[4].equals("type2")){
+        pathImage = "/var/www/html/assets/img/images/id_card_premium.png";
+    }
+    else if(args[4].equals("type3")){
+        pathImage = "/var/www/html/assets/img/images/id_card_premium_company.png";
+    }
+    else{
+        pathImage = "/var/www/html/assets/img/images/id_card_basic.png";
+    }
     
-    String add = imageIoWrite("C://wamp64/www/hmw3/assets/img/images/HELLOmywork_id_card_BLANK_GREEN-min.png", args[0]);
-    File pro = new File("C://wamp64/www/hmw3/assets/img/profile/userimage/"+uniqCode1+"rounded.png");
-    File pro1 = new File("C://wamp64/www/hmw3/assets/img/profile/userimage/"+uniqCode1+"rounded.png");
-    File qrcode = new File("C://wamp64/www/hmw3/assets/img/profile/QRCode/"+uniqCode1+".png");
+    // String add = imageIoWrite("/var/www/html/assets/img/images/HELLOmywork_id_card_BLANK_GREEN-min.png", args[0], args[1], args[3]);
+    String add = imageIoWrite(pathImage, args[0], args[1], args[3]);
+    File pro = new File("/var/www/html/assets/img/profile/userimage/"+uniqCode1+"rounded.png");
+    File pro1 = new File("/var/www/html/assets/img/profile/userimage/"+uniqCode1+"rounded.png");
+    File qrcode = new File("/var/www/html/assets/img/profile/QRCode/"+uniqCode1+".png");
     File url = new File(add);
     BufferedImage im = ImageIO.read(url);
     BufferedImage qrImage = ImageIO.read(qrcode);
-    URL url2 = new URL("http://www.java2s.com/style/download.png");
     BufferedImage im2 = ImageIO.read(pro);
     BufferedImage grayImg = ImageIO.read(pro1);
     BufferedImage gray = new BufferedImage(grayImg.getWidth(),
@@ -67,14 +79,13 @@ public class java {
     BufferedImage colorImage = new BufferedImage(grayImg .getWidth(), grayImg .getHeight(), BufferedImage.TYPE_BYTE_GRAY);
     Graphics2D graphics = colorImage.createGraphics();
     ColorConvertOp op = new ColorConvertOp(
-        ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
+    ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
     op.filter(grayImg, gray);
     graphics.drawImage(grayImg ,0,0,null);
     Graphics2D g = im.createGraphics();
-    g.drawImage(im2, 50,220,168,168, null);
-    g.drawImage(gray, 665,320,72,72, null);
-    g.drawImage(qrImage,650,50,100,100, null);
-
+    g.drawImage(im2, 69,219,162,163, null);
+    g.drawImage(gray, 645,314,72,72, null);
+    g.drawImage(qrImage,630,48,100,100, null);
     AffineTransformOp op2 = new AffineTransformOp(rotateClockwise90(im), AffineTransformOp.TYPE_BILINEAR);
     im =op2.filter(im, null);
     Graphics2D g1 = im.createGraphics();
@@ -82,82 +93,64 @@ public class java {
     g1.setFont(new Font("Arial", Font.BOLD, 15));
     String uId = uniqCode1;
     uId = uId.replace("", " ").trim();
-    g1.drawString(uId, 120, 785);
+    g1.drawString(uId, 100, 770);
     op2 = new AffineTransformOp(rotateCounterClockwise90(im), AffineTransformOp.TYPE_BILINEAR);
     im =op2.filter(im, null);
-
     g.dispose();
-    display(im);
-    ImageIO.write(im, "png", new File("C://wamp64/www/hmw3/assets/img/profile/card/"+uniqCode1+".png"));
+    ImageIO.write(im, "png", new File("/var/www/html/assets/img/profile/card/"+uniqCode1+".png"));
 
+    BufferedImage bufferedImage;
+    bufferedImage = ImageIO.read(new File("/var/www/html/assets/img/profile/card/"+uniqCode1+".png"));
 
-    add = imageIoWrite("C://wamp64/www/hmw3/assets/img/images/HELLOmywork_id_card_BLANK_GOLD-min.png", args[0]);
-    pro = new File("C://wamp64/www/hmw3/assets/img/profile/userimage/"+uniqCode1+"rounded.png");
-    pro1 = new File("C://wamp64/www/hmw3/assets/img/profile/userimage/"+uniqCode1+"rounded.png");
-    url = new File(add);
-    im = ImageIO.read(url);
-    url2 = new URL("http://www.java2s.com/style/download.png");
-    im2 = ImageIO.read(pro);
-    grayImg = ImageIO.read(pro1);
-    colorImage = new BufferedImage(grayImg .getWidth(), grayImg .getHeight(), BufferedImage.TYPE_BYTE_GRAY);
-    graphics = colorImage.createGraphics();
-    graphics.drawImage(grayImg ,0,0,null);
-    g = im.createGraphics();
-    g.drawImage(im2, 50,220,168,168, null);
-    g.drawImage(gray, 665,320,72,72, null);
-    g.drawImage(qrImage,650,50,100,100, null);
-    
-    op2 = new AffineTransformOp(rotateClockwise90(im), AffineTransformOp.TYPE_BILINEAR);
-    im =op2.filter(im, null);
-    g1 = im.createGraphics();
-    g1.setColor(Color.WHITE);
-    g1.setFont(new Font("Arial", Font.BOLD, 15));
-    // g1.setFont(g.getFont().deriveFont(17f));
-    
-    g1.drawString(uId, 120, 785);
-    op2 = new AffineTransformOp(rotateCounterClockwise90(im), AffineTransformOp.TYPE_BILINEAR);
-    im =op2.filter(im, null);
-    display(im);
-    g.dispose();
-    ImageIO.write(im, "png", new File("C://wamp64/www/hmw3/assets/img/profile/card/"+uniqCode1+"Gold.png"));
-    
+    // create a blank, RGB, same width and height, and a white background
+    BufferedImage newBufferedImage = new BufferedImage(bufferedImage.getWidth(),
+          bufferedImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+    newBufferedImage.createGraphics().drawImage(bufferedImage, 0, 0, Color.WHITE, null);
 
+    // write to jpeg file
+    ImageIO.write(newBufferedImage, "jpg", new File("/var/www/html/assets/img/profile/card/"+uniqCode1+".jpg"));
+
+    String path = "/var/www/html/assets/img/profile/card/"+uniqCode1+"blank.png";
+    String path1 = "/var/www/html/assets/img/profile/card/"+uniqCode1+".png";
+    try {
+        Files.deleteIfExists(Paths.get(path)); 
+        Files.deleteIfExists(Paths.get(path1)); 
+    } catch (NoSuchFileException x) {
+        System.err.format("%s: no such" + " file or directory%n", path);
+    } catch (DirectoryNotEmptyException x) {
+        System.err.format("%s not empty%n", path);
+    } catch (IOException x) {
+        // File permission problems are caught here.
+        System.err.println(x);
+    }
 
   }
-
-  public static void display(BufferedImage image) {
-    JFrame f = new JFrame();
-    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    f.getContentPane().add(new JLabel(new ImageIcon(image)));
-    f.pack();
-    f.setVisible(true);
-  }
-      // Rotates clockwise 90 degrees. Uses rotation on center and then translating it to origin
-      private static  AffineTransform rotateClockwise90(BufferedImage source) {
-        AffineTransform transform = new AffineTransform();
-        transform.rotate(Math.PI/2, source.getWidth()/2, source.getHeight()/2);
-        double offset = (source.getWidth()-source.getHeight())/2;
-        transform.translate(offset,offset);
-        return transform;
-    }
-     
-    // Rotates counter clockwise 90 degrees. Uses rotation on center and then translating it to origin
-    private static  AffineTransform rotateCounterClockwise90(BufferedImage source) {
-        AffineTransform transform = new AffineTransform();
-        transform.rotate(-Math.PI/2, source.getWidth()/2, source.getHeight()/2);
-        double offset = (source.getWidth()-source.getHeight())/2;
-        transform.translate(-offset,-offset);
-        return transform;
-    }
+// Rotates clockwise 90 degrees. Uses rotation on center and then translating it to origin
+private static  AffineTransform rotateClockwise90(BufferedImage source) {
+    AffineTransform transform = new AffineTransform();
+    transform.rotate(Math.PI/2, source.getWidth()/2, source.getHeight()/2);
+    double offset = (source.getWidth()-source.getHeight())/2;
+    transform.translate(offset,offset);
+    return transform;
+}
+    
+// Rotates counter clockwise 90 degrees. Uses rotation on center and then translating it to origin
+private static  AffineTransform rotateCounterClockwise90(BufferedImage source) {
+    AffineTransform transform = new AffineTransform();
+    transform.rotate(-Math.PI/2, source.getWidth()/2, source.getHeight()/2);
+    double offset = (source.getWidth()-source.getHeight())/2;
+    transform.translate(-offset,-offset);
+    return transform;
+}
 
   public static void Qrcode(String data, String name){
+      
     String myCodeText = data;
-    String filePath = "C://wamp64/www/hmw3/assets/img/profile/QRCode/"+name+".png";
+    String filePath = "/var/www/html/assets/img/profile/QRCode/"+name+".png";
     int size = 250;
     String fileType = "png";
     File myFile = new File(filePath);
     try {
-        
         Map<EncodeHintType, Object> hintMap = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
         hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         
@@ -182,6 +175,7 @@ public class java {
             for (int j = 0; j < CrunchifyWidth; j++) {
                 if (byteMatrix.get(i, j)) {
                     graphics.fillRect(i, j, 1, 1);
+
                 }
             }
         }
@@ -191,7 +185,6 @@ public class java {
     } catch (IOException e) {
         e.printStackTrace();
     }
-    // System.out.println("\n\nYou have successfully created QR Code.");
 }
   
 
@@ -235,7 +228,6 @@ public class java {
 
         location = args[2].split("_");
         int locLen = location[0].length();
-        // System.out.println(locLen);
 
         if(locLen>3){
             location[0] = location[0].toUpperCase();
@@ -251,16 +243,16 @@ public class java {
         }
         date = args[3];
         uniqCode = uniqCode + date.substring(0,2);
-        // System.out.println(uniqCode);
         return uniqCode;
   }
 
-    public static String imageIoWrite(String url3, String data) {
-         BufferedImage bImage = null;
-         String address="";
-         try {
-             File url = new File(url3);
-             bImage = ImageIO.read(url); 
+  public static String imageIoWrite(String url3, String data, String uid, String AddressIn) {
+        BufferedImage bImage = null;
+        String address="";
+        try {
+            File url = new File(url3);
+            bImage = ImageIO.read(url); 
+            int imagewidth  = bImage.getWidth();
             data = data.replace("_", " ").trim();
             String str = data; //some text with line breaks;
             String [] lines = str.split("~");
@@ -270,94 +262,148 @@ public class java {
             String jdate = lines[3];
             String uniqe = "";
             jdate = jdate.split(": ")[1];
-            // String [] address1 = lines[4].split(",");
-            // System.out.println(address1);
             Graphics2D g = bImage.createGraphics();
             g.setColor(Color.decode("#C0C0C0"));
             g.setFont(g.getFont().deriveFont(20f));
-            int lineHeight = g.getFontMetrics().getHeight() +5;
-            for(int lineCount = 0; lineCount < lines.length; lineCount ++){ //lines from above
-                g.setColor(Color.decode("#C0C0C0"));
+            int lineHeight = g.getFontMetrics().getHeight();
+            int lineSize = lines.length;
+            int offset = 0;
+            for(int lineCount = 0; lineCount < lineSize; lineCount ++){ //lines from above
+                g.setColor(Color.decode("#ffffff"));
                 g.setFont(g.getFont().deriveFont(20f));
                 int xPos = 250;
-                int yPos = 230 + lineCount * lineHeight;
+                int yPos = 220 + offset + lineCount * lineHeight;
                 String line = lines[lineCount];
                 if(lineCount == 0){
                     g.setColor(Color.WHITE);
                     g.setFont(new Font("Arial", Font.BOLD, 25));
-                    g.drawString(lines[0], 250, 230);
-                    continue;
-                }
-                else if(lineCount == 5){
-                    String [] address1 = lines[5].split(",");
-                    g.setColor(Color.decode("#C0C0C0"));
-                    g.setFont(g.getFont().deriveFont(18f));
-                    for(int lineCount1 = 0; lineCount1 < address1.length; lineCount1 ++){
-                        int xPos1 = 335;
-                        int yPos1 = yPos + (lineCount1 * lineHeight)/2;
-                        // System.out.println((lineCount1 * lineHeight)/2);
-                        location = address1[address1.length-1];
-                        String line1 = address1[lineCount1];
-                        if(lineCount1 == 0){
-                            g.drawString(line1, 250, yPos1);
-                            continue;
+                    int width = g.getFontMetrics().stringWidth(line);
+                    int offsetCal = yPos;
+                    if(width > imagewidth-(xPos + 40)){
+                        String []  addressArray = line.split(" ");
+                        String []  addressNew = new String[0];
+                        String seg = "", preLine= "",nline = "";
+                        int count = lineCount;
+                        for(int  i = 0;i< addressArray.length; i++){
+                            seg = addressArray[i];
+                            preLine = nline;
+                            nline += seg + " ";
+                            int widthnew = g.getFontMetrics().stringWidth(nline);
+                            int widthpre = g.getFontMetrics().stringWidth(preLine);
+                            if(widthnew > imagewidth-(xPos + 40)){
+                                g.drawString(preLine, xPos, yPos);
+                                count++;
+                                preLine = "";
+                                nline = seg + " ";
+                                yPos = 220 + offset+ count * lineHeight;
+                            }
+                            else{
+                                continue;
+                            }
+                            
                         }
-                        g.drawString(line1, xPos1, yPos1);
+                        int widthpre = g.getFontMetrics().stringWidth(preLine);
+                        g.drawString(nline, xPos, yPos);
+                        yPos = 220 + offset+ count * lineHeight;
                     }
+                    else{
+                        g.drawString(line, xPos, yPos);
+                    }
+                    offset = offset + (yPos - offsetCal);
                     continue;
                 }
-                g.drawString(line, xPos, yPos);
+                if(lineCount == 1){
+                    g.setFont(new Font("Arial", Font.ROMAN_BASELINE, 18));
+                    int width = g.getFontMetrics().stringWidth(line);
+                    int offsetCal = yPos;
+                    if(width > imagewidth-(xPos + 40)){
+                        String []  addressArray = line.split(" ");
+                        String []  addressNew = new String[0];
+                        String seg = "", preLine= "",nline = "";
+                        int count = lineCount;
+                        for(int  i = 0;i< addressArray.length; i++){
+                            seg = addressArray[i];
+                            preLine = nline;
+                            nline += seg + " ";
+                            int widthnew = g.getFontMetrics().stringWidth(nline);
+                            int widthpre = g.getFontMetrics().stringWidth(preLine);
+                            if(widthnew > imagewidth-(xPos + 40)){
+                                g.drawString(preLine, xPos, yPos);
+                                count++;
+                                preLine = "";
+                                nline = seg + " ";
+                                yPos = 220 + offset+ count * lineHeight;
+                                
+                            }
+                            else{
+                                continue;
+                            }
+                            
+                        }
+                        int widthpre = g.getFontMetrics().stringWidth(preLine);
+                        g.drawString(nline, xPos, yPos);
+                        yPos = 220 + offset+ count * lineHeight;
+                    }
+                    else{
+                        g.drawString(line, xPos, yPos);
+                    }
+                    offset =offset + (yPos - offsetCal);
+                }
+                else{
+                    g.drawString(line, xPos, yPos);
+                }
             }
-                String str1 = ""+name+"~"+role+"~"+location+"~"+jdate+"";
-                String uId = uniqCode1;
-                // uniqCode1 = uId;
-                // System.out.println(uniqCode1);
-                uId = uId.replace("", " ").trim();
-                g.setColor(Color.WHITE);
-                g.setFont(new Font("Arial", Font.BOLD, 25));
-                g.drawString(uId, 180, 475);
-
-            //     lines = uId.split(" ");
-            //     int zero = 0;
-            // for(int lineCount = (lines.length-1); lineCount >= 0; lineCount--){ //lines from above
-            //     g.setColor(Color.WHITE);
-            //     g.setFont(g.getFont().deriveFont(15f));
-            //     int xPos = 770;
-            //     int yPos = 100 + (lineCount * lineHeight)/2;
-            //     String line = lines[zero];
-            //     zero++;
-            //     // AffineTransform at = new AffineTransform();
-            //     // at.setToRotation(Math.PI / 4.0);
-            //     // g.setTransform(at);
-            //     // g.rotate(-Math.PI/2);
-            //     // g.rotate();
-                
-            //     // AffineTransform orig = g.getTransform();
-            //     // g.rotate(-Math.PI/2);
-            //     // // g.setColor(Color.BLACK);
-            //     // g.drawString(datos[i].titulo,(float)alto,(float)paso);
-            //     // g.setTransform(orig);
-            //     g.drawString(line, xPos, yPos);
-            // }
-
-
-
+            
+            String uId = AddressIn;
+            uId = uId.replace("###", "(").trim();
+            uId = uId.replace("#@#", ")").trim();
+            uId = uId.replace("_", " ").trim();
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Arial", Font.BOLD, 18));
+            int width = g.getFontMetrics().stringWidth(uId);
+            if(width > imagewidth-60){
+                String []  addressArray = uId.split(" ");
+                String []  addressNew = new String[0];
+                String seg = "", preLine= "",line = "";
+                int count = 0;
+                for(int  i = 0;i< addressArray.length; i++){
+                    seg = addressArray[i];
+                    preLine = line;
+                    line += seg + " ";
+                    int widthnew = g.getFontMetrics().stringWidth(line);
+                    int widthpre = g.getFontMetrics().stringWidth(preLine);
+                    if(widthnew > imagewidth-60){
+                        g.drawString(preLine, (imagewidth -widthpre)/2, 455+(count * g.getFontMetrics().getHeight())-5);
+                        count++;
+                        preLine = "";
+                        line = seg + " ";
+                    }
+                    else{
+                        continue;
+                    }
+                    
+                }
+                int widthpre = g.getFontMetrics().stringWidth(line);
+                g.drawString(line, (imagewidth -widthpre)/2, 455+(count * g.getFontMetrics().getHeight())-5);
+            }
+            else{
+                g.drawString(uId, (imagewidth - width)/2, 455);
+            }
             g.dispose();
-            address = "C://wamp64/www/hmw3/assets/img/profile/card/"+lines[0]+".png";
-             ImageIO.write(bImage, "png", new File(address));
-         } catch (IOException e) {
-               System.out.println("Exception occured :" + e.getMessage());
-         }
-        return address;
-    }
+            address = "/var/www/html/assets/img/profile/card/"+uid+"blank.png";
+                ImageIO.write(bImage, "png", new File(address));
+        } catch (IOException e) {
+            System.out.println("Exception occured :" + e.getMessage());
+        }
+    return address;
+}
 
     public static void imageRounder(String url) throws Exception{
         try{
-        // System.out.println(url);
 
         // Get the BufferedImage object for the image file
         
-        File url3 = new File("C://wamp64/www/hmw3/assets/img/profile/userimage/"+url+".png");
+        File url3 = new File("/var/www/html/assets/img/profile/userimage/"+url+".png");
         BufferedImage originalImg=ImageIO.read(url3);
         // Get the width,height of the image
         int width=originalImg.getWidth();
@@ -383,7 +429,6 @@ public class java {
 
         g2.setClip(new RoundRectangle2D.Double(0,0,width,height,40,40));
 
-        // System.out.println(width+"\n"+height+"\n"+width/4+"\n"+height/4);
         
         // Now, draw the image. The image is now
         // in the 'clipped' shape, the shape in the setClip()
@@ -393,7 +438,7 @@ public class java {
         g2.dispose();
         
         // Write to a new image file
-        ImageIO.write(bim,"PNG",new File("C://wamp64/www/hmw3/assets/img/profile/userimage/"+url+"rounded.png"));
+        ImageIO.write(bim,"PNG",new File("/var/www/html/assets/img/profile/userimage/"+url+"rounded.png"));
         }
         catch(Exception e){
 
@@ -402,85 +447,4 @@ public class java {
 
     }
 
-      public static String imageIoWrite1(String url3, String data) {
-         BufferedImage bImage = null;
-         String address="";
-        String uniqe = "";
-         try {
-             File url = new File(url3);
-             bImage = ImageIO.read(url); 
-            data = data.replace("_", " ").trim();
-            String str = data; //some text with line breaks;
-            String [] lines = str.split("~");
-            String name = lines[0];
-            String role = lines[1];
-            String location = "";
-            String jdate = lines[3];
-
-            jdate = jdate.split(": ")[1];
-            // String [] address1 = lines[4].split(",");
-            // System.out.println(address1);
-            Graphics g = bImage.getGraphics();
-            g.setColor(Color.decode("#C0C0C0"));
-            g.setFont(g.getFont().deriveFont(20f));
-            int lineHeight = g.getFontMetrics().getHeight() +5;
-            for(int lineCount = 0; lineCount < lines.length; lineCount ++){ //lines from above
-                g.setColor(Color.decode("#C0C0C0"));
-                g.setFont(g.getFont().deriveFont(20f));
-                int xPos = 250;
-                int yPos = 230 + lineCount * lineHeight;
-                String line = lines[lineCount];
-                if(lineCount == 0){
-                    g.setColor(Color.WHITE);
-                    g.setFont(new Font("Arial", Font.BOLD, 25));
-                    g.drawString(lines[0], 250, 230);
-                    continue;
-                }
-                else if(lineCount == 5){
-                    String [] address1 = lines[5].split(",");
-                    g.setColor(Color.decode("#C0C0C0"));
-                    g.setFont(g.getFont().deriveFont(18f));
-                    for(int lineCount1 = 0; lineCount1 < address1.length; lineCount1 ++){
-                        int xPos1 = 335;
-                        int yPos1 = yPos + (lineCount1 * lineHeight)/2;
-                        // System.out.println((lineCount1 * lineHeight)/2);
-                        location = address1[address1.length-1];
-                        String line1 = address1[lineCount1];
-                        if(lineCount1 == 0){
-                            g.drawString(line1, 250, yPos1);
-                            continue;
-                        }
-                        g.drawString(line1, xPos1, yPos1);
-                    }
-                    continue;
-                }
-                g.drawString(line, xPos, yPos);
-            }
-                String str1 = ""+name+"~"+role+"~"+location+"~"+jdate+"";
-                String uId = getUniqeId(str1);
-                uniqCode1 = uId;
-                System.out.println(uniqCode1);
-                uId = uId.replace("", " ").trim();
-                g.setColor(Color.WHITE);
-                g.setFont(new Font("Arial", Font.BOLD, 25));
-
-
-                // Graphics2D g2 = (Graphics2D) g;
-                Font font = new Font(null, Font.PLAIN, 10);    
-                AffineTransform affineTransform = new AffineTransform();
-                affineTransform.rotate(Math.toRadians(45), 0, 0);
-                Font rotatedFont = font.deriveFont(affineTransform);
-                g.setFont(rotatedFont);
-                g.drawString("A String",0,0);
-
-
-                g.drawString(uId, 230, 475);
-            g.dispose();
-            address = "C://wamp64/www/hmw3/assets/img/profile/card/"+lines[0]+".png";
-            //  ImageIO.write(bImage, "png", new File(address));
-         } catch (IOException e) {
-               System.out.println("Exception occured :" + e.getMessage());
-         }
-        return uniqe;
-    }
 }

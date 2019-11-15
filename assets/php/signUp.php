@@ -14,11 +14,11 @@
     if($emid == "null" ){
         $result = mysqli_query($con,$sql);
         if($result){
-            $sql = "SELECT id from profile_table WHERE phone  = '$data->newPhone';";
+            $sql = "SELECT id,isActive from profile_table WHERE phone  = '$data->newPhone';";
             $result = mysqli_query($con,$sql);
             if($result){
                 $row  = mysqli_fetch_assoc($result);
-                echo "1~".$row["id"];
+                echo "1~".$row["id"]."~".$row["isActive"];
             }
         }
     }

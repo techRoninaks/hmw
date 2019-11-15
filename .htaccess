@@ -1,0 +1,4 @@
+Options -Indexes
+DirectoryIndex dashboard.html index.html index.php login.html
+ErrorDocument 403 /error_403.html
+ErrorDocument 404 /error.html
