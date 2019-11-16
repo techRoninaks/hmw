@@ -1679,7 +1679,7 @@ footer .line{
     }
 
     .profilelist ul li {
-        font-size: 9px;
+        font-size: 16px;
         padding: 3px;
     }
     .backprofile .col-sm-4{
@@ -1748,7 +1748,7 @@ footer .line{
     }
     .profilelist ul li {
         padding: 3px;
-    	font-size: 10px;
+    	font-size: 16px;
     }
 /* 	.circBtn {
     	top: 15.5% !important;
@@ -1795,7 +1795,7 @@ footer .line{
     }
     
     .profilelist ul li {
-        font-size: 15px;
+        font-size: 16px;
         padding: 3px;
     	word-wrap: break-word;
     }
@@ -1943,7 +1943,7 @@ footer .line{
 	.profilelist ul li {
     	padding: 3px;
     	
-    	font-size: 14px;
+    	font-size: 16px;
 	}
 }
 

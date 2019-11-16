@@ -334,10 +334,16 @@ function searchlist() {
   
   if(filter.length >= 2){
     ul.style.display = "block";
+
   }
   else if(filter.length < 2){
-    ul.style.display = "none";
+
+    ul.style.display = "";
+    
+
+
   }
+  
 
   // Loop through all list items, and hide those who don't match the search query
   for (i = 0; i < li.length; i++) {
@@ -345,10 +351,19 @@ function searchlist() {
     txtValue = a.textContent || a.innerText;
     if (txtValue.toUpperCase().indexOf(filter) > -1) {
       li[i].style.display = "";
-    } else {
-      li[i].style.display = "none";
-    }
+
+    } 
+    else {
+       li[i].style.display = "none";
+
+      
+      
+    }   
+
+
   }
+
+  
 }
 
 //Premium Signup validation and upload
@@ -562,7 +577,10 @@ function unionlistloadHome(array){
       template = template + "<li><a href= "+data["link"]+" >"+data["name"]+"</a></li>";
     }
   }
+  template = template +"<li>No item found</li>";
   // console.log(htmltemp+"listunion");
+
+  // var notFound = <li>No item found</li>
   document.getElementById('unionlist').innerHTML = htmltemp; 
   document.getElementById('myUL').innerHTML = template; 
 }
@@ -616,12 +634,8 @@ function homeUnionload(array){
 //template union list
 function templateunionlistHome(data, extra){
   var template = "";
-  template += "<li class= item >"+
-  "<a href= "+data["link"]+" >"
-  +data['name']+
-  "<span class='tooltiptext'>"+data['name']+"</span>"+
-  "</a>"+
-  extra+"</li>";
+  template += "<li class= item >"+"<a href= "+data["link"]+" >"+data['name']+
+  "<span class='tooltiptext'>"+data['name']+"</span>"+"</a>"+extra+"</li>";
   // console.log(data['name']);
     return template;
     
