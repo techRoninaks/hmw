@@ -2203,6 +2203,8 @@ function cancelpackage(){
 }
 
 function freePackageSelect(){
+
+  document.getElementById("confrim").disabled=true;
   var id = getCookie("userId=");
   var emid = getCookie("emId=");
   // console.log(id+"\n"+emid)
