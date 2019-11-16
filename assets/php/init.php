@@ -3,7 +3,7 @@
     // header("Access-Control-Allow-Origin: *");    
     $db_name = "hmw";
     $username = "root";
-    $password = "";
+    $password = "P@ssw0rd";
     $servername = "localhost";
 
     $con = mysqli_connect($servername,$username,$password,$db_name);
