@@ -3,7 +3,7 @@
     // header("Access-Control-Allow-Origin: *");    
     $db_name = "hmw";
     $username = "root";
-    $password = "";
+    $password = "P@ssw0rd";
     $servername = "localhost";
     // $db_name = "hmw";
     // $username = "root";
