@@ -79,8 +79,13 @@ function loadCatList(catObj){
                 catCards += '<br>'+catObj[j].rating+' ('+catObj[j].toRating+' ratings)<p style="color:grey;">'+catObj[j].review+' reviews</p></div></div></div></div>';
         }
     	
-    	var totalPages  = Math.ceil(catObj[0].totalpageNo/catObj[0].pageLimit);
-    	pagenationConditions(totalPages);
+        var totalPages  = Math.ceil(catObj[0].totalpageNo/catObj[0].pageLimit);
+        if(totalPages != null){
+            document.getElementById("nopagination").style.display= "block";
+            pagenationConditions(totalPages);
+
+        }
+    	
     document.getElementById("resultsHere").innerHTML = catCards;
     } else {
         document.getElementById("resultsHere").innerHTML = "<div class='col-md-12' style='font-family:defaultBarlowBold;'><h2>Sorry, we could not find what you were looking for...</h2><h2>Try a different keyword!</h2></div>";
