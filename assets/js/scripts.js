@@ -10,6 +10,7 @@ var postimage  = 0;
 var local =1;
 var priv = "",currentUid = 1;
 var arrayCatList = ["ALL"];
+
 var cancelFlag = true;
 var categoryArray = ["ALL"];
 //For fetching common elements
@@ -996,6 +997,10 @@ function profilepostload(array){
   var htmltemp ="";
   for(i = 1; i<array.length; i++){
       var data = array[i];
+      var commentnumber = array[i];
+      if(commentnumber < 3){
+        document.getElementById('view_more').style.display ="none";
+      }
       htmltemp = htmltemp + templateprofilepost(data, array);
   }
   // htmltemp = htmltemp + htmltemp + htmltemp + htmltemp + htmltemp;
@@ -1016,14 +1021,14 @@ function formatDate(dateStr)
 	var dateOnly = dateOrg.toLocaleDateString();
 	var timeOnly = dateOrg.toLocaleTimeString();
 	return dateOnly+"  |  "+timeOnly;
-	
 }
 //Profile post template
 function templateprofilepost(data, array){
+  
   var template = "";
   data["date"] = formatDate(data["date"]);
-  
-  template += "<div class= postelement >"+
+  if(data['commentnumber'] < 3){
+    template += "<div class= postelement >"+
   "<div class= line1 >"+
           ""+data["name"]+" "+
           "<p>"+data["location"]+" </p>"+
@@ -1052,7 +1057,7 @@ function templateprofilepost(data, array){
       "</div>"+
       "<div class= line5 >"+
           "COMMENTS"+
-          "<p class= viewmore  onclick= viewMorePost('comments"+data["id"]+"'); >VIEW MORE</p>"+
+          "<p class= viewmore  onclick= viewMorePost('comments"+data["id"]+"'); id = view_more style ='display:none' >VIEW MORE</p>"+
       "</div>"+
       "<div id= comments"+data["id"]+"  class= comments >"+
       commentLoad(data["comments"],data["id"])+
@@ -1060,11 +1065,48 @@ function templateprofilepost(data, array){
       "</div>"+
       "<input type= text  placeholder= 'Write a comment'  id= 'post"+data["id"]+"'   class= commentinput   onkeypress= postComment(&quot;"+data["id"]+"&quot;); >"+
   "</div>";
-
+  }
+  else{
+    template += "<div class= postelement >"+
+    "<div class= line1 >"+
+            ""+data["name"]+" "+
+            "<p>"+data["location"]+" </p>"+
+        "</div>"+
+        "<div class= line2 >"+
+            ""+data["role"]+" "+
+            "<p>"+data["date"]+" </p>"+
+        "</div>"+
+        "<div class= overlay >"+
+            "<div class= line3 >"+
+                "<img src= "+data["postimage"]+"  class= itemimage >"+
+            "</div>"+
+            "<div class= layer1 >"+
+              "<img src= "+data["offer"]+"  class= size >"+
+            "</div>"+
+            "<div class= layer2 >"+
+                likeGetter(data["isLiked"], data)+
+                "<div class= itemoverlay ><i class= commenticon ></i>"+data["commentnumber"]+"<p class='overlaytextPosts'> COMMENTS</p></div>"+
+                "<div class= itemoverlaylast ><i class= shareicon ></i>SHARE</div>"+
+            "</div>"+
+        "</div>"+
+        "<div class= line4 >"+
+            "<p>"+ 
+                    ""+data["des"]+""+
+            "</p>"+
+        "</div>"+
+        "<div class= line5 >"+
+            "COMMENTS"+
+            "<p class= viewmore  onclick= viewMorePost('comments"+data["id"]+"'); id = view_more >VIEW MORE</p>"+
+        "</div>"+
+        "<div id= comments"+data["id"]+"  class= comments >"+
+        commentLoad(data["comments"],data["id"])+
+        "<div id= hiddenPost"+data["id"]+"  style= display:none >"+getCookie("userName=")+"<span>HiidenPost</span></div>"+
+        "</div>"+
+        "<input type= text  placeholder= 'Write a comment'  id= 'post"+data["id"]+"'   class= commentinput   onkeypress= postComment(&quot;"+data["id"]+"&quot;); >"+
+    "</div>";
+  }
   return template;
 }
-
-
 
 //Toggle Model helper
 function toggleSignUp1(box1,box2,innerId){
@@ -1347,6 +1389,48 @@ function servicepostload(array){
 
 function serviceprofilepost(data){
   var template = "";
+  if(data['commentnumber'] < 3){
+    template += "<div class= postelement >"+
+  "<div class= line1 >"+
+          ""+data["name"]+" "+
+          "<p>"+data["location"]+" </p>"+
+      "</div>"+
+      "<div class= line2 >"+
+          ""+data["role"]+" "+
+          "<p>"+data["date"]+" </p>"+
+      "</div>"+
+      "<div class= overlay >"+
+          "<div class= line3 >"+
+              "<img src= "+data["postimage"]+"  class= itemimage >"+
+          "</div>"+
+          "<div class= layer1 >"+
+            "<img src= "+data["offer"]+"  class= size >"+
+          "</div>"+
+          "<div class= layer2 >"+
+              likeGetter(data["isLiked"], data)+
+              "<div class= itemoverlay ><i class= commenticon ></i>"+data["commentnumber"]+"<p class='overlaytextPosts' > COMMENTS</p></div>"+
+              "<div class= itemoverlaylast ><i class= shareicon ></i>SHARE</div>"+
+          "</div>"+
+      "</div>"+
+      "<div class= line4 >"+
+          "<p>"+ 
+                  ""+data["des"]+""+
+          "</p>"+
+      "</div>"+
+      "<div class= line5 >"+
+          "COMMENTS"+
+            "<p class= viewmore  onclick= viewMorePost('comments"+data["id"]+"'); id = view_more  style ='display:none' >VIEW MORE</p>"
+          +
+      "</div>"+
+      "<div id= comments"+data["id"]+"  class= comments >"+
+      commentLoad(data["comments"],data["id"])+
+      "<div id= hiddenPost"+data["id"]+"  style= display:none >"+getCookie("userName=")+"<span>HiidenPost</span></div>"+
+      "</div>"+
+      "<input type= text  placeholder= 'Write a comment'  id= 'post"+data["id"]+"'   class= commentinput   onkeypress= postComment(&quot;"+data["id"]+"&quot;); >"+
+  "</div>";
+
+  return template;
+}else{
   template += "<div class= postelement >"+
   "<div class= line1 >"+
           ""+data["name"]+" "+
@@ -1376,7 +1460,8 @@ function serviceprofilepost(data){
       "</div>"+
       "<div class= line5 >"+
           "COMMENTS"+
-          "<p class= viewmore  onclick= viewMorePost('comments"+data["id"]+"'); >VIEW MORE</p>"+
+            "<p class= viewmore  onclick= viewMorePost('comments"+data["id"]+"'); id = view_more >VIEW MORE</p>"
+          +
       "</div>"+
       "<div id= comments"+data["id"]+"  class= comments >"+
       commentLoad(data["comments"],data["id"])+
@@ -1387,6 +1472,8 @@ function serviceprofilepost(data){
 
   return template;
 }
+  }
+  
 
 function filterservicepage(tag, tag1, colorclass){
   // filterdata = array;
@@ -1435,19 +1522,19 @@ function logOutProcess(){
   window.location.reload();
 }
 
-function loginManagement(){
+function loginManagement(){ 
   if(parseInt(getCookie("isLogged="))==1){
-    // console.log("logged");
+    console.log("logged");
     if(parseInt(getCookie("isActive="))==1){
     setTimeout(function () {
+        document.getElementById("navbarTogglerDemo02").style.display ="block";
         document.getElementById('loginHead').innerHTML = "<a class= nav-link  href= profile.html?user_id="+getCookie("userId=")+" >"+getCookie("userName=")+"</a>";
         document.getElementById('signUpHead').innerHTML = "<a class= nav-link  href= javascript:logOutProcess() >Log Out</a>";
         document.getElementById('MyUnion').style.display = "block";
-	  }, 1500);    
+	  },1000);    
     }
   }
 }
-
 function login(){ //login validation
   var data = [];
   var myObj = {};
@@ -1526,15 +1613,14 @@ function premiumSignUpEdit(){
     privatetag = 0;
   }
 
-  
-  
   // ||phone+password1+password2+category+role
   if(name ==""|| email==""||union == ""|| phone ==""||location==""|| pincode==""|| sublocation==""|| password1 ==""||address=="" || password2 =="" || category =="" || role =="" || country == "" || state=="" || type == "")
   {
     document.getElementById('vaildation').innerHTML= "Please fill all fields.";
-    document.getElementById('vaildation').style.display = "block";
-  	cancelFlag = false;
+
+    cancelFlag = false;
     // console.log('if');
+    alert("Oops: Some fields are empty, Please enter all required fields");
     
   }
   else if(password1 != password2){
@@ -1716,7 +1802,6 @@ function spanPopulate1(data1){
   // document.getElementById('hide').focus();
   }
 
-
 function deleteFormForm(idspan,deleteword){
   document.getElementById(idspan).style.display = "none";
   var str = document.getElementById("inputSkills").value;
@@ -1735,8 +1820,7 @@ function deleteFormForm(idspan,deleteword){
         continue;
       }
       newstr = newstr+"," + str[i];
-      // str[i] = str[i].replace(deleteword,'');
-      
+      // str[i] = str[i].replace(deleteword,''); 
     }
   }
   // newstr = newstr.substring(1,newstr.length)
@@ -1744,14 +1828,12 @@ function deleteFormForm(idspan,deleteword){
   // console.log('delete\n' +deleteword +"\n"+  str);
   document.getElementById("inputSkills").value = newstr;
 }
-
 function viewMorePost(commentEle){
   // alert(commentEle);
   var p_id =commentEle.split('comments')[1];
   var xhr =  new XMLHttpRequest();
   this.responseType = 'text';
   xhr.onreadystatechange  =  function() {
-      
       var ourData = xhr.response;
       if (this.readyState == 4 && this.status == 200) {//if result successful
         var myObj = JSON.parse(this.responseText);
@@ -1761,8 +1843,7 @@ function viewMorePost(commentEle){
         }
         // console.log(htmltemp);
         document.getElementById(commentEle).innerHTML = htmltemp;
-      }
-      
+    }  
   };
   var id = getCookie("userId=");
   var params = 'id='+p_id;
@@ -1775,25 +1856,20 @@ function reportPost(postid){
   var xhr =  new XMLHttpRequest();
   this.responseType = 'text';
   xhr.onreadystatechange  =  function() {
-      
       var ourData = xhr.response;
       if (this.readyState == 4 && this.status == 200) {//if result successful
         // var myObj = JSON.parse(this.responseText);
         if(this.responseText == "success "){
           // window.location = "profile.html"
         }
-
-      }
-      
+      }  
   };
   var id = getCookie("userId=");
   var params = 'id='+postid;
   xhr.open("post", "assets/php/postreportedpost.php", true);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   xhr.send(params);
-
 }
-
 function commentLoad(comments,post_id){
   if(comments.length == 0){
     // console.log("em");
@@ -2064,7 +2140,6 @@ function queryHandlerIndex(){
     }
   });
   }
-
 }
 
 function premiumSignUpSave(){
